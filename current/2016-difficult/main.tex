@@ -1,0 +1,336 @@
+\documentclass[a4paper,twocolumn]{article}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt}
+
+\title{
+ The Relationship between Bloom's Cognitive Levels and Question Difficulty
+}
+\author{Dennis Castleberry and Steven Brandt}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagebreak
+
+\abstract {
+
+  This paper explores the relationship between Bloom's cognitive levels and
+  difficulty in an intelligent tutoring system.  First, it addresses the
+  question of whether or not a distinction can be made between Bloom taxonomic
+  levels and question difficulty.  Second, given that a distinction can be
+  made, it explores the possiblity of modelling the probability of student
+  success on a given question based on its parameters and those past answered
+  questions.  Third, it investigates the potential to increase that probability
+  by asking "intervention questions". 
+
+}
+
+
+\section{Introduction}
+
+\subsection{Bloom's Taxonomy}
+
+Bloom's cognitive taxonomy organizes questions into levels depending on the
+cognitive functions required of the answerer.  The levels are: knowledge,
+comprehension, application, analysis, evaluation, and synthesis.  A brief
+overview is given below, with definitions and examples of questions covering
+the concept of for-loops:
+
+\begin{itemize}
+
+\item \textbf{Knowledge}. Recalling factual information.  \emph{What is a
+for-loop?}
+
+\item \textbf{Comprehension}. Assigning meaning to information.  \emph{What
+does the example for-loop output? (Give example.)}
+
+\item \textbf{Application}. Applying a rule to a specific instance.  \emph{How
+can the update statement of the loop be changed to print only even numbers?}
+
+\item \textbf{Analysis}. Breaking information into parts and exploring
+relationships.  \emph{What would happen if the update statement decremented
+instead of incremented the counter?}
+
+\item \textbf{Evaluation}. Judging the use of knowledge or the validity of an
+argument.  \emph{Which is better for reading user input: a for-loop or a
+while-loop? Why?}
+
+\item \textbf{Synthesis}. Utilizing knowledge to create a new solution to
+satisfy a goal.  \emph{Write a for-loop to print only even numbers up to ten.}
+
+\end{itemize}
+
+Each category depends on the cognitive functions used in the previous category.
+That is, comprehension requires knowledge, application requires comprehension,
+and so forth.  Furthermore the mastery of one of the levels is with respect to
+a given concept.  A student may be able to synthesize solutions to problems
+dealing with expressions, but may not possess knowledge of equations, and thus
+could not solve problems involving equations.
+
+The utility of Bloom's taxonomy lies in its ability to pinpoint the underlying
+cause of the student's problem-solving impasses \cite{shuhidan2011}.  Suppose a
+test of mastery of loops is given with the comprehension question ``What does
+such-and-such loop output?'' is given, and the student reaches an impasse.  If
+the question ``What are the three expressions of the loop and what do they
+do?'' is asked and the student does not know, the impasse can be attributed to
+a lack of knowledge about loops.  If the student does know about the loop
+expressions but still cannot answer, one might instead attribute it to a
+comprehension difficulty \emph{as such}; which might be remedied by giving some
+examples to build intuition, then continuing to test at the comprehension
+level.
+
+Educators may have an intuitive notion of how to do this, but Bloom's taxonomy
+gives the ability to examine the impact of questions scientifically.  By
+identifying the tested concept and the Bloom level of exercises, one can then
+form hypotheses about student responses to questions.  
+
+
+\subsection{Item Response Theory}
+
+According to Item Response Theory (IRT), the probability $p_i$ that a
+student answers correctly the $i^{th}$ question on a test, is given
+by:
+
+\[
+  p_i(\theta) = \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
+\]
+
+where:
+
+\begin{itemize} 
+
+ \item $\alpha$ is the item discrimination, or how well the item can
+ distinguish students of varying trait ability;
+
+ \item $\beta$ is the question difficulty;
+
+ \item $\gamma$ is the probability of guessing the answer correctly,
+ which for $n$-choice questions is $1/n$;
+
+ \item and $\theta$ is the \emph{trait ability} of the student, or the
+ student's particular ability to answer that question correctly;
+
+\end{itemize} 
+
+An initial estimate of difficulty can be obtained from the proportion of
+students with average trait ability who pass the question.
+
+
+\subsection{Previous Work}
+
+Bloom's taxonomy has been proven to be useful at the undergraduate level, and
+particularly in the field of software engineering \cite{britto2015}
+\cite{mahmood2014}.
+
+EEG studies on students who solved computer science problems whose Bloom levels
+were identified have shown that the levels may be distinctly clustered by EEG
+signals \cite{chatterjee2015}, implying differences in brain functions used by
+Bloom level.  When students are told the Bloom levels of the problems they
+answer, they show a marked preference for higher-level problems
+\cite{bruyn2011} \cite{goel2004}.
+
+While it can be used to pinpoint more intellectually satisfying problems, i.e.
+those at the higher Bloom levels, it has also seen success in program
+comprehension \cite{buckley2003}, where the asking of comprehension questions
+fosters code reading \cite{losada2008}. In addition, it has been useful for
+pinpointing the difficulties of novice programmers in a guided learning
+approach \cite{shuhidan2011}.
+
+We have designed an intelligent tutoring system to explore the effect of
+question ordering as it pertains to Bloom's taxonomy.  The system is based on
+previous research on executable paper systems (for generating publication
+manuscripts) which use R as an underlying framework \cite{castleberry2011}.
+Our intelligent tutoring system is available for browsing
+on-line\footnote{https://steam.cct.lsu.edu/}. It currently supports short
+answer and multiple choice formats.
+
+\section{Hypotheses}
+
+\subsection{Preliminary Discussion}
+
+A popular interpretation of Bloom's cognitive levels is that they are
+difficulty levels, and that these difficulty levels are fixed.  Knowledge is
+easy; synthesis is hard.  We will call this the Bloom-equals-difficulty
+hypothesis, or $H_{B=\beta}$.
+
+A creative interpretation of this hypothesis is that per-student difficulty can
+be explained in terms of the demotion of Bloom levels.  The synthesis \emph{and
+therefore difficult} questions, once the solution is obtained, are reduced to
+knowledge \emph{and therefore easy} questions.  Certainly, this is one possible
+scenario.  However, it does not explain a student's ability to answer
+altogether distinct synthesis problems; this is to suggest students engage the
+cognitive functions of synthesis, presumably as an effect of learning the use
+of those functions.  To maintain $H_{B=\beta}$ would either require sustaining
+the view that students are able to pass the questions because of a demotion of
+the cognitive functions required (which poses a rather cynical view of
+cognition and of education); or else some notion of trait ability--in
+particular one which offsets difficulty, allowing an increase in the
+probability of passing the question.
+
+The latter option takes the shape of a primeval form of IRT, mapping Bloom
+levels to $\beta$.  This is highly convenient for $H_{B=\beta}$, as it becomes
+agreeable to evaluation with IRT.  Nontheless, there are still several issues
+with $H_{B=\beta}$:
+
+% Ideal mapping
+
+\begin{itemize} 
+
+\item Consider first that exposure to knowledge and knowledge questions causes
+an increase in $\theta$.  According to Bloom's theory, this would increase the
+probability of answering comprehension questions correctly.  This agrees with
+the theory.  However, according to IRT, it would also increase the probability
+of answering application questions correctly even if no comprehension-level
+questions are asked.  In fact, it is theoretically possible to design tests
+with sufficient numbers of knowledge questions to place $\theta-2 >> 0$.  That
+is to say, asking a sufficient number of knowledge questions should give the
+reasonable assurance that application-level ability is high enough not to
+bother testing it.
+
+Clearly, this is not the case. Even if a student scores exceptionally well on
+knowledge questions, it gives no such assurance that the student will score
+similarly on application-level questions.  Even if knowledge and application
+scores are found to be correlated, there may be an additional underlying factor
+contributing to both scores (such as intelligence).  The application level is
+\emph{qualitatively} different.  It needs to be tested in spite of the value
+of $\theta$.
+
+% Likewise if a student is able to answer synthesis questions well, $\theta$
+% should be large relative to the difficulty of knowledge questions;  $\theta -
+% \beta_{knowledge} > 5$, for example.  This is an overwhelming difference
+% between trait ability and difficulty.  This would imply that a student who can
+% answer synthesis questions well can answer knowledge questions with high
+% probability, but this is not always the case.  The student may instead be very
+% creative, able to work within the confines of a limited knowledge base. 
+% 
+% The reader may be tempted to reject IRT for the express purpose of this
+% objection; but recall that unless some notion of trait ability is introduced to
+% account for variance in student responses, $H_{B=\beta}$ reduces to cognitive
+% pessimism.  
+
+\item If $H_{B=\beta}$ is strictly true, then there can exist no counterexample
+to the claim.  That is to say that there exists no problem on a lower Bloom
+level which is more difficult than a problem on a higher Bloom level.  To take
+an example, it would be mistaken to call an application problem easy and a
+comprehension problem hard. 
+
+Counterexmaples with intuitive appeal can be constructed.  Take for-loops for
+example.  To ask a student to print out the result of the loop:
+
+\begin{center}
+\begin{verbatim}
+  for (int i=0; i<10; i+=2)
+    printf("%d\n", i);
+\end{verbatim}
+\end{center}
+
+should present an easy enough task.  This is an application of the many rules
+of for-loops, but which does not require creative synthesis or critical
+thinking on the part of the student, hence it is an application problem. 
+
+% Consider then asking the student to impose a flowchart over the same code,
+% including the initialization, condition and update statements and the body of
+% the loop, and to indicate the start and stop of the loop.  Suppose the student
+% has seen flowcharts over similar loops before.  This is a test of
+% comprehensioe--in particular, comprehension of the internal workings (the
+% control flow) of the loop.    
+% 
+% The application problem above requires only an intuitive comprehension of the
+% loop: ``\emph{It prints the sequence from 0 up to 10 in steps of 2}'', the
+% student may realize.  It demands only shallow comprehension and the rule to be
+% applied is simple.  In the comprehension problem, on the other hand, a higher
+% degree of precision in comprehension of the loop is demanded to solve the
+% problem.  The comprehension problem also depends on mastery of the knowledge,
+% comprehension, and application of flowchart symbols.  Regardless, explaining
+% the control flow of the loop in full detail is a more difficult undertaking
+% than simply printing out its output. 
+
+Likewise, it is possible to ask the student to synthesize a loop printing the
+first ten powers of two, then ask a comparatively difficult analysis question
+in the form of an obfuscated loop code, such as asking for the value of
+\texttt{s} for each iteration of the following loop: 
+
+\begin{verbatim}
+    int i, s=1001;
+    for (i=10; i>0; i--) 
+      s %= (int) pow(2.0, i);
+\end{verbatim}
+
+Here, the impasse may be attributed to lesser-known symbols such as
+\texttt{\%=}, backwards looping, typecasting, and otherwise unusual behavior.
+In the synthesis problem, the student has the choice to work with familiar
+constructs.
+
+\item By Bloom's own admission, it is possible to skip levels for certain
+concepts.  In this case, the ordinality of Bloom levels breaks down.  A
+plausible example is given above.  It is possible to teach how to obtain the
+numeric sequences printed by for-loops before covering in full detail the
+control flow of the loop.   
+
+\end{itemize}
+
+With this in mind, we would like to introduce $H_{B\neq\beta}$: simply put,
+Bloom levels do not equate to difficulty.  Rather, Bloom levels indicate
+\emph{dependency relationships}.  As the theory goes, knowledge is a
+\emph{requirement} for comprehension; but this is not to say that the
+acquisition of the knowledge is somehow easier.  
+
+To evaluate $H_{B\neq\beta}$, we introduce the notion of an intelligent
+tutoring system.  An intelligent tutoring system is a computer-based system
+which interacts with a student with the end-goal of teaching material, but
+adapts its interaction in some way to the student's responses, much as a human
+tutor would.  With such a system, we can automate the scheduling of questions,
+collect responses, and analyze them. For the purpose of evaluating
+$H_{B\neq\beta}$, we can associate difficulty and Bloom levels with questions,
+then collect responses to test the hypothesis statistically.
+
+\subsection{Research Questions}
+
+\textbf{Question 1}. Is there a difference between Bloom level and difficulty?
+(That is, can an appreciable amount of variance in student responses be
+attributed to Bloom level?)
+
+\textbf{Question 2}. Given that there exists a difference between Bloom level
+and difficulty, is it possible to modify IRT to more accurately predict
+$p(x_i)$ given Bloom level information?
+
+\textbf{Question 3}. Given a predictive model and parameters for a question
+$x_i$, is it possible to manipulate a target probability $p(x_i)$ by asking
+related questions?
+
+\section{Methodology and Analysis}
+
+Our intelligent tutoring system has a bank of questions which are tagged by
+Bloom level, concept, and question difficulty.  We can use our system to easily
+create groups of questions (which we call assessments) and issue them either on
+paper or electronically.  Our intelligent tutoring system supports short-answer
+and multiple-choice formats, and can provide immediate feedback to the student
+on the correctness of their response.
+
+\textbf{Experiment 1}.
+
+\textbf{Experiment 2}.
+
+\textbf{Experiment 3}.
+
+\section{Analysis and Results}
+
+\textbf{Experiment 1}.
+
+\textbf{Experiment 2}.
+
+\textbf{Experiment 3}.
+
+\section{Limitations}
+
+
+\section{Conclusion}
+
+
+\bibliographystyle{plain}
+\bibliography{main}
+
+\end{document}

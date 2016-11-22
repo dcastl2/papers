@@ -1,0 +1,20 @@
+digraph System {
+
+  rankdir = TB;
+  pad = .2;
+  nodesep = 1;
+  node  [shape=circle];
+
+  subgraph {
+    a [label="a", xlabel=<&lt;&alpha;<sub>a</sub>,&beta;<sub>a</sub>,&gamma;<sub>a</sub>,&epsilon;<sub>a</sub>&gt;>];
+    b [label="b"];
+    c [label="c"];
+    d [label="d"];
+  }
+
+  a->b [label=<&phi;<sub>ab</sub>>];
+  a->c [label=<&phi;<sub>ac</sub>>];
+  b->d [label=<&phi;<sub>bd</sub>>];
+
+}
+
