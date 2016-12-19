@@ -1,0 +1,43 @@
+Left Recursion in Parsing Expression Grammars: 
+	http://arxiv.org/pdf/1207.0443.pdf?origin=publication_detail
+
+
+Parsing expression grammars: a recognition-based syntactic foundation:
+	http://dl.acm.org.libezp.lib.lsu.edu/ft_gateway.cfm?id=964011&ftid=243068&dwn=1&CFID=317513996&CFTOKEN=16523678
+
+
+Adaptable parsing expression grammars:
+	http://download.springer.com/static/pdf/839/chp%253A10.1007%252F978-3-642-33182-4_7.pdf?auth66=1397333190_3fb82654d7829610e50824de6d15d286&ext=.pdf
+
+
+A Parsing Machine for PEGS:
+	http://www.inf.puc-rio.br/~roberto/docs/ry08-4.pdf
+
+
+Adaptive LL(*) Parsing: The Power of Dynamic Analysis:
+	http://www.antlr.org/papers/allstar-techreport.pdf
+
+
+Packrat parsers can handle practical grammars in mostly constant space
+	http://dl.acm.org.libezp.lib.lsu.edu/ft_gateway.cfm?id=1806679&ftid=802802&dwn=1&CFID=321464923&CFTOKEN=13425494
+
+
+Packrat parsers can support left recursion
+	http://dl.acm.org.libezp.lib.lsu.edu/ft_gateway.cfm?id=1328424&type=pdf&CFID=321464923&CFTOKEN=13425494
+
+
+Two-Pass greedy regular expression parsing
+	no PDF
+	http://dl.acm.org.libezp.lib.lsu.edu/citation.cfm?id=2526085.2526094&coll=DL&dl=ACM&CFID=321464923&CFTOKEN=13425494
+
+
+Structured Grammars are Effective
+	http://arxiv.org/pdf/1205.1877.pdf
+
+
+Packrat Parsing: Simple, Powerful, Lazy, Linear Time
+	http://arxiv.org/pdf/cs/0603077.pdf
+
+
+Practical Packrat Parsing
+	http://cs1.cs.nyu.edu/rgrimm/papers/tr2004-854.pdf

@@ -1,0 +1,69 @@
+\section{Memoization Algorithms}
+
+ \begin{framed}
+
+  Where $n$ is the name of a pattern $g$ consisting of:
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $n_p$ & : & string  & : & name of the pattern         \\
+    $r_p$ & : & rule    & : & rules referenced by pattern \\
+   \end{tabular}
+  \end{center}
+
+ and where ${G}$ consists of a grammar, or set of global user-defined patterns
+ of this type,
+
+ \vspace{12pt}
+
+ define Algorithm \textbf{lookup}($n$):
+ 
+  \begin{enumerate}
+    \item For each named pattern $p = \langle n_p, r_p \rangle \in {P}$:
+    \begin{enumerate} 
+      \item If $n = n_p$: return $r_p$.
+    \end{enumerate} 
+    \item Return $null$.
+  \end{enumerate} 
+
+ \end{framed}
+
+
+ \begin{framed}
+  Where
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $P$ & : & matrix (pack)   & : & Packrat table \\
+    $n$ & : & string          & : & pattern name \\
+    $x$ & : & int             & : & string position \\
+   \end{tabular}
+  \end{center}
+
+ define Algorithm \textbf{memo}($P, n, x$):
+ 
+  \begin{enumerate}
+   \item Return $P_{nx}$.
+  \end{enumerate}
+ \end{framed}
+
+ \begin{framed}
+  Where
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $P$ & : & matrix (pack)   & : & Packrat table \\
+    $n$ & : & string          & : & pattern name \\
+    $x$ & : & int             & : & string position \\
+    $b$ & : & boolean         & : & truth value of match \\
+   \end{tabular}
+  \end{center}
+
+ define Algorithm \textbf{memoize}($P, n, x, b$):
+ 
+  \begin{enumerate}
+   \item Let $P_{nx} \leftarrow b$.
+  \end{enumerate}
+ \end{framed}
+
+

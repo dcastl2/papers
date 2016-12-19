@@ -1,0 +1,98 @@
+\subsection{Automatically Generating a Grammar}
+
+While a grammar and grading scheme are sufficient to automatically grade a
+document set, writing an Autograde grammar can be as tedious and time-consuming
+as manually grading the document set.  When a document set has multiple
+possible correct solutions which vary in the slightest--such as an added space,
+brace, or parenthesis--a strict grammar can cause a match to fail.  Choice
+operators help to avoid this, but can be painstaking to tune.  Adding them
+requires that the user scan over the document set to tell where the text should
+be interpreted as correct, which potentially defeats the point of using an
+automated grading system.
+
+To remedy this, we have created an algorithm to generate a line-by-line grammar
+rule set from a collection of documents which are known to be correct.  The
+Algorithm \texttt{Generate-Grammar} is depicted in Fig~\ref{alg:gengrammar}.
+The algorithm initializes its rule set to the lines within the first document
+in the list.  For each document thereafter, it attempts to match each rule
+against the text; if it succeeds nothing happens, but if it fails, it stores
+the index within the text where it fails in $n$.  Both the current rule and the
+line of text are then reversed, then a match is attempted.  It cannot succeed;
+however it can match up to at least $n$.  At most it will match up to $m$; that
+is however far the backwards match succeeds. The array of characters from $n$
+to $m$ form a bounds on the part of the text which fails to match; this array
+of characters is thus added as an ordered choice within the grammar rule.
+
+\begin{figure}[tr]
+  \begin{framed}
+Data Structures:
+\begin{itemize}
+  \item A document array $\textbf{D}$ containing documents known to be fully
+  correct, wherein each $d_i \in D$ there exists a set of lines $L_i$, where
+  $l_{ij}$  is the $j^{th}$ line of the $i^{th}$ document.
+  \item A rule set $R$; initially let $R \leftarrow \empty$.
+\end{itemize}
+
+Algorithm $\textbf{\texttt{Generate-Grammar}}(D)$:
+\begin{enumerate}
+  \item For all $d_i \in D$:
+  \begin{enumerate}
+    \item If $i == 0$, let $r_j \leftarrow l_{0j}$.
+    \item Else: 
+      \begin{enumerate}
+	\item Let $n \leftarrow \texttt{match}(r_j, d_i)$.
+	\item If $n \neq -1$:
+	  \begin{enumerate}
+	    \item Let $r_j' \leftarrow \texttt{Reverse-Rule}(r)$.
+	    \item Let $m    \leftarrow \texttt{Parse}(r_j', d_i)$.
+	    \item Let $r_j  \leftarrow \texttt{Add-Choice}(r_j, l_{ij}, n, m)$.
+	  \end{enumerate}
+      \end{enumerate}
+  \end{enumerate}
+  \item Return $R$.
+\end{enumerate}
+\end{framed}
+\label{alg:gengrammar}
+\caption{The \texttt{Generate-Grammar} algorithm.}
+\end{figure}
+
+To reverse a rule, we swap all children of an ordered choice (Or) operator, and
+reverse all items in sequence (Seq).  Details of this operation are shown in
+Fig~\ref{alg:revgrammar}.
+
+\begin{figure}[tr]
+\begin{framed}
+  Data Structures:
+  \begin{itemize}
+    \item A rule $r$ may be defined recursively as:
+  \end{itemize}
+    \begin{verbatim}
+      Rule r = Lit  x
+             | Seq  x y
+             | Or   x y
+             | Star x
+             | Plus x
+             | Nil   
+    \end{verbatim}
+
+Algorithm $\textbf{\texttt{Reverse-Rule}}(r)$:
+\begin{enumerate}
+  \item Construct the parse tree $T$ for $r$.
+  \item For each node $n_i$ in an in-order traversal of $T$:
+    \begin{enumerate}
+      \item If $n_i$ is of type \texttt{Seq}:
+	\begin{enumerate}
+          \item Append $(i, n_i)$ to $S$.
+	\end{enumerate}
+      \item Else if $n_i$ is of type \texttt{Or}:
+	\begin{enumerate}
+          \item Swap the children of $n_i$.
+	 \end{enumerate}
+    \end{enumerate}
+  \item Let $S  \leftarrow \texttt{Reverse}(S)$.
+  \item Let $T' \leftarrow \texttt{Merge}(S, T)$;
+\end{enumerate}
+\end{framed}
+\label{alg:revgrammar}
+\caption{The \texttt{Reverse-Rule} algorithm.}
+\end{figure}

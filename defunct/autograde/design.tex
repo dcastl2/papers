@@ -1,0 +1,50 @@
+\subsection{Design Logic}
+
+
+We propose the following features for an autograding system:
+
+\begin{itemize}
+
+  \item \textbf{Duplicable and deployable system}. We should be able to copy
+    the total system easily onto another machine and expect it to work without
+    having to install any additional software, configure anything, or otherwise
+    re-trace the author's steps.
+
+  \item \textbf{Non-interactive batch processing}. Because programs can number
+    in the hundreds, ideally the user should be able to tell the auto-grader
+    everything to do prior to a run. Should errors with a student code occur,
+    they should not hamper the processing of others.
+    
+  \item \textbf{Minimum description length}. The user should be able to program
+    an autograde run by writing (a) what to check and (b) how to respond if the
+    check passes or fails. The rest should be handled automatically.
+
+  \item \textbf{Language modularity}. It should not simply work with popular
+    languages; it should be made to work for any.  If a new language is
+    developed, a user should be able to write a plug-in for it rather than
+    wait for hard-coded support.
+
+  \item \textbf{Processing modularity}. The steps within the auto-grading
+    process should themselves be modules to fully leverage language modularity
+    and simplify the process of modifying the code base.
+
+  \item \textbf{Student profiling}. Given the available information on
+    compilation and execution errors, an agent should be able to report
+    on a student's strengths and weaknesses, in turn informing future
+    assignment specifications.
+
+\end{itemize}
+
+To satisfy the need for duplicability and deployability, the current Autograde
+implementation exists within a virtual machine (VM) running LAMP.  The total
+VM may be copied and run in any operating system.
+
+Because batch processing of files is a pivotal task, the interface to the
+system as well as its modules are written in Linux shell.  This allows for ease
+of editing modules, as new programs which are developed may be incorporated.
+
+The minimum description length for a grading specification is achieved by two
+user-supplied files: a file for parsing, and a grading specification file for
+point values based upon parsed expressions.
+
+

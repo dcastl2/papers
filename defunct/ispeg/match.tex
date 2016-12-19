@@ -1,0 +1,94 @@
+\section{match}
+
+%\setlength{\parskip}{8pt}
+
+ \begin{framed}
+  Where $s$ is a Stream,
+
+ \vspace{12pt} 
+ define Algorithm \textbf{match}($s=\langle \ldots, Lit(a), \ldots \rangle$):
+  \begin{enumerate}
+    \item If $a = \texttt{at}(s_s, x_s)$: 
+      \begin{enumerate}
+      \item If $l_s = true$: 
+        \begin{enumerate} 
+           \item Return $\texttt{match}(s \looparrowleft_x (x_s + 1))$.
+         \end{enumerate} 
+       \item Else: 
+         \begin{enumerate}
+           \item Let $s \looparrowleft_T (s_T \looparrowleft_{x_f} (x_s + 1))$.
+           \item Return $s \looparrowleft_x (x_s + 1)$.
+         \end{enumerate} 
+      \end{enumerate} 
+     \item Else: 
+     \begin{enumerate} 
+       \item Return $s \looparrowleft_b false$.
+     \end{enumerate} 
+  \end{enumerate}
+ \end{framed}
+
+\begin{framed}
+  Where $s$ is a Stream,
+
+ \vspace{12pt}
+ define Algorithm \textbf{match}($s=\langle \ldots, Or(r_1, r_2), \ldots \rangle$):
+
+ \begin{enumerate}
+   \item Do, in parallel:
+   \begin{enumerate}
+     \item Let $s'  \leftarrow \texttt{match}( (s \looparrowleft_R \texttt{cat}(\texttt{cat}(r_1, Kill(i_s)), R)) \looparrowleft_i \texttt{cat}(i_s,0))$.
+     \item Let $s'' \leftarrow \texttt{match}( (s \looparrowleft_R \texttt{cat}(\texttt{cat}(r_2, Kill(i_s)), R)) \looparrowleft_i \texttt{cat}(i_s,1))$.
+   \end{enumerate}
+   then return $s' \cup s''$.
+ \end{enumerate}
+
+\end{framed}
+
+
+\begin{framed}
+  Where $s$ is a Stream,
+
+ \vspace{12pt} 
+ define Algorithm \textbf{match}($s=\langle \ldots, Nil, \ldots \rangle$):
+
+ \begin{enumerate}
+     \item Return $s \looparrowleft_b true$.
+ \end{enumerate}
+
+\end{framed}
+
+
+\begin{framed}
+  Where $s$ is a Stream,
+
+ \vspace{12pt} 
+ define Algorithm \textbf{match}($s=\langle \ldots, Kill(i), \ldots \rangle$):
+
+ \begin{enumerate}
+    \item Return $s \looparrowleft_k true$.
+ \end{enumerate}
+
+\end{framed}
+
+\begin{framed}
+  Where $s$ is a Stream,
+
+ \vspace{12pt} 
+ define Algorithm \textbf{match}($s=\langle \ldots, PLook(r), \ldots \rangle$):
+
+    \begin{enumerate} 
+     \item Let $s'  \leftarrow \texttt{match}( s \looparrowleft_R \texttt{cat}(r, R) )$.
+     \item Let $s'' \leftarrow (\texttt{match}( (s \looparrowleft_R r) \looparrowleft_l true ) \looparrowleft_l false)$.
+     \item If $b_{s''} = true$:
+     \begin{enumerate} 
+       \item $b_{s''} \leftarrow false$. 
+     \end{enumerate} 
+    \item Else:
+     \begin{enumerate} 
+       \item $s'' \leftarrow \texttt{match}(s'' \looparrowleft_R \texttt{cat}(r, Kill(\texttt{cat}(i_s, 0))))$.
+     \end{enumerate} 
+     \item Return $s' \cup s''$.
+ \end{enumerate}
+
+\end{framed}
+

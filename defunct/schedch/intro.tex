@@ -1,0 +1,75 @@
+
+\section{Introduction}
+
+In this paper, we present a dataflow-based dynamic task scheduler for an HPC 
+grid computing application called Cactus.
+
+
+
+\begin{framed}
+Where $f$ is a function, or group, the \textbf{current definition of schedule
+item} for $f$ is given by:
+
+  \begin{enumerate}[(1)]
+
+  \item \textbf{schedule rules} of the following form: 
+
+      \footnotesize
+      \begin{verbatim}
+      schedule f in <bin_name> before|after <group_or_function_name>
+      \end{verbatim}
+      \normalsize
+
+  \item \textbf{read/write rules} of the following form :
+
+      \footnotesize
+      \begin{verbatim}
+      READS:  <impl_name>::<gridfunction_name>(Interior|Boundary|Everywhere)$<version_tag>
+    | WRITES: <impl_name>::<gridfunction_name>(Interior|Boundary|Everywhere)$<version_tag>
+      \end{verbatim}
+      \normalsize
+
+  \end{enumerate}
+\end{framed}
+
+\begin{framed}
+Also consider the \textbf{revised definition of schedule item} for f, given by:
+
+  \begin{enumerate}[(1)]
+
+  \item the \textbf{schedule rules} of the following form:
+
+      \footnotesize
+      \begin{verbatim}
+      schedule f in <bin_name>
+      \end{verbatim}
+      \normalsize
+
+  \item \textbf{read/write rules} of the following form :
+
+      \footnotesize
+      \begin{verbatim}
+      READS:  <impl_name>::<gridfunction_name>(Interior|Boundary|Everywhere)$<version_tag>
+    | WRITES: <impl_name>::<gridfunction_name>(Interior|Boundary|Everywhere)$<version_tag>
+      \end{verbatim}
+      \normalsize
+
+  \end{enumerate}
+\end{framed}
+
+\pagebreak
+\section{A Precise Problem Definition}
+
+The goal is, using the \emph{revised definition of schedule item}, schedule
+all functions such that:
+
+  \begin{enumerate}[(a)]
+
+  \item  all rules of the type (1) of the \emph{current definition of schedule
+         item} are satisfied,
+
+  \item  all initial reads on a given \texttt{<impl\_name>::<gridfunction\_name>}
+         happen after initial writes on that same \texttt{<impl\_name>::<gridfunction\_name>}.
+
+  \end{enumerate}
+

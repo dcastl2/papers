@@ -1,0 +1,126 @@
+\subsection{Auto-Evaluation}
+
+% TODO: add citation for Piraha.
+Automated evaluation of source code, output, and error messages is done by
+parsing using a parsing expression grammar (PEG).  The PEG of choice is Piraha,
+a simplistic PEG which supports dynamic compilation of grammar rules.
+Auto-evaluation works by parsing grading scheme rules which tell (a) what
+expressions to parse, (b) how many points to award if the given expressions are
+successfully parsed and (c) error annotations (comments) which are given to the
+students if either positive-point expressions are not correctly parsed or
+negative-point expressions are.  
+
+The following is an example of a grading scheme file.  In this file, 5 points
+are awarded for the correct parsing of rules \texttt{ins-array} and
+\texttt{sel-array}.  If they are not parsed, the line ``ins. sort incorrect''
+or ``sel. sort incorrect'' is printed:
+
+\vspace{4pt}
+\small
+  \begin{Verbatim}
+  5:  ins-array  "ins. sort incorrect"
+  5:  sel-array  "sel. sort incorrect"
+  \end{Verbatim}
+\normalsize
+\vspace{4pt}
+
+The rule names are defined in a separate grammar file which tells how the text
+in the document should be parsed. In the following example, the rules are equal
+to the string output of array contents at certain steps in the execution:
+
+\vspace{4pt}
+\small
+\begin{Verbatim}
+  ins-array = [3, 5, 4, 6, 8, 7]
+  sel-array = [3, 4, 5, 6, 8, 7]
+\end{Verbatim}
+\normalsize
+\vspace{4pt}
+
+A more complex grammar scheme file may involve constructs in the source code
+which need to be parsed, in which case the user may which to deduct points
+for poor practices or transgressions of style:
+
+\vspace{4pt}
+\footnotesize
+\begin{Verbatim}
+   2: ins-sort-sig       "wrong sig. for ins. sort"
+      .
+      .
+      .
+  -1: no-space-after  "no space after if/for/while"
+\end{Verbatim}
+\normalsize
+\vspace{4pt}
+
+In the following grammar, the group \texttt{\{psv\}}, elsewhere defined, refers
+to the string ``public static void''. The method name is stipulated to be
+\texttt{insertionSort} and the sole argument may be any alphanumeric name
+covered by the rule \texttt{\{alpha\}}, elsewhere defined. The group
+\texttt{\{no-space-after\}} refers to an if-, for-, or while- construct keyword
+followed by no whitespace. 
+
+\vspace{4pt}
+\scriptsize
+  \begin{Verbatim}
+  ins-sort-sig      =  {psv} insertionSort (int[] {alpha})
+    .
+    .
+    .
+  no-space-after    =  (if|for|while)\(
+\end{Verbatim}
+\normalsize
+\vspace{4pt}
+
+Algorithm \texttt{Auto-Eval} is depicted in Fig~\ref{alg:autoeval}.  For every
+item in the grading scheme, matching is attempted on the corresponding grammar
+rule.  If it succeeds where the mark is positive, the mark is added to the
+score total; where the mark is negative, the negative mark is deducted from the
+score total and a comment is given.  If matching fails on a positive-mark item,
+a comment is given; and if it fails on a negative-mark item, nothing happens.
+This agrees with our intuitive notion of grading: we should award points for
+correct items, fail to award points for incorrect, deduct points for
+transgressions that do occur, and fail to deduct when they do not; comments
+should be given whenever points are deducted from or not added to the sum.
+
+
+\begin{figure}[tr]
+\begin{framed}
+Data Structures:
+\begin{itemize}
+  \item A rule set $R$ for parsing where each element of $R$ is a tuple $(e_r, r)$.
+  \item A document $d$ to match rules against.
+  \item A grading scheme rule set $S$ where each element of $S$ is a tuple $(g, e_s, c)$, where:
+    \begin{itemize}
+      \item $g$ is the grade, and
+      \item $e_r$ is an expression such that $e_r \in R$.
+    \end{itemize}
+\end{itemize}
+
+Algorithm \texttt{Auto-Eval($d, R, S$)}:
+\begin{enumerate}
+ \item For each item $(g, e_s, c) \in S$:
+  \begin{enumerate}
+    \item Let $success = match(e_s, d)$.
+    \item If ($success == true$):
+    \begin{enumerate}
+      \item If ($g > 0$): $sum = sum + g$
+      \item Else: 
+	\begin{enumerate}
+	  \item $sum = sum + g$ 
+	  \item $stdout \leftarrow c$
+	\end{enumerate}
+    \end{enumerate}
+    \item Else:
+    \begin{enumerate}
+      \item If ($g > 0$): $stdout \leftarrow c$
+      \item Else:         \emph{pass}
+    \end{enumerate}
+  \end{enumerate}
+  \item Return $sum$.
+\end{enumerate}
+\end{framed}
+\caption{The Auto-Eval algorithm.}
+\label{alg:autoeval}
+\end{figure}
+

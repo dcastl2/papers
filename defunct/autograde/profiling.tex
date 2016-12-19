@@ -1,0 +1,25 @@
+\subsection{Profiling \& Assignment Generation}
+
+Each time a student runs \texttt{Auto-Eval} $(D, R, S)$, along with a grade it
+produces $C$, a collection of comments on the document $D$ that results from
+applying rules in $S$.  Now suppose that a student modifies the document $D$ to
+produce a new document $D'$, which when run with \texttt{Auto-Eval} $(D', R,
+S)$ produces a new set of comments $C'$.  
+
+From the information $D, D', C, and C'$ it should be possible to extract an
+action set $A: D \rightarrow D'$ which caused the change in the document and a
+manipulation set $M: C \rightarrow C'$ in the comment set. 
+
+\begin{figure}
+\begin{framed}
+
+Algorithm \texttt{Profile}($D, D', R, S$):
+\begin{enumerate}
+    \item Let $(g,  C)  \leftarrow \texttt{Auto-Eval}(D , R, S)$.
+    \item Let $(g', C') \leftarrow \texttt{Auto-Eval}(D', R, S)$.
+    \item Append to $A$ the output of  $\texttt{diff}(D, D')$.
+    \item Append to $M$ the output of  $\texttt{diff}(C, C')$.
+\end{enumerate}
+
+\end{framed}
+\end{figure}

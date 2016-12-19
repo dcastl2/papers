@@ -1,0 +1,8 @@
+\section{Terminology}
+
+\begin{itemize}
+\item A \textbf{fail signal} for a matcher stream $M$ means this stream failed to match against the input.  
+\item Likewise a \textbf{success signal} for $M$ means it succeeded fully in matching.
+\item A \textbf{partial success signal} for $M$ means that it has succeeded up until the current iteration.
+\item A \textbf{kill signal} send to $M$ indicates that $M$ should die, i.e. stop attempting to match.
+  \end{itemize}

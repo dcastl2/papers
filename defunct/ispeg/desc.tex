@@ -1,0 +1,60 @@
+\section{Problem Definition}
+
+Consider the \textbf{pattern} $(aa|a)a$ and the \textbf{string} ``aa''.
+Then $(aa|a)$ is a \textbf{subpattern} of the \textbf{total pattern}
+$(aa|a)a$.  Let the choice $(aa|a)$ be called an \textbf{ordered choice}
+%\todo{SRB: The official terminology for what you are calling a disjunction is an ``ordered choice.''}
+(OC) of the pattern $(aa|a)a$. Let $aa$ and $a$ be called the
+\textbf{choices} of the subpattern $(aa|a)$.  Define three
+types of parsing expression grammars (PEGs) based upon matching behavior:
+
+\begin{itemize}
+
+  \item \textbf{O-PEG}. Given any OC in a pattern, an ordinary
+    (\emph{O-PEG}) consumes the substring whose first OC in the
+    subpattern matches.  Given the above example, the OC $aa$
+    will be matched against the string ``aa''. Once matched, the string ``aa''
+    is consumed and all other OCs in the subpattern are ignored. When
+    O-PEG encounters the subpattern $a$ in the remainder of the total
+    pattern, it fails to match the now-empty string ``''; thus O-PEG fails to
+    match the string against the total pattern.
+
+  \item \textbf{CS-PEG}. The current streamlined PEG (or \emph{CS-PEG}) attempts
+    to match patterns of a subpattern simultaneously.  An S-PEG consumes the
+    first substring whose OC matches in the context of the total pattern.
+    It does so by splitting the choice pattern into two or more
+    non-choice patterns, then attempting to match them independently.
+    These attempts are embodied by \textbf{matching streams}. When any matching
+    stream succeeds in matching an OC, it kills all other 
+    % \todo{srb: only child matching streams} 
+    child matching streams
+    since they should be unnecessary. However, the following example
+    illustrates why this behavior is flawed.
+    
+    In the above example, the pattern $(aa|a)a$ is broken into two
+    patterns $(aa)a$ and $(a)a$, and two simultaneous matching
+    streams $M_1$ and $M_2$ are spawned which attempt to match against the
+    string simultaneously and character-by-character.  Both patterns consume
+    the first character `a' in the string, leaving the substring ``a''.  When
+    subpattern $(aa)$ of $M_1$ consumes the second character and reaches
+    the end of the OC, it kills $M_2$, because $M_1$ has succeeded up to
+    this point, indicating that other matching streams are unnecessary. The
+    remaining substring is ``'', which $M_1$ fails to match against the
+    subpattern $a$. Thus $M_1$ reports failure, and since $M_2$ was
+    killed, both $M_1$ and $M_2$ report failure and the CS-PEG fails to match
+    the string against the total pattern.
+
+  \item \textbf{IS-PEG}. The ideal streamlined PEG (or \emph{IS-PEG}) attempts
+    to match subpatterns of an OC simultaneously, similarly to an CS-PEG.
+    However, it does not succumb to the above-illustrated error which the CS-PEG
+    does. Given the above example, the difference in IS-PEG's behavior occurs
+    when $M_2$ matches the subpattern $(a)$; upon doing so, it flags its
+    success up to this point.  Those both $M_1$ and $M_2$ consume the first
+    ``a''. When $M_1$ consumes the second `a' in its OC, it then attempts
+    to kill all other streams. It checks $M_2$'s success flag, and does not
+    kill $M_2$ because its flag is set. $M_2$ then consumes the final `a',
+    reaches the end of the string, and reports success. Thus IS-PEG matches
+    the string against the total pattern.
+
+\end{itemize}
+

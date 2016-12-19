@@ -1,0 +1,33 @@
+\section{Killing and Pruning Algorithms}
+
+ \begin{framed}
+  Where ${S}$ is a Stream list to be pruned, 
+
+ \vspace{12pt}
+  define Algorithm \textbf{prune}(${S}$):
+ 
+  \begin{enumerate}
+   \item Let $S' \leftarrow \{ s \in S \mid b_s = true \}$.
+   \item Return $S'$.
+  \end{enumerate}
+
+ \end{framed}
+
+
+
+ \begin{framed}
+
+  Where $S$ is a Stream list whose streams are to be marked for pruning if
+their sibling streams have their kill flag set,
+
+ \vspace{12pt}
+ define Algorithm \textbf{mark}(${S}$):
+
+  \begin{enumerate}
+   \item Let $S' \leftarrow \{ \forall s \in S, s' \in S \mid s \not = s', \texttt{begins\_with}(i_{s'}, i_s)\}$.
+   \item For each $s' \in S'$: let $b_{s'} \leftarrow false$.
+   \item Return $\texttt{consolidate}(S', S)$.
+  \end{enumerate}
+
+ \end{framed}
+

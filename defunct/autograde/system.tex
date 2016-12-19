@@ -1,0 +1,41 @@
+\subsection{System Design}
+
+The directory hierarchy within the VM uses lexicographically-ordered assignment
+and student IDs to support batch operations. Fig.~\ref{fig:layout} gives an example of
+a typical layout.
+
+\begin{figure}
+  \begin{Verbatim}[frame=single]
+    prog1/
+        user135001/
+            Hello.java
+            Arithmetic.java
+        user135002/
+            Hello.java
+            Arithmetic.java
+        ...
+    prog2/
+        user135001/
+            Shopping.java
+            Rocket.java
+        ...
+    ...
+\end{Verbatim}
+  \caption{The directory hierarchy lends itself to straightforward batch processing.}
+  \label{fig:layout}
+\end{figure}
+
+Generally, the ID is assigned as $prefix\_m\_n$, where $m$ is the course number
+and $n \in N$ is a student ID.  The value $n$ is mapped to a name $name$, as in
+$n \rightarrow name$. The string $n$ is constructed such that for all $n_1, n_2
+\in N$ and all $name_1, name_2 \in Names$, if $n_1 \rightarrow name_1$, $n_2
+\rightarrow name_2$ and if $name_1 <_{lex} name_2$, then $n_1 <_{lex} n_2$.
+That is, the IDs are constructed to be in lexicographic order by student last
+name.  Since students may add the course late, we make the ID distribution
+sparse to assign such students an appropriate position ID in the lexicographic
+ordering.  
+%\todo{ Will humans be looking at these id's? If so, using the students name might be preferrable to a number.}
+
+The Autograde script handles steps 1-4 of \ref{sec:workflow}. The auto-evaluation
+is handled by Java programs. 
+

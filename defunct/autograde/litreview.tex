@@ -1,0 +1,37 @@
+\section{Literature Review}
+
+%The concept of an automated grading system is by no means new.
+As early as 1973, automated grading had been developed for COBOL programs
+\cite{aaronson}.  However, like many automated systems which exist today, it
+only compared the output of the student code and solution code \cite{pieterse,
+gotel, singh, nordquist, edwards, edwards2, sherman}.  Systems with this
+limitation have the advantage of being modularly language-independent,
+allowing support for new languages to be added as required. Aside from
+multi-language generalization, the auto-grading model itself has not seen
+much change since 1973.
+
+The all-or-nothing character of output auto-grading systems, \cite{zanden}, in
+which the total assignment or sub-assignment is correct if and only if the
+output exactly matches that of the solution code, leaves something to be
+desired.  With such systems, a single ``off-by-one'' index error potentially
+yields a grade of zero.  One particular needs-specific system, implemented for
+Java, uses reflection to test the correctness of methods \cite{helmick}. The
+Java Reflect API allows for methods from a student and solution code to be
+invoked on user-controlled inputs and their return values, fields, etc. to be
+compared to determine if the methods are algorithmically equivalent in spite of
+semantic differences in the student and solution main methods. This approach is
+desirable for more refined control of the grading.
+
+A related goal of automated grading is to provide expeditious feedback both on
+laboratory exercises \cite{nordquist} and programming assignments \cite{singh},
+for which an auto-suggestion module would ideally be integrated into the
+auto-grading system and trigger in the event of an error.
+
+% The implications of auto-grading \cite{holton, sherman}.
+
+A web-based assignment submission and assessment interface is a worthy
+component because of the system's ability to be used remotely and
+platform-independently via controls which are intuitive to students \cite{fu,
+gotel, edwards2}.
+
+% Caution that not everything should be automated \cite{harris}.

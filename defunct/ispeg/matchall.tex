@@ -1,0 +1,84 @@
+\section{Match Stream List}
+
+ \begin{framed}
+
+  Where a $\mathpzc{S}$ is a Stream list, for which each stream $\mathpzc{s}$
+  within contains a rule list $\mathpzc{R}$, which in turn contains named
+  patterns,
+
+  \vspace{12pt}
+
+  define Algorithm \textbf{Match All}($\mathpzc{S}$):
+
+  \vspace{12pt}
+  Do the following: 
+  
+  \begin{quote}
+  \begin{enumerate} 
+   \item Let $S \leftarrow \mathpzc{S}, S' \leftarrow \emptyset$.
+   \item Do the following:
+   \begin{enumerate}
+      \item For each ${s} \in {S}$:
+      \begin{enumerate} 
+         \item If \texttt{head}$({R_s}) = Pat(n)$:
+         \begin{enumerate} 
+           \item If $\texttt{memo}(P, \texttt{head}(R_s), x_s)$: 
+           \begin{itemize} 
+                 \item Let $(s_T, s_b) \leftarrow \texttt{memo}(P, \texttt{head}(R_s), x_s)$.
+                 \item Break.
+           \end{itemize} 
+           \item Let $R' \leftarrow \texttt{lookup}\big(\texttt{head}({R_s})\big)$.
+           \item Let ${s'} \leftarrow \Big( ({s} \looparrowleft_R R') \looparrowleft_Z 
+                     \texttt{push}\big(Z_{s}, \langle n, x_{s}, \emptyset \rangle\big) \Big)$.
+         \end{enumerate} 
+         \item Let $S' \leftarrow S' \cup {s'}$.
+      \end{enumerate} 
+      \item If $\exists s \in S \mid \texttt{head}(R_s)=Pat(n)$:
+      \begin{enumerate} 
+        \item $\texttt{match\_all}(S')$.
+      \end{enumerate} 
+   \end{enumerate}
+   \item Let $\mathpzc{S'} \leftarrow \texttt{match\_list}(S)$.
+   \item Let $\mathpzc{S} \leftarrow \texttt{consolidate}(\mathpzc{S'}, \mathpzc{S})$.
+  \end{enumerate}
+  \end{quote}
+
+   \indent
+   until $\exists! \mathpzc{s} \in \mathpzc{S} \mid b_s=true$ and $\mathpzc{R_s} = \emptyset$, or 
+   until $\mathpzc{S} = \emptyset$. 
+
+ \end{framed}
+
+
+ \begin{framed}
+
+  Where a $S$ is a Stream list, 
+
+  \vspace{12pt}
+
+  define Algorithm \textbf{Match List}($S$):
+ 
+  \begin{enumerate}
+
+   \item Do the following:
+
+   \begin{enumerate}
+
+     \item For each $s \in S$:
+     \begin{enumerate}
+       \item $S' \leftarrow S' \cup \texttt{match}(s)$.
+     \end{enumerate} 
+
+     \item For each $s' \in S'$: 
+     \begin{enumerate} 
+       \item If $n_{s'} \not= \emptyset$: $\texttt{memoize}(n_{s'}, x_{s'}, b_{s'})$.
+     \end{enumerate} 
+     \item Let $S' \leftarrow \texttt{mark}(S')$.
+     \item Let $S' \leftarrow \texttt{prune}(S')$.
+     \item Return $S'$.
+   \end{enumerate} 
+
+  \end{enumerate}
+
+ \end{framed}
+

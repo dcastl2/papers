@@ -1,0 +1,170 @@
+\section{Example Cases}
+
+\subsection{A Streaming PEG and RHS-Disjuncts}
+
+Consider the pattern $(aa|a)a$ with the text ``aa''. While a traditional PEG
+fails on this, a streaming PEG can succeed. The pattern is broken by its
+disjunct into two subpatterns $(aa)a$ and $(a)a$ which are handled by two
+matcher streams $M_1$ and $M_2$, respectively. 
+
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{lccc}
+Iteration & $M_1$ Pattern & $M_2$ Pattern & Input  \\
+0         & $(aa)a$       & $(a)a$        & ``aa'' \\
+1         & $(a)a$        & $a$           & ``a''  \\
+2         & $a$           &               & ``''   \\
+3         & \Cross        & \Check        & ``''   \\
+\end{tabular}
+\end{center}
+\label{tab:case1}
+\caption{Pattern $(aa|a)a$ with input ``aa''.}
+\end{figure}
+
+Further in Iteration 2, the $M_1$ pattern is $a$ while the input is ``''.
+Since $M_1$ finds that it has characters to be consumed in its remaining
+subpattern although there is no remaining input, it sends a fail signal to be
+propagated during the next iteration.  Also at Iteration 2, $M_2$ discovers
+that both its subpattern and its input are empty, which prompts it to send a
+success signal to be propagated during the next iteration. Thus the pattern
+matches.
+
+
+\subsection{IS-PEG vs. CS-PEG and the Partial Success Flag}
+
+This example illustrates how the partial success flag influences what disjuncts
+are killed.  Now consider the pattern $(aa|a)aa$ with the text ``aaa''.  As
+before, the pattern is broken by its disjunct into two subpatterns $(aa)aa$ and
+$(a)aa$ handled by $M_1$ and $M_2$. 
+
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{lccc}
+Iteration & $M_1$ Pattern & $M_2$ Pattern & Input  \\
+0         & $(aa)aa$      & $(a)aa$       & ``aaa''\\
+1         & $(a)aa$       & $aa$          & ``aa'' \\
+2         & $aa$          & $a$           & ``a''  \\
+3         & $a$           &               & ``''   \\
+4         & \Cross        & \Check        & ``''   \\
+\end{tabular}
+\label{tab:case2}
+\caption{Pattern $(aa|a)aa$ with input ``aaa''.}
+\end{center}
+\end{figure}
+
+The characters within each pattern are consumed as they are matched to
+characters in the input string, up to Iteration 3.  By the beginning of
+Iteration 3,  CS-PEG  exits the disjunct $(aa)$ and, since it has succeeded up
+to this point, sends a kill signal to $M_2$, which dies before it can report
+its success in Iteration 4. 
+
+In  IS-PEG , by Iteration 3 $M_2$ has its partial success flag set to indicate
+that it has succeeded up until this point; thus indicating that it is possible
+that $M_2$ could succeed in its match where $M_1$ may fail. Though $M_1$ does
+send a kill signal, $M_2$ does not die.  The process beyond Iteration 3 follows
+the same course as the previous example; thus the match succeeds with $M_2$.
+
+
+\subsection{Preventing Unnecessary Streams}
+
+Now consider the rule $A := (aA|)$ with the text ``aaaaa''. In this example,
+matcher streams are spawned for each recursion into the rule $A$. They are
+unnecessary, yet they terminate quickly; thus the problem in such a case is
+benign. However, in the rule $A := (aA|)(aA|)(aA|)$ with text ``aaaaa'', an
+exponential number of streams is spawned with each recursion into the rules
+$A$.  In the example, it would require 2 recursive calls for one matcher stream
+to consume the total input--by which point $1+3+9$ for the rule $A$ and $9$ for
+the empty rule, for a total of 22 (not counting signal streams)--will exist.
+These streams must be dealt with early to ensure the complexity of parsing does
+not balloon. 
+
+\begin{figure}[h]
+\begin{center}
+\begin{BVerbatim}
+  0        1        2 ...
+
+(aA|)
+  |
+  |------(aA|)
+  |        |
+  |        |------(aA|)
+  |        |------(aA|) *
+  |        \------(aA|)
+  |
+  |------(aA|)
+  |        |
+  |        |------(aA|)
+  |        |------(aA|)
+  |        \------(aA|)
+  |
+  \------(aA|)
+           |
+           |------(aA|)
+           |------(aA|)
+           \------(aA|)
+\end{BVerbatim}
+\end{center}
+\caption{The BFS-like expansion of $A := (aA|)(aA|)(aA|)$. The star 
+(*) marks the stream at which the pattern matches.}
+\end{figure}
+
+% The input will be parsed as (a)(a(a)(a))(a)(a).
+
+The reason for the explosion is due to the nature of the stream expansion: it
+is done in a fashion similar to breadth-first search (BFS).  For this example,
+imagine the rule expansion as a ``node''.  A BFS-like expansion will guarantee
+an exponential number of matcher streams due to the three-fold rule expansion;
+yet it will succeed in two iterations.  Now consider a DFS-like expansion.
+
+\begin{figure}[h]
+\begin{center}
+\begin{BVerbatim}
+  0        1        2        3        4
+
+(aA|)
+  |
+  |------(aA|)
+  |        |
+  |        |------(aA|)
+  .        |        |------(aA|)
+  .        .        |        |------(aA|) *
+  .        .        .        .
+\end{BVerbatim}
+\end{center}
+\caption{The DFS-like expansion of $A := (aA|)(aA|)(aA|)$. The star 
+(*) marks the stream at which the pattern matches.}
+\end{figure}
+
+In this expansion, 5 iterations are taken but result in the use of only 5
+matcher streams. 
+
+\todo{SRB: So the question is, what is to be done? I think the semantics of the S-PEG must
+match those of the O-PEG. What do you think?}
+
+% TODO
+
+\pagebreak
+
+Consider $s = ``aabb''$ and $r = (a|ab|aab)b$.
+
+\begin{figure}[h]
+\begin{center}
+\begin{BVerbatim}
+      0       1        2       3       4
+
+A     |------abb--||---x----------------------
+      |
+B   aabb-----abb-------x---||-----------------
+      |
+C     |------abb------abb------bb--||--b------
+\end{BVerbatim}
+\end{center}
+\end{figure}
+
+\texttt{Match-All} should consume at most one character per iteration.  Given
+an OC rule, the end-of-rule or kill marker (\texttt{||}) indicates that this stream
+should kill all other streams if its partial success flag is true.  In the
+above example, stream $A$ hits its kill marker at the end of iteration 1, and
+its partial success flag is true. Thus it should kill $B$ and $C$.  However
+killing $C$ is premature, since on the next iteration $A$ will fail, and $C$
+would succeed if it were not killed.

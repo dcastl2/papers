@@ -1,0 +1,110 @@
+
+\subsection{List Algorithms}
+
+ \begin{framed}
+
+  Where $a$ and $b$ are lists,
+
+ \vspace{12pt}
+
+  define Algorithm \textbf{cat}($a, b$):
+ 
+  \begin{enumerate}
+    \item Let $c$ be an empty list.
+    \item Let $n \leftarrow \texttt{size}(a)$ and $m \leftarrow \texttt{size}(b)$.
+    \item For $i$ in range $[0, n)$: let $c_i   \leftarrow a_i$.
+    \item For $i$ in range $[0, m)$: let $c_{i+n} \leftarrow b_i$.
+    \item Return $c$.
+  \end{enumerate} 
+
+ \end{framed}
+
+ \begin{framed}
+
+  Where $a$ is a list,
+
+ \vspace{12pt}
+
+ define Algorithm \textbf{last}($a$):
+ 
+  \begin{enumerate}
+    \item Let $b$ be an empty list.
+    \item Let $n \leftarrow \texttt{size}(a)$.
+    \item If $n > 1$:
+    \begin{enumerate} 
+      \item For $i$ in range $[1, n)$: let $b_{i-1} \leftarrow a_i$.
+    \end{enumerate} 
+    \item Return $b$.
+  \end{enumerate} 
+
+ \end{framed}
+
+ \begin{framed}
+
+  Where $a$ is a list,
+
+ \vspace{12pt}
+
+ define Algorithm \textbf{init}($a$):
+ 
+  \begin{enumerate}
+    \item Let $b$ be an empty list.
+    \item Let $n \leftarrow \texttt{size}(a)$.
+    \item If $n > 1$:
+    \begin{enumerate} 
+      \item For $i$ in range $[0, n-1)$: let $b_{i} \leftarrow a_{i+1}$.
+    \end{enumerate} 
+    \item Return $b$.
+  \end{enumerate} 
+
+ \end{framed}
+
+
+ \begin{framed}
+
+  Where $a$ is a list,
+
+ \vspace{12pt}
+
+ define Algorithm \textbf{head}($a$):
+ 
+  \begin{enumerate}
+    \item Let $n \leftarrow \texttt{size}(a)$.
+    \item If $n > 0$: return $a_0$.
+    \item Return $null$.
+  \end{enumerate} 
+
+ \end{framed}
+
+ \begin{framed}
+  Where $a$ and $b$ are lists, the following returns $true$
+  iff $a$ begins with $b$, $false$ otherwise:
+
+  \vspace{12pt}
+
+  define Algorithm \textbf{begins\_with}($a, b$):
+ 
+  \begin{enumerate}
+   \item Let $n \leftarrow \texttt{size}(a)$, $m \leftarrow \texttt{size}(b)$.
+   \item If $m > n$: return $false$.
+   \item For $i$ in range $[0, m)$:
+   \begin{enumerate}
+     \item If $b_i \not= a_i$: return $false$.
+   \end{enumerate} 
+   \item Return $true$.
+  \end{enumerate}
+ \end{framed}
+
+
+ \begin{framed}
+  Where $l$ is a list of any type and $x$ represents a position
+  in the list, with indexing starting at 0,
+
+  \vspace{12pt}
+  define Algorithm \textbf{at}($l, x$):
+ 
+  \begin{enumerate}
+   \item Return $l_x$.
+  \end{enumerate}
+ \end{framed}
+

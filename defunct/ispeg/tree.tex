@@ -1,0 +1,38 @@
+\subsection{Tree Algorithms}
+
+ \begin{framed}
+
+  Where $T=\langle n_T, x_0, x_f, T_c \rangle$ is a parse tree, and $n$ is a
+subtree to be attached as a child node of the root of $T$, 
+
+  \vspace{12pt}
+  and where the operator $\looparrowleft$, as in $T \looparrowleft_t e$,
+denotes the original tree $T$, but with the element of type $t$ swapped for
+$e$,
+
+  \vspace{12pt}
+  define Algorithm \textbf{attach}($n, T$):
+ 
+  \begin{enumerate}
+   \item Return $T \looparrowleft_{T_c} \texttt{cat}(T_c, n)$.
+  \end{enumerate}
+ \end{framed}
+
+
+ \begin{framed}
+
+  Where $n_T$ is the name of a pattern inside of a potential tree $T$, $x_0$ is
+the initial position of the string which the pattern $n_T$ covers, and $x_f$ is
+the final position in the string which $n_T$ covers,
+
+  \vspace{12pt} 
+  define the following for creating a new node with an empty child subtree,
+
+  \vspace{12pt}
+  Algorithm \textbf{node}($n_t, x_0, x_f$):
+ 
+  \begin{enumerate}
+   \item Return $\langle n, a, b, \langle \rangle \rangle$
+  \end{enumerate}
+ \end{framed}
+

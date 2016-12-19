@@ -1,0 +1,115 @@
+\section{Data Structures}
+
+\begin{framed} 
+
+Define a \textbf{parse tree} $T$ recursively as a 4-tuple:
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $n_T$ & : & string                        & : & name of pattern,              \\
+    $x_0$ & : & int                           & : & initial position (inclusive), \\
+    $x_f$ & : & int                           & : & final position (inclusive),   \\
+    $T_c$ & : & list(tree) $\mid$ $\emptyset$ & : & child trees                   \\
+   \end{tabular}
+  \end{center}
+
+Thus $\langle A, 0, 1, \langle \rangle \rangle$ refers to a parse tree
+containing a node with non-terminal symbol $A$ whose child is empty. The
+pattern $A$ matches the string from positions 0 to 1, inclusive (i.e. the first
+two characters of the input string).
+
+ \end{framed}
+
+\begin{framed} 
+
+Where $N$ is the number of patterns in a grammar, $M$ is the length of a string
+to be parsed, $i$ is the $ith$ pattern in the grammar, and $j$ is the position
+in the string, 
+
+\vspace{12pt} 
+
+define a \textbf{Packrat table} $P$ as an $N \times M$  matrix containing
+2-tuple \textbf{packrat entry} $p_{ij} = \langle b_{ij}, T_{ij} \rangle$, that
+is: 
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $b$ & : & bool       & : & success indicator              \\
+    $T$ & : & parse tree & : & parse tree covering the string \\
+   \end{tabular}
+  \end{center}
+
+Hence $p_{ij}$ refers to that 2-tuple for pattern $i$ and string position $j$.
+
+ \end{framed}
+
+\begin{framed}
+
+ Where
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $x_s$ & : & int          & : & position in string     \\
+    $i_s$ & : & string       & : & id of this stream      \\
+    $s_s$ & : & string       & : & string to be parsed    \\
+    $n_s$ & : & string       & : & pattern name           \\
+    $b_s$ & : & boolean      & : & success flag           \\
+    $k_s$ & : & boolean      & : & kill flag;             \\
+    $l_s$ & : & boolean      & : & lookahead flag;        \\
+    $R_s$ & : & list(rule)   & : & sequence of rules      \\
+    $Z_s$ & : & list(string) & : & stack for the stream   \\
+    $T_s$ & : & parse tree   & : & parse tree for this stream \\
+   \end{tabular}
+  \end{center}
+
+ also, where operator $\looparrowleft_t$, as in $S \looparrowleft_t e$, denotes
+$S$ but with element $t_S \in S$ of type $t$ (one of $x, i s, n, b, k, l, R, Z,
+T$) replaced with $e$,
+
+ \vspace{12pt}
+ define a \textbf{Stream} $S$ as a 10-tuple $\langle 
+x_s, i_s, s_s, n_s, b_s, k_s, l_s, R_s, Z_s, T_s
+\rangle$.
+
+\end{framed}
+
+\begin{framed}
+
+ Where a parsing \textbf{rule} is one of the recursively defined operators:
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $Or $  & : & rule, binary (rule, rule) & : & ordered choice      \\
+    $Pat$  & : & rule, unary  (rule)       & : & pattern name        \\
+    $PLook$& : & rule, unary  (rule)       & : & positive lookahead  \\
+    $Lit$  & : & rule, unary  (char)       & : & character literal   \\
+    $Kill$ & : & rule, unary  (int)        & : & kill indicator      \\
+    $Nil$  & : & rule, nullary             & : & empty string        \\
+$\langle \rangle$  
+           & : & rule, unary               & : & $n$-tuple of rules in sequence \\
+   \end{tabular}
+  \end{center}
+
+  define a rule list $R$ as an $n$-tuple $\langle r_1, r_2, \ldots r_n \rangle$
+of rules which are applied in sequence.  We use tuple notation to capture the
+sequence rule ($Seq$); thus a rule may contain an $n$-tuple of rules in
+sequence.
+
+\end{framed}
+
+\begin{framed}
+
+ Where a \textbf{named pattern} $g$ consists of a 2-tuple $\langle n_p, r_p
+ \rangle$, in which 
+
+  \begin{center}
+   \begin{tabular}{lclcl}
+    $n_p$ & : & string     & : & name of this pattern      \\ 
+    $R_p$ & : & rule       & : & rule list of this pattern \\
+   \end{tabular}
+  \end{center}
+
+  define a \textbf{grammar} $G$ as an $n$-tuple $\langle g_1, g_2, \ldots g_n
+  \rangle$ of such named pattern rules.
+
+\end{framed}

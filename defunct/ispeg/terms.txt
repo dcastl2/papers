@@ -1,0 +1,35 @@
+desugar
+	make expression well-formed
+
+backtracking
+	goes back to another OC if FAIL
+
+top-down or recursive descent parsing
+	given rules, descends rules to match against input
+
+lexical analyzer or lexer
+	tokenizes input
+
+lookahead
+	look ahead at OC's to ascertain partial success
+
+prefix hiding
+	e.g.  "a|ab"  fails without backtracking
+
+iterative and nested recursion
+	i.e.  direct and indirect recursion
+
+parsing machine
+	converts parsing expression to code
+
+well-formed
+	for expressions; used to avoid left recursion issues
+
+syntactic predicate
+	used to ascertain syntactic validity of applying a production
+
+kleene star
+	* operation
+
+kleene plus
+	+ operation
