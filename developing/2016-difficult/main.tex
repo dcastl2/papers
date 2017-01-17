@@ -15,7 +15,8 @@
 \setlength{\parskip}{8pt}
 
 \title{
- The Relationship between Bloom's Cognitive Levels and Question Difficulty
+ The Relationship between Bloom's Cognitive Levels and Question Difficulty:
+   An Investigation of Question Dependencies
 }
 \author{Dennis Castleberry and Steven Brandt}
 \date{\today}
@@ -370,6 +371,8 @@ the Comprehension question of the same concept).
 
 \textbf{Analysis of Experiment 2 Data}. \ldots
 
+Interrater reliability on Bloom levels was once again calculated to be 93\%. 
+
 To test the hypothesis that modified IRT leads to an increase in accuracy,
 a t-test on the increase in accuracy of probability was conducted at the
 .05 significance level.
@@ -404,28 +407,43 @@ For that matter, it may depend on more questions, each of which having its own
 degree of relatedness to the depender.
 
 We thus posit a more general form of modified IRT which takes into account
-multiple dependencies:
+multiple dependencies using principal axis factor (PAF) analysis.  PAF is a
+form of factor analysis which returns the proportion of variance explained by
+each factor.  PAF is performed on the dependent question using dependees as
+factors to obtain these proportions of variance explained.
 
 \begin{align*}
-  p_i(\theta) &=& (1- (\displaystyle\sum_j r_j)^2) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
-              &+& \displaystyle\sum_j (r_j^2)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
+  p_i(\theta) &=& (1- (\displaystyle\sum_j v_j)) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
+              &+& \displaystyle\sum_j (v_j)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
 \end{align*}
+
+In this formula, $v_j$ refers to the proportion of variance explained by the
+dependee $j$ in a principal axis factor (PAF) analysis.  Therefore the sum of
+these is the total explained variance; one minus the sum is the total
+unexplained variance.  Intuitively the probability is proportional to the
+amount of variance explained by a dependee.  On the one hand, if one dependee
+explains 90\% of the total variance, and the student answers this dependee
+correctly, the probability should depend heavily on whether or not the dependee
+was correct.  On the other hand, if the total unexplained variance is 1, this
+would imply the dependees are not dependees at all.  In this case, the
+probability defaults to the item response theory calculation, which uses the
+best available information (trait ability and question parameters).
 
 In our experiment to test the utility of this formula, we first required a
 small problem set with one depender and multiple dependees.  The experiment
 was intended to test whether or not the asking of highly-dependent questions
 increased mean scores.
 
-For this we first required correlation coefficients between depender and
-dependees.  We created 4 questions, where the 4th question had three
-dependees.  We then asked some of our students (N=22) to answer all of these
-questions to obtain correlations, which are listed below.  
+For this we first required PAF proportions of variance between depender and
+dependees.  We created 4 questions, where the 4th question had three dependees.
+We then asked some of our students (N=22) to answer all of these questions to
+obtain proportions of variance, which are listed below.  
 
 \begin{center}
 \begin{tabular}{|l|l|l|l|l|}
                                 \hline
     &   q1 &  q2  & q3 & q4  \\ \hline
- r  & -.01 & .25 & .55 & 1   \\ \hline
+ r  &  .01 & .23 & .30 &     \\ \hline
  M  &  .67 & .67 & .44 & .33 \\ \hline
 \end{tabular}
 \end{center}
@@ -447,8 +465,8 @@ dependent response and dependee exposure.
 Let $E_{sj}$ be 1 if student $s$ was exposed to $j$, 0 otherwise.  Then, our
 hypothesis was that exposure of dependee questions should result in an increase
 in the probability that the student answers the depender correctly, in
-proportion to the degree of co-relation of the dependee to the depender.  Below
-is a table giving the number of times the depender was answered correctly given
+proportion to the degree of variance explained by the dependee.  Below is a
+table giving the number of times the depender was answered correctly given
 exposure to a set of dependees:
 
 \begin{center}
@@ -484,20 +502,22 @@ q3           & 11  & .69  \\ \hline
 Due to the low $N$ in Experiment 3, the results do not present conclusive
 evidence that the intervention of the dependee questions was responsible.
 However, there is enough preliminary evidence to motivate further
-investigation.
+investigation.  
+
 
 \section{Conclusion}
 
 The experiments otherwise support the hypothesis that Bloom levels do not
-strictly equal difficulty levels.  There is evident to support the
+strictly equal difficulty levels.  There is evidence to support the
 interpretation of Bloom levels and indicators of dependency relationships
 between questions.  A modified form of IRT was devised, and was shown to be
 effective in accounting for question dependencies.   An effort was made to
 investigate the utility of this modified theory by asking intervention
 questions in the form of dependees prior to a depender question.  While the
-results are inconclusive due to low $N$, the preliminary evidence  suggests
-that these interventions may have a positive effect.  Future work will
-further investigate the effect of these dependency interventions.
+results of this latter investigation are inconclusive due to low $N$, the
+preliminary evidence suggests that these interventions may have a positive
+effect.  Future work will further investigate the effect of these dependency
+interventions.
 
 \bibliographystyle{plain}
 \bibliography{main}
