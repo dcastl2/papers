@@ -36,7 +36,7 @@
   made, it explores the possiblity of modelling the probability of student
   success on a given question based on its parameters and those past answered
   questions.  Third, it investigates the potential to increase that probability
-  by asking "intervention questions". 
+  by asking ``intervention questions''. 
 
 }
 
@@ -132,13 +132,15 @@ where:
 
 This theory exists in contrast to classical test theory (CTT), which evaluates
 students by their placement on a distribution.  Trait ability in IRT can be
-obtained using the Newton-Rhapson method, which finds a maximum-likelihood
-estimate of $\theta$.  The utility of IRT is that it requires fewer questions
-to gauge trait ability due to its account of other factors ($\alpha, \beta,
-\gamma$). It is thus reputed to be a more mature means of assessment than CTT.
+obtained using the Newton-Raphson method, which finds a maximum-likelihood
+estimate of $\theta$ \cite{baker2004}.  The utility of IRT is that it requires
+fewer questions to gauge trait ability due to its account of other factors
+($\alpha, \beta, \gamma$). It is thus reputed to be a more mature means of
+assessment than CTT.
 
-Until now, IRT and Bloom's taxonomy have existed in relative isolation in the
-literature.  This work seeks to make a connection between the two.
+Until now, the fusion of IRT and Bloom's taxonomy has only existed in the
+literature as a possibility \cite{sitthisak}.  This work seeks to make a
+connection between the two.
 
 
 \subsection{Previous Work}
@@ -238,7 +240,7 @@ Consider then asking the student to impose a flowchart over the same code,
 including the initialization, condition and update statements and the body of
 the loop, and to indicate the start and stop of the loop.  Suppose the student
 has seen flowcharts over similar loops before.  This is a test of
-comprehensioe--in particular, comprehension of the internal workings (the
+comprehensive--in particular, comprehension of the internal workings (the
 control flow) of the loop.    
 
 The application problem above requires only an intuitive comprehension of the
@@ -259,11 +261,11 @@ the presented code.  In the synthesis problem, the student has the advantage
 of using known syntax. 
 
 \item By Bloom's own admission, it is possible to skip levels for certain
-concepts.  In this case, the ordinality of Bloom levels breaks down.  A
-plausible example is given above.  It is possible to teach how to obtain the
-numeric sequences printed by for-loops before covering in full detail the
-control flow of the loop.  In that particular case, application of the rule
-does not depend on comprehension of the code construct.
+concepts \cite{bloom1956}.  In this case, the ordinality of Bloom levels breaks
+down.  A plausible example is given above.  It is possible to teach how to
+obtain the numeric sequences printed by for-loops before covering in full
+detail the control flow of the loop.  In that particular case, application of
+the rule does not depend on comprehension of the code construct.
 
 \end{itemize}
 
@@ -344,7 +346,7 @@ In the event of a negative correlation, the response should be opposite.
               &+& (r^2)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
 \end{align*}
 
-The above formula satisfies our needs.  For large $r=1$, $p_i$ defaults to the
+The above formula satisfies our needs.  For $r=1$, $p_i$ defaults to the
 correctness of the dependee's answer (0 or 1, depending on whether or not the
 dependee was answered correctly);  and for $r=-1$, $p_i$ assumes the flip of
 the dependee's answer.  For $r=0$, $p_i$ assumes the form of original IRT.  
@@ -407,10 +409,11 @@ For that matter, it may depend on more questions, each of which having its own
 degree of relatedness to the depender.
 
 We thus posit a more general form of modified IRT which takes into account
-multiple dependencies using principal axis factor (PAF) analysis.  PAF is a
-form of factor analysis which returns the proportion of variance explained by
-each factor.  PAF is performed on the dependent question using dependees as
-factors to obtain these proportions of variance explained.
+multiple dependencies using principal axis factor (PAF) analysis
+\cite{kim1978}.  PAF is a form of factor analysis which returns the proportion
+of variance explained by each factor.  PAF is performed on the dependent
+question using dependees as factors to obtain these proportions of variance
+explained.
 
 \begin{align*}
   p_i(\theta) &=& (1- (\displaystyle\sum_j v_j)) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
