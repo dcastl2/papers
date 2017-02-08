@@ -14,6 +14,9 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{8pt}
 
+
+
+
 \title{
  The Relationship between Bloom's Cognitive Levels and Question Difficulty:
    An Investigation of Question Dependencies
@@ -102,10 +105,18 @@ form hypotheses about student responses to questions.
 
 \subsection{Item Response Theory}
 
-Here we introduce a psychometric scoring theory which will be used throughout
-this paper: Item Response Theory.  According to Item Response Theory (IRT), the
-probability $p_i$ that a student answers correctly the $i^{th}$ question on a
-test, is given by:
+We now introduce a mature assessment theory known as Item Response Theory, an
+alternative to Classical Test Theory (CCT).  Whereas Classical Test Theory
+assigns a student a grade based on the student's position in a distribution of
+composite test scores, Item Response Theory accounts for item difficulty,
+item discrimination, the probability of guessing the question correctly.
+
+One of the main appeals of IRT is its incorporation of item difficulty.
+As we will see later, this is pertinent to our interpretation of Bloom
+levels.  
+
+According to Item Response Theory (IRT), the probability $p_i$ that a student
+answers correctly the $i^{th}$ question on a test, is given by:
 
 \[
   p_i(\theta) = \gamma + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
@@ -130,41 +141,43 @@ where:
 
 \end{itemize} 
 
-This theory exists in contrast to classical test theory (CTT), which evaluates
-students by their placement on a distribution.  Trait ability in IRT can be
-obtained using the Newton-Raphson method, which finds a maximum-likelihood
-estimate of $\theta$ \cite{baker2004}.  The utility of IRT is that it requires
-fewer questions to gauge trait ability due to its account of other factors
-($\alpha, \beta, \gamma$). It is thus reputed to be a more mature means of
-assessment than CTT.
+Trait ability in IRT can be obtained using the Newton-Raphson method, which
+finds a maximum-likelihood estimate of $\theta$ \cite{baker2004}.  The utility
+of IRT is that it requires fewer questions to gauge trait ability due to its
+account of other factors ($\alpha, \beta, \gamma$). It is thus reputed to be a
+more mature means of assessment than CTT.
 
 Until now, the fusion of IRT and Bloom's taxonomy has only existed in the
-literature as a possibility \cite{sitthisak}.  This work seeks to make a
-connection between the two.
-
+literature as a possibility \cite{sitthisak}.  This work seeks to reconcile
+the two by offering a compatible interpretation of Bloom's taxonomy.
 
 \subsection{Previous Work}
 
 Bloom's taxonomy has been proven to be useful at the undergraduate level, and
 particularly in the field of software engineering \cite{britto2015}
-\cite{mahmood2014}.
+\cite{mahmood2014}.  It has seen success in program comprehension
+\cite{buckley2003}, where the asking of comprehension questions fosters code
+reading \cite{losada2008}. In addition, it has been useful for pinpointing the
+difficulties of novice programmers in a guided learning approach
+\cite{shuhidan2011}.  It been used to identify a marked preference for
+higher-level problems for those able to solve them \cite{bruyn2011}
+\cite{goel2004}.  At least two experiments have shown the effect of item
+ordering on performance \cite{newman1988effect} \cite{castleberry2016effect},
+and the taxonomy has even been applied to create ratings of courses based on
+the average Bloom levels of tasks and questions in the course
+\cite{oliver2004course}.
 
-EEG studies on students who solved computer science problems whose Bloom levels
-were identified have shown that the levels may be distinctly clustered by EEG
-signals \cite{chatterjee2015}, implying differences in brain functions used by
-Bloom level.  When students are told the Bloom levels of the problems they
-answer, they show a marked preference for higher-level problems
-\cite{bruyn2011} \cite{goel2004}.
-
-While it can be used to pinpoint more intellectually satisfying problems, i.e.
-those at the higher Bloom levels, it has also seen success in program
-comprehension \cite{buckley2003}, where the asking of comprehension questions
-fosters code reading \cite{losada2008}. In addition, it has been useful for
-pinpointing the difficulties of novice programmers in a guided learning
-approach \cite{shuhidan2011}.
+In spite of all this, there is an ongoing debate regarding the applicability of
+Bloom's taxonomy to computer science \cite{johnson2006bloom}
+\cite{fuller2007developing}  \cite{thompson2008bloom}.  The crux of this debate
+centers around the interpretation of Bloom levels: not only how questions map
+to Bloom levels, but also regarding the progression of Bloom levels over the
+span of a course or curriculum.  A tacit assumption in much of the research is
+that Bloom levels equate to difficulty levels.  The current research seeks to
+open a dialogue about this interpretation in particular.
 
 We have designed an intelligent tutoring system to explore the effect of
-question ordering as it pertains to Bloom's taxonomy.  The system is based on
+question difficulty as it pertains to Bloom's taxonomy.  The system is based on
 previous research on executable paper systems (for generating publication
 manuscripts) which use R as an underlying framework \cite{castleberry2011}.
 Our intelligent tutoring system is available for browsing
@@ -176,9 +189,10 @@ answer and multiple choice formats.
 \subsection{Preliminary Discussion}
 
 A popular interpretation of Bloom's cognitive levels is that they are
-difficulty levels, and that these difficulty levels are fixed.  Knowledge is
-easy; synthesis is hard.  We will call this the Bloom-equals-difficulty
-hypothesis.
+difficulty levels, and that these difficulty levels are fixed
+\cite{newman1988effect} \cite{oliver2004course} \cite{lord2007moving}
+\cite{johnson2006bloom} \cite{fuller2007developing}.  Knowledge is easy;
+synthesis is hard.  We will call this the Bloom-equals-difficulty hypothesis.
 
 A creative interpretation of this hypothesis is that per-student difficulty can
 be explained in terms of the demotion of Bloom levels.  The synthesis \emph{and
@@ -204,15 +218,16 @@ there are still several issues with the hypothesis:
 \begin{itemize} 
 
 \item Consider first that exposure to knowledge and knowledge questions causes
-an increase in $\theta$.  According to Bloom's theory, this would increase the
-probability of answering comprehension questions correctly.  This agrees with
-the theory.  However, according to IRT, it would also increase the probability
-of answering application questions correctly even if no comprehension-level
-questions are asked.  In fact, it is theoretically possible to design tests
-with sufficient numbers of knowledge questions to place $\theta-2$ much greater
-than zero--that is to say, asking a sufficient number of knowledge questions
-should give the reasonable assurance that application-level ability is high
-enough not to bother testing it.
+an increase in $\theta$, provided the student acquires the knowledge.
+According to Bloom's theory, this would increase the probability of answering
+comprehension questions correctly.  This agrees with the theory.  However,
+according to IRT, it would also increase the probability of answering
+application questions correctly even if no comprehension-level questions are
+asked.  In fact, it is theoretically possible to design tests with sufficient
+numbers of knowledge questions to place $\theta-2$ much greater than zero--that
+is to say, asking a sufficient number of knowledge questions should give the
+reasonable assurance that application-level ability is high enough not to
+bother testing it.
 
 As many educators will no doubt agree, this is not the case. Even if a student
 scores exceptionally well on knowledge questions, it gives no such assurance
@@ -240,7 +255,7 @@ Consider then asking the student to impose a flowchart over the same code,
 including the initialization, condition and update statements and the body of
 the loop, and to indicate the start and stop of the loop.  Suppose the student
 has seen flowcharts over similar loops before.  This is a test of
-comprehensive--in particular, comprehension of the internal workings (the
+comprehension--in particular, comprehension of the internal workings (the
 control flow) of the loop.    
 
 The application problem above requires only an intuitive comprehension of the
@@ -251,7 +266,7 @@ degree of precision in comprehension of the loop is demanded to solve the
 problem.  The comprehension problem also depends on mastery of the knowledge,
 comprehension, and application of flowchart symbols.  Regardless, explaining
 the control flow of the loop in full detail is a more difficult undertaking
-than simply printing out its output. 
+than simply printing its output. 
 
 Likewise, it is possible to ask the student to synthesize a loop printing the
 first ten powers of two, then ask a comparatively difficult analysis question
@@ -269,11 +284,21 @@ the rule does not depend on comprehension of the code construct.
 
 \end{itemize}
 
+Alternative interpretations of Bloom levels distinguish between facility or
+difficulty and complexity of a problem \cite{hill1981testing}
+\cite{thompson2008bloom}.  In such interpreations, the cognitive complexity has
+an orthogonal relationship to the item difficulty.  The problem with such
+interpretations, however, is that they do not readily explain the moderate
+correlation that does exist between mean performance and Bloom level
+\cite{hill1981testing}.
+
 With this in mind, we would like to introduce an alternative to the hypothesis
 that Bloom levels equate to difficulty.  We posit that Bloom levels indicate
 \emph{dependency relationships}.  As the theory goes, knowledge is a
 \emph{requirement} for comprehension; but this is not to say that the
-acquisition of the knowledge is somehow easier.  
+acquisition of the knowledge is somehow easier.  Our vision of dependency
+relationships places the items in a directed graph, such that an edge pointing
+out from a problem A to B represents a dependency which A has on B.
 
 To evaluate our hypothesis, we introduce the notion of an intelligent tutoring
 system.  An intelligent tutoring system is a computer-based system which
@@ -286,18 +311,21 @@ collect responses to test the hypothesis statistically.
 
 \subsection{Research Questions}
 
+Here we clarify our specific research questions:
+
 \textbf{Question 1}. Is there a difference between Bloom level and difficulty?
 (That is, can an appreciable amount of variance in student responses be
 attributed to Bloom level?)
 
 \textbf{Question 2}. Given that there exists a difference between Bloom level
 and difficulty, is it possible to modify IRT to more accurately predict
-$p(x_i)$ given Bloom level information?
+$p(x_i)$ given Bloom level information?  That is, is it possible to reconcile
+Bloom's taxonomy and IRT using our newfound interpretation of Bloom levels?
 
 \textbf{Question 3}. Given a predictive model and parameters for a question
 $x_i$, is it possible to manipulate a target probability $p(x_i)$ by asking
-related questions?
-
+related questions?  In particular, can we use our model to ease a student's
+transition to higher Bloom levels?
 
 \section{Methodology and Analysis}
 
@@ -323,7 +351,9 @@ while still maintaining the appropriate Bloom category.
 
 \textbf{Analysis of Experiment 1 Data}.  
 
-Interrater reliability was calculated to be 93\%. 
+Interrater reliability on Bloom levels was calculated to be 93\%. 
+
+% data
 
 In light of this data, a modifiction of IRT was sought in order to account for
 the dependency relationships that existed among the questions.  Intuitively,
@@ -390,8 +420,10 @@ than $p_i^{irt}$, the result
   \Delta p_{si} = (2x_{si}-1) (p_i^{mod} - p_i^{irt})
 \]
 
-was calculated. This represents the increase in accuracy of the probability;
-for example, it is positive if $p_i^{mod} > p_i^{irt}$ and $x_{si} = 1$.
+was calculated. Here $p_{si}$ represents the probability that student $s$ will
+answer item $i$ correctly.  Then $\Delta p_{si}$ represents the increase in
+accuracy of the probability; for example, it is positive if $p_i^{mod} >
+p_i^{irt}$ and $x_{si} = 1$.
 
 Finally, to test the effectiveness of $p_i^{mod}$, a one-tailed Student's
 t-test was calculated on $\Delta p_{si}$ for the dependee questions (N=648).
@@ -420,15 +452,15 @@ explained.
               &+& \displaystyle\sum_j (v_j)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
 \end{align*}
 
-In this formula, $v_j$ refers to the proportion of variance explained by the
-dependee $j$ in a principal axis factor (PAF) analysis.  Therefore the sum of
-these is the total explained variance; one minus the sum is the total
-unexplained variance.  Intuitively the probability is proportional to the
-amount of variance explained by a dependee.  On the one hand, if one dependee
-explains 90\% of the total variance, and the student answers this dependee
-correctly, the probability should depend heavily on whether or not the dependee
-was correct.  On the other hand, if the total unexplained variance is 1, this
-would imply the dependees are not dependees at all.  In this case, the
+In this generalized formula, $v_j$ refers to the proportion of variance
+explained by the dependee $j$ in a principal axis factor (PAF) analysis.
+Therefore the sum of these is the total explained variance; one minus the sum
+is the total unexplained variance.  Intuitively the probability is proportional
+to the amount of variance explained by a dependee.  On the one hand, if one
+dependee explains 90\% of the total variance, and the student answers this
+dependee correctly, the probability should depend heavily on whether or not the
+dependee was correct.  On the other hand, if the total unexplained variance is
+1, this would imply the dependees are not dependees at all.  In this case, the
 probability defaults to the item response theory calculation, which uses the
 best available information (trait ability and question parameters).
 
