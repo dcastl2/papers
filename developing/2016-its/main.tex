@@ -39,7 +39,7 @@
 
 \section{Introduction}
 
-\subsection{Overview}
+\subsection{Motivation}
 
 A \emph{content item} is some unit of information, such as a statement, graph,
 table, example, and so forth.  An educationl television program, interactive
@@ -61,6 +61,50 @@ Furthermore $\chi$ could be a question, which could be thought of as an item
 which accepts a response back that has a correct answer.  Items and questions
 share many similar properties which help to distinguish them, such as the
 ones in Fig~\ref{properties}.
+
+The main question this paper seeks to answer is this: \emph{based on input from
+the student on any subset of questions in an item schedule, how should the
+remaining questions be scheduled}?
+
+\subsection{Previous Work}
+
+Bloom's taxonomy has been useful for pinpointing the difficulties of novice
+programmers in a guided learning approach \cite{shuhidan2011}, while
+identifying a preference for higher-level problems among more able students
+\cite{bruyn2011} \cite{goel2004}.  It has aided in enabling in program
+comprehension \cite{buckley2003}, where the asking of comprehension questions
+fosters code reading \cite{losada2008}.  At least two experiments have shown
+the effect of item ordering on performance \cite{newman1988effect}
+\cite{castleberry2016effect}.
+
+More generally, it has proven to be useful purely as a taxonomic system in
+software engineering \cite{britto2015} \cite{mahmood2014}.  The taxonomy has
+even been applied to create ratings of courses based on the average Bloom
+levels of tasks and questions in the course \cite{oliver2004course}.
+
+Nevertheless, there is an ongoing debate regarding the applicability of Bloom's
+taxonomy to computer science \cite{johnson2006bloom}
+\cite{fuller2007developing} \cite{thompson2008bloom}.  The crux of this debate
+centers around the interpretation of Bloom levels: how questions map to Bloom
+levels, and how Bloom levels should progress over the span of a course or
+curriculum.  A tacit assumption in much of the research is that Bloom levels
+equate to difficulty levels.  Prior research by the author supports the
+interpretation of Bloom levels as dependency relations [], while maintaining
+difficulty as a separate entity.  %\cite{castleberry}
+
+The current research seeks to expand upon this research by exploring a model of
+items and assessments which uses a graph structure to identify the nature of
+their dependency relationships; then utilize this model to schedule items in
+such a fashion as to optimize an individual student's learning experience.
+
+We have designed an intelligent tutoring system to do exactly this.  The system
+is based on previous research on executable paper systems (for generating
+publication manuscripts) which use R as an underlying framework
+\cite{castleberry2011}.  Our intelligent tutoring system is available for
+browsing on-line\footnote{https://steam.cct.lsu.edu/}. It currently supports
+short answer and multiple choice formats.
+
+\subsection{Overview}
 
  \begin{wrapfigure}{L}{.5\textwidth}
 
@@ -120,9 +164,6 @@ Evaluative criteria for a schedule:
 
  \end{itemize} 
 
-\subsection{Previous Work}
-
-  % IRT here.
 
 \section{Hypothesis}
 

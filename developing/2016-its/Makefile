@@ -7,9 +7,9 @@ pdf: figures $(PDF) tidy
 
 %.pdf: %.tex %.bib fig/*
 	pdflatex $*
-	#bibtex   $*
-	#pdflatex $*
-	#pdflatex $*
+	bibtex   $*
+	pdflatex $*
+	pdflatex $*
 
 figures:
 	$(MAKE) -C fig
