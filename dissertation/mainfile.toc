@@ -1,0 +1,52 @@
+\contentsline {chapter}{\hspace {-1.5em} {ACKNOWLEDGMENTS} \vspace {12pt}}{ii}
+\contentsline {chapter}{\hspace {-1.5em} LIST OF TABLES \vspace {12pt}}{v}
+\contentsline {chapter}{\hspace {-1.5em} LIST OF FIGURES \vspace {12pt}}{vi}
+\contentsline {chapter}{\hspace {-1.5em} ABSTRACT}{vii}
+\vspace {12pt} \hspace {-1.8em} CHAPTER \vspace {-1em}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {1}Background Information}}{1}
+\contentsline {section}{\numberline {1.1}Bloom's Taxonomy}{1}
+\contentsline {subsection}{\numberline {1.1.1}The Interpretation in Computer Science}{1}
+\contentsline {subsection}{\numberline {1.1.2}Assumptions of this Work}{1}
+\contentsline {section}{\numberline {1.2}Item Response Theory}{1}
+\contentsline {subsection}{\numberline {1.2.1}Evaluation of Trait Ability}{1}
+\contentsline {section}{\numberline {1.3}Factor Analysis}{1}
+\contentsline {subsection}{\numberline {1.3.1}Confirmatory vs. Exploratory}{1}
+\contentsline {subsection}{\numberline {1.3.2}Principal Axis Factoring}{1}
+\contentsline {section}{\numberline {1.4}Previous Research}{1}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {2}Assessments as Data Structures}}{2}
+\contentsline {section}{\numberline {2.1}Representing Items}{2}
+\contentsline {subsection}{\numberline {2.1.1}Taxonomic Information}{2}
+\contentsline {subsection}{\numberline {2.1.2}Dependency Information}{2}
+\contentsline {section}{\numberline {2.2}Representing Assessments}{2}
+\contentsline {subsection}{\numberline {2.2.1}Graph Structure}{2}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {3}Modeling of Trait Ability}}{3}
+\contentsline {section}{\numberline {3.1}Reconciling Bloom's Taxonomy with IRT}{3}
+\contentsline {subsection}{\numberline {3.1.1}Difficulty vs. Bloom Level}{3}
+\contentsline {section}{\numberline {3.2}Dependencies, Time, and Trait Ability}{3}
+\contentsline {subsection}{\numberline {3.2.1}The Influence of Dependees on Dependent Scores}{3}
+\contentsline {subsection}{\numberline {3.2.2}Memory, Time, and Forgetting}{3}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {4}Item Dependency Resolution and Scheduling}}{4}
+\contentsline {section}{\numberline {4.1}Trait Ability Updates}{4}
+\contentsline {subsection}{\numberline {4.1.1}Updates of Trait Ability from Dependees}{4}
+\contentsline {subsection}{\numberline {4.1.2}Modeling Memory: Updates due to Forgetting}{4}
+\contentsline {section}{\numberline {4.2}Dependency Resolution and Item Scheduling}{4}
+\contentsline {subsection}{\numberline {4.2.1}Finding High-Impact Items}{4}
+\contentsline {subsection}{\numberline {4.2.2}Finding the Next Item: One-At-A-Time Scheduling}{4}
+\contentsline {subsection}{\numberline {4.2.3}Predicting the Final Order: All-At-Once Scheduling}{4}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {5}Experimental Results}}{5}
+\contentsline {section}{\numberline {5.1}Experiment Supporting the Utility of the Taxonomy}{5}
+\contentsline {section}{\numberline {5.2}Experiment Supportng the Utility of the Scheduler}{5}
+\vspace {12pt}
+\contentsline {chapter}{\hspace {-1.6em} REFERENCES}{6}
+\vspace {12pt} \hspace {-1.8em} APPENDIX \vspace {-1em}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {A}Appendix A: Algorithms}}{7}
+\vskip 12\p@ \relax 
+\contentsline {chapter}{\uppercase {\numberline {B}Appendix B: Mathematics}}{8}
+\vspace {12pt}
+\contentsline {chapter}{\hspace {-1.5em} VITA}{9}
