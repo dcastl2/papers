@@ -1,0 +1,587 @@
+\documentclass[]{interact}
+
+\usepackage{epstopdf}
+\usepackage{subfigure}
+
+%\usepackage[nolists,tablesfirst]{endfloat}% To `separate' figures and tables from text if required
+
+%\usepackage[longnamesfirst,sort]{natbib}
+%\bibpunct[, ]{(}{)}{;}{a}{,}{,}
+%\renewcommand\bibfont{\fontsize{10}{12}\selectfont}
+
+\usepackage[natbibapa]{apacite}
+%\usepackage{apacite}
+\setlength\bibhang{12pt}
+\renewcommand\bibliographytypesize{\fontsize{10}{12}\selectfont}
+
+\setlength\parindent{0pt}
+\setlength\parskip{8pt}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+
+\begin{document}
+
+%\articletype{ARTICLE TEMPLATE}
+
+\title{
+ The Relationship between Bloom's Cognitive Levels and Question Difficulty:
+   An Investigation of Question Dependencies
+}
+
+\author{
+\name{D. G. Castleberry and S. R. Brandt}
+\affil{Center for Computation and Technology, Louisiana State University, Baton Rouge}
+}
+
+\maketitle
+
+\begin{abstract}
+  This paper explores the relationship between Bloom's cognitive levels and
+  difficulty in an intelligent tutoring system.  First, it addresses the
+  question of whether or not a distinction can be made between Bloom taxonomic
+  levels and question difficulty.  Second, given that a distinction can be
+  made, it explores the possiblity of modelling the probability of student
+  success on a given question based on its parameters and those past answered
+  questions.  Third, it investigates the potential to increase that probability
+  by asking ``intervention questions''. 
+\end{abstract}
+
+\begin{keywords}
+Bloom's Taxonomy, Item Response Theory, difficulty
+\end{keywords}
+
+\section{Introduction}
+
+\subsection{Bloom's Taxonomy}
+
+Bloom's cognitive taxonomy organizes questions into levels depending on the
+cognitive functions required of the answerer.  The levels are: knowledge,
+comprehension, application, analysis, evaluation, and synthesis.  A brief
+overview is given below, with definitions and examples of questions covering
+the concept of for-loops:
+
+\begin{itemize}
+
+\item \textbf{Knowledge}. Recalling factual information.  \emph{What is a
+for-loop?}
+
+\item \textbf{Comprehension}. Assigning meaning to information.  \emph{What
+does the example for-loop output? (Give example.)}
+
+\item \textbf{Application}. Applying a rule to a specific instance.  \emph{How
+can the update statement of the loop be changed to print only even numbers?}
+
+\item \textbf{Analysis}. Breaking information into parts and exploring
+relationships.  \emph{What would happen if the update statement decremented
+instead of incremented the counter?}
+
+\item \textbf{Evaluation}. Judging the use of knowledge or the validity of an
+argument.  \emph{Which is better for reading user input: a for-loop or a
+while-loop? Why?}
+
+\item \textbf{Synthesis}. Utilizing knowledge to create a new solution to
+satisfy a goal.  \emph{Write a for-loop to print only even numbers up to ten.}
+
+\end{itemize}
+
+Each category depends on the cognitive functions used in the previous category.
+That is, comprehension requires knowledge, application requires comprehension,
+and so forth.  Furthermore the mastery of one of the levels is with respect to
+a given concept.  A student may be able to synthesize solutions to problems
+dealing with expressions, but may not possess knowledge of equations, and thus
+could not solve problems involving equations.
+
+The utility of Bloom's taxonomy lies in its ability to pinpoint the underlying
+cause of the student's problem-solving impasses \citep{shuhidan2011}.  Suppose a
+test of mastery of loops is given with the comprehension question ``What does
+such-and-such loop output?'' is given, and the student reaches an impasse.  If
+the question ``What are the three expressions of the loop and what do they
+do?'' is asked and the student does not know, the impasse can be attributed to
+a lack of knowledge about loops.  If the student does know about the loop
+expressions but still cannot answer, one might instead attribute it to a
+comprehension difficulty \emph{as such}; which might be remedied by giving some
+examples to build intuition, then continuing to test at the comprehension
+level.
+
+Educators may have an intuitive notion of how to do this, but Bloom's taxonomy
+gives the ability to examine the impact of questions scientifically.  By
+identifying the tested concept and the Bloom level of exercises, one can then
+form hypotheses about student responses to questions.  
+
+
+\subsection{Item Response Theory}
+
+We now introduce a mature assessment theory known as Item Response Theory, an
+alternative to Classical Test Theory (CCT).  Whereas Classical Test Theory
+assigns a student a grade based on the student's position in a distribution of
+composite test scores, Item Response Theory accounts for item difficulty,
+item discrimination, the probability of guessing the question correctly.
+
+One of the main appeals of IRT is its incorporation of item difficulty.
+As we will see later, this is pertinent to our interpretation of Bloom
+levels.  
+
+According to Item Response Theory (IRT), the probability $p_i$ that a student
+answers correctly the $i^{th}$ question on a test, is given by:
+
+\[
+  p_i(\theta) = \gamma + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
+\]
+
+where:
+
+\begin{itemize} 
+
+ \item $\alpha$ is the item discrimination, or how well the item can
+ distinguish students of varying trait ability;
+
+ \item $\beta$ is the question difficulty, an initial estimate of which can be
+ obtained from the proportion of students with average trait ability who pass
+ the question;
+
+ \item $\gamma$ is the probability of guessing the answer correctly,
+ which for $n$-choice questions is $1/n$;
+
+ \item and $\theta$ is the \emph{trait ability} of the student, or the
+ student's particular ability to answer that question correctly;
+
+\end{itemize} 
+
+Trait ability in IRT can be obtained using the Newton-Raphson method, which
+finds a maximum-likelihood estimate of $\theta$ \citep{baker2004}.  The utility
+of IRT is that it requires fewer questions to gauge trait ability due to its
+account of other factors ($\alpha, \beta, \gamma$). It is thus reputed to be a
+more mature means of assessment than CTT.
+
+Until now, the fusion of IRT and Bloom's taxonomy has only existed in the
+literature as a possibility \citep{sitthisak}.  This work seeks to reconcile
+the two by offering a compatible interpretation of Bloom's taxonomy.
+
+\subsection{Previous Work}
+
+Bloom's taxonomy has been proven to be useful at the undergraduate level, and
+particularly in the field of software engineering \citep{britto2015,
+mahmood2014}.  It has seen success in program comprehension
+\citep{buckley2003}, where the asking of comprehension questions fosters code
+reading \citep{losada2008}. In addition, it has been useful for pinpointing the
+difficulties of novice programmers in a guided learning approach
+\citep{shuhidan2011}.  It been used to identify a marked preference for
+higher-level problems for those able to solve them \citep{bruyn2011}
+\citep{goel2004}.  At least two experiments have shown the effect of item
+ordering on performance \citep{newman1988effect,castleberry2016effect}, and the
+taxonomy has even been applied to create ratings of courses based on the
+average Bloom levels of tasks and questions in the course
+\citep{oliver2004course}.
+
+In spite of all this, there is an ongoing debate regarding the applicability of
+Bloom's taxonomy to computer science \citep{johnson2006bloom,
+fuller2007developing, thompson2008bloom}.  The crux of this debate centers
+around the interpretation of Bloom levels: not only how questions map to Bloom
+levels, but also regarding the progression of Bloom levels over the span of a
+course or curriculum.  A tacit assumption in much of the research is that Bloom
+levels equate to difficulty levels.  The current research seeks to open a
+dialogue about this interpretation in particular.
+
+We have designed an intelligent tutoring system to explore the effect of
+question difficulty as it pertains to Bloom's taxonomy.  The system is based on
+previous research on executable paper systems (for generating publication
+manuscripts) which use R as an underlying framework \citep{castleberry2011}.
+Our intelligent tutoring system is available for browsing
+on-line\footnote{https://steam.cct.lsu.edu/}. It currently supports short
+answer and multiple choice formats.
+
+\section{Hypotheses}
+
+\subsection{Preliminary Discussion}
+
+A popular interpretation of Bloom's cognitive levels is that they are
+difficulty levels, and that these difficulty levels are fixed
+\citep{newman1988effect,oliver2004course,lord2007moving,
+johnson2006bloom,fuller2007developing}.  Knowledge is easy; synthesis is hard.
+We will call this the Bloom-equals-difficulty hypothesis.
+
+A creative interpretation of this hypothesis is that per-student difficulty can
+be explained in terms of the demotion of Bloom levels.  The synthesis \emph{and
+therefore difficult} questions, once the solution is obtained, are reduced to
+knowledge \emph{and therefore easy} questions.  Certainly, this is one possible
+scenario.  However, it does not explain a student's ability to answer
+altogether distinct synthesis problems; this is to suggest students engage the
+cognitive functions of synthesis, presumably as an effect of learning the use
+of those functions.  To maintain that Bloom equals difficulty would either
+require sustaining the view that students are able to pass the questions
+because of a demotion of the cognitive functions required (which poses a rather
+cynical view of cognition and of education); or else some notion of trait
+ability--in particular one which offsets difficulty, allowing an increase in
+the probability of passing the question.
+
+The latter option takes the shape of a primeval form of IRT, mapping Bloom
+levels to $\beta$.  This is highly convenient for the hypothesis that Bloom
+equals difficulty, as it becomes agreeable to evaluation with IRT.  Nontheless,
+there are still several issues with the hypothesis:
+
+% Ideal mapping
+
+
+Consider first that exposure to knowledge and knowledge questions causes an
+increase in $\theta$, provided the student acquires the knowledge.  According
+to Bloom's theory, this would increase the probability of answering
+comprehension questions correctly.  This agrees with the theory.  However,
+according to IRT, it would also increase the probability of answering
+application questions correctly even if no comprehension-level questions are
+asked.  In fact, it is theoretically possible to design tests with sufficient
+numbers of knowledge questions to place $\theta-2$ much greater than zero--that
+is to say, asking a sufficient number of knowledge questions should give the
+reasonable assurance that application-level ability is high enough not to
+bother testing it.
+
+As many educators will no doubt agree, this is not the case. Even if a student
+scores exceptionally well on knowledge questions, it gives no such assurance
+that the student will score similarly on application-level questions.  Even if
+knowledge and application scores are found to be correlated, there may be an
+additional underlying factor contributing to both scores (such as
+intelligence).  The application level is \emph{qualitatively} different; hence
+it needs to be tested in spite of the value of $\theta$.
+
+Second, if the hypotheses is strictly true, then there can exist no
+counterexample to the claim.  That is to say that there exists no problem on a
+lower Bloom level which is more difficult than a problem on a higher Bloom
+level.  To take an example, it would be mistaken to call an application problem
+easier than any comprehension problem. 
+
+Counterexmaples with intuitive appeal can be constructed.  Take for-loops for
+example.  To ask a student to print out the result of a simple loop which
+prints numbers 1 to 10 should present an easy enough task.  This is an
+application of the many rules of for-loops, but which does not require creative
+synthesis or critical thinking on the part of the student (hence it is an
+application problem). 
+
+Consider then asking the student to impose a flowchart over the same code,
+including the initialization, condition and update statements and the body of
+the loop, and to indicate the start and stop of the loop.  Suppose the student
+has seen flowcharts over similar loops before.  This is a test of
+comprehension--in particular, comprehension of the internal workings (the
+control flow) of the loop.    
+
+The application problem above requires only an intuitive comprehension of the
+loop: ``\emph{It prints the sequence from 1 up to 10 in steps of 1}'', the
+student may realize.  It demands only shallow comprehension and the rule to be
+applied is simple.  In the comprehension problem, on the other hand, a higher
+degree of precision in comprehension of the loop is demanded to solve the
+problem.  The comprehension problem also depends on mastery of the knowledge,
+comprehension, and application of flowchart symbols.  Regardless, explaining
+the control flow of the loop in full detail is a more difficult undertaking
+than simply printing its output. 
+
+Likewise, it is possible to ask the student to synthesize a loop printing the
+first ten powers of two, then ask a comparatively difficult analysis question
+in the form of an obfuscated loop code.  Impasses in this situation may be
+attributed to a lack of knowledge or comprehension of the constructs used in
+the presented code.  In the synthesis problem, the student has the advantage
+of using known syntax. 
+
+Third, by Bloom's own admission, it is possible to skip levels for certain
+concepts \citep{bloom1956}.  In this case, the ordinality of Bloom levels
+breaks down.  A plausible example is given above.  It is possible to teach how
+to obtain the numeric sequences printed by for-loops before covering in full
+detail the control flow of the loop.  In that particular case, application of
+the rule does not depend on comprehension of the code construct.
+
+Alternative interpretations of Bloom levels distinguish between facility or
+difficulty and complexity of a problem \citep{hill1981testing,
+thompson2008bloom}.  In such interpreations, the cognitive complexity has an
+orthogonal relationship to the item difficulty.  The problem with such
+interpretations, however, is that they do not readily explain the moderate
+correlation that does exist between mean performance and Bloom level
+\citep{hill1981testing}.
+
+With this in mind, we would like to introduce an alternative to the hypothesis
+that Bloom levels equate to difficulty.  We posit that Bloom levels indicate
+\emph{dependency relationships}.  As the theory goes, knowledge is a
+\emph{requirement} for comprehension; but this is not to say that the
+acquisition of the knowledge is somehow easier.  Our vision of dependency
+relationships places the items in a directed graph, such that an edge pointing
+out from a problem A to B represents a dependency which A has on B.
+
+To evaluate our hypothesis, we introduce the notion of an intelligent tutoring
+system.  An intelligent tutoring system is a computer-based system which
+interacts with a student with the end-goal of teaching material, but adapts its
+interaction in some way to the student's responses, much as a human tutor
+would.  With such a system, we can automate the scheduling of questions,
+collect responses, and analyze them. For the purpose of evaluating our
+hypothesis, we can associate difficulty and Bloom levels with questions, then
+collect responses to test the hypothesis statistically.
+
+\subsection{Research Questions}
+
+Here we clarify our specific research questions:
+
+\textbf{Question 1}. Is there a difference between Bloom level and difficulty?
+(That is, can an appreciable amount of variance in student responses be
+attributed to Bloom level?)
+
+\textbf{Question 2}. Given that there exists a difference between Bloom level
+and difficulty, is it possible to modify IRT to more accurately predict
+$p(x_i)$ given Bloom level information?  That is, is it possible to reconcile
+Bloom's taxonomy and IRT using our newfound interpretation of Bloom levels?
+
+\textbf{Question 3}. Given a predictive model and parameters for a question
+$x_i$, is it possible to manipulate a target probability $p(x_i)$ by asking
+related questions?  In particular, can we use our model to ease a student's
+transition to higher Bloom levels?
+
+\section{Methodology and Analysis}
+
+Our intelligent tutoring system has a bank of questions which are tagged by
+Bloom level, concept, and question difficulty.  We can use our system to easily
+create groups of questions (which we call assessments) and issue them either on
+paper or electronically.  Our intelligent tutoring system supports short-answer
+and multiple-choice formats, and can provide immediate feedback to the student
+on the correctness of their response.
+
+\subsection{Experiment 1}
+
+\textbf{Experiment 1 Design}. In the first experiment, a selection of 16
+multiple-choice questions on topics in operating systems concepts were asked to
+a sample group of students (N=54) in an undergraduate-level operating systems
+class.  Each question had 5 choices ($\gamma$=.2). These questions were tagged
+with Bloom levels, and interrater reliability was calculated between two
+independent raters with experience in curricular and course design.  Questions
+were tagged with hypothesized difficulty levels, which were targeted to be
+inversely proportional to the Bloom levels.  Hence the question author intended
+for the knowledge questions to be difficult relative to analysis questions,
+while still maintaining the appropriate Bloom category.
+
+
+\textbf{Analysis of Experiment 1 Data}.  Interrater reliability on Bloom levels
+was calculated to be 93\%.  Means and standard deviations for each Bloom level
+are reported below.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+                                                                 \hline
+      &   Knowledge & Comprehension & Appplication & Analysis \\ \hline
+ $M$  &  .82 & .67 & .53 & .42  \\ \hline
+$SD$  &  .12 & .11 & .09 & .09  \\ \hline
+\end{tabular}
+\end{center}
+
+In light of this data, a modifiction of IRT was sought in order to account for
+the dependency relationships that existed among the questions.  Intuitively,
+this modification of $p_i$ should possess the properties that: (a) if a
+question $x_j$ is unrelated, $p_i$ should be unaffected; and (b) if $x_j$ is
+fully related, $p_i$ should be equal to the response value for $x_j$. 
+
+The degree of relationship may be expressed with Pearson's $r$, where
+$r_{ij}=0$ indicates no relationship between $x_i$ and $x_j$ and $r=1$
+indicates a full positive correlation.  An equally viable metric is the
+coefficient of determination $r^2$, which indicates the proportion of variance
+in the depender which is attributable to the dependee.  Intuitively, it is
+this proportion of the probability which should be associated with the
+correctness of $j$.  The remainder may be left to item response theory.
+In the event of a negative correlation, the response should be opposite.
+
+
+\begin{align*}
+  p_i(\theta) &=& (1-r^2) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
+              &+& (r^2)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
+\end{align*}
+
+The above formula satisfies our needs.  For $r=1$, $p_i$ defaults to the
+correctness of the dependee's answer (0 or 1, depending on whether or not the
+dependee was answered correctly);  and for $r=-1$, $p_i$ assumes the flip of
+the dependee's answer.  For $r=0$, $p_i$ assumes the form of original IRT.  
+
+\subsection{Experiment 2}
+
+\textbf{Experiment 2 Design}.  To test this modified theory, another experiment
+was conducted.  The purpose of this experiment was to explore the relationship
+among the probability predicted by unmodified IRT, the probability predicted by
+modified IRT, and the correctness of the actual response.  It was hypothesized
+that modified IRT should produce a more accurate output than unmodified due to
+its account of dependency relationships.
+
+As in the first experiment, a selection of 16 multiple-choice questions on
+topics in operating systems concepts were asked to the same sample group of
+students (N=54) in the same manner ($\gamma$=.2).  The questions covered 4
+concepts, and each concept had 4 questions, each of different Bloom levels
+(Knowledge, Comprehension, Application, Analysis), where each question of a
+Bloom level higher than Knowledge was dependent on a question of an
+immediately-lower Bloom level (e.g. the Application question was dependent on
+the Comprehension question of the same concept).
+
+
+\textbf{Analysis of Experiment 2 Data}. \ldots Interrater reliability on Bloom
+levels was once again calculated to be 93\%. 
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+                                                                 \hline
+      &   Knowledge & Comprehension & Appplication & Analysis \\ \hline
+ $M$  &  .78 & .62 & .48 & .41  \\ \hline
+$SD$  &  .19 & .12 & .12 & .08  \\ \hline
+\end{tabular}
+\end{center}
+
+To test the hypothesis that modified IRT leads to an increase in accuracy,
+a t-test on the increase in accuracy of probability was conducted at the
+.05 significance level.
+
+First the probabilities $p_i^{irt}(\theta)$ (for original IRT) and
+$p_i^{mod}(\theta)$ (for modified IRT) were calculated.  Note that each of
+these formulas require $\theta$. The value for $\theta$ was calculated
+per-student using the Newton-Rhapson method on the original IRT formula.  To
+determine whether or not $p_i^{mod}(\theta)$ was on the whole more accurate
+than $p_i^{irt}$, the result
+
+\[
+  \Delta p_{si} = (2x_{si}-1) (p_i^{mod} - p_i^{irt})
+\]
+
+was calculated. Here $p_{si}$ represents the probability that student $s$ will
+answer item $i$ correctly.  Then $\Delta p_{si}$ represents the increase in
+accuracy of the probability; for example, it is positive if $p_i^{mod} >
+p_i^{irt}$ and $x_{si} = 1$.
+
+Finally, to test the effectiveness of $p_i^{mod}$, a one-tailed Student's
+t-test was calculated on $\Delta p_{si}$ for the dependee questions (N=648).
+The test revealed that $\Delta p_{si}$ is statistically significantly greater
+than zero ($t=2.05$), implying that $p_i^{mod}$ indeed produces a more accurate
+estimate than IRT alone. 
+
+\subsection{Experiment 3}
+
+\textbf{Experiment 3 Design}.  One question remains: can $p_i^{mod}$ be used in
+some meaningful way?  Suppose we wish to maximize the probability that a
+student answers an Analysis question correctly, and that this Analysis question
+depends on an Application question.  For that matter, it may depend on more
+questions, each of which having its own degree of relatedness to the depender.
+
+We thus posit a more general form of modified IRT which takes into account
+multiple dependencies using principal axis factor (PAF) analysis
+\citep{kim1978}.  PAF is a form of factor analysis which returns the proportion
+of variance explained by each factor.  PAF is performed on the dependent
+question using dependees as factors to obtain these proportions of variance
+explained.
+
+\begin{align*}
+  p_i(\theta) &=& (1- (\displaystyle\sum_j v_j)) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
+              &+& \displaystyle\sum_j (v_j)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
+\end{align*}
+
+In this generalized formula, $v_j$ refers to the proportion of variance
+explained by the dependee $j$ in a principal axis factor (PAF) analysis.
+Therefore the sum of these is the total explained variance; one minus the sum
+is the total unexplained variance.  Intuitively the probability is proportional
+to the amount of variance explained by a dependee.  On the one hand, if one
+dependee explains 90\% of the total variance, and the student answers this
+dependee correctly, the probability should depend heavily on whether or not the
+dependee was correct.  On the other hand, if the total unexplained variance is
+1, this would imply the dependees are not dependees at all.  In this case, the
+probability defaults to the item response theory calculation, which uses the
+best available information (trait ability and question parameters).
+
+In our experiment to test the utility of this formula, we first required a
+small problem set with one depender and multiple dependees.  The experiment
+was intended to test whether or not the asking of highly-dependent questions
+increased mean scores.
+
+For this we first required PAF proportions of variance between depender and
+dependees.  We created 4 questions, where the 4th question had three dependees.
+We then asked some of our students (N=22) to answer all of these questions to
+obtain proportions of variance, which are listed below.  
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+                                \hline
+    &   q1 &  q2  & q3 & q4  \\ \hline
+ r  &  .01 & .23 & .30 &     \\ \hline
+ M  &  .67 & .67 & .44 & .33 \\ \hline
+\end{tabular}
+\end{center}
+
+The others would receive a combination of questions. Four students received each
+combination, such that 4 received the depender outright, 12 received one of the
+three dependees (4 each) before the depender, 12 received two of the three
+dependees (6 each) prior, and 4 received all three dependees.  The purpose of
+this was to test the effect of exposure of each dependee.  Thus each dependee
+question appeared in half of the students' assessments.  The total number of
+respondents for the depender was 32, and the total number of respondents for
+each dependee was 16. 
+
+\textbf{Analysis of Experiemnt 3 Data}.  The analysis of this data required
+examining the relationship between dependent response and dependee exposure.
+
+Let $E_{sj}$ be 1 if student $s$ was exposed to $j$, 0 otherwise.  Then, our
+hypothesis was that exposure of dependee questions should result in an increase
+in the probability that the student answers the depender correctly, in
+proportion to the degree of variance explained by the dependee.  Below is a
+table giving the number of times the depender was answered correctly given
+exposure to a set of dependees:
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+dependees    & sum &  p   \\ \hline
+none         &  1  & .25  \\ \hline
+q1           &  1  & .25  \\ \hline
+q2           &  2  & .50  \\ \hline
+q3           &  3  & .75  \\ \hline
+q1, q2       &  2  & .50  \\ \hline
+q1, q3       &  2  & .50  \\ \hline
+q2, q3       &  3  & .75  \\ \hline
+q1, q2, q3   &  3  & .75  \\ \hline
+\end{tabular}
+\end{center}
+
+Though the data set is small, there does appear to be a trend in the data. A
+clearer trend can be observed by summing the number of correct responses per
+exposure to a given question, which is given below:
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+inclusion    & sum &  p   \\ \hline
+none         &  1  & .06  \\ \hline
+q1           &  8  & .50  \\ \hline
+q2           & 10  & .62  \\ \hline
+q3           & 11  & .69  \\ \hline
+\end{tabular}
+\end{center}
+
+Due to the low $N$ in Experiment 3, the results do not present conclusive
+evidence that the intervention of the dependee questions was responsible.
+However, there is enough preliminary evidence to motivate further
+investigation.  
+
+
+\section{Conclusion}
+
+The experiments otherwise support the hypothesis that Bloom levels do not
+strictly equal difficulty levels.  There is evidence to support the
+interpretation of Bloom levels and indicators of dependency relationships
+between questions.  A modified form of IRT was devised, and was shown to be
+effective in accounting for question dependencies.   An effort was made to
+investigate the utility of this modified theory by asking intervention
+questions in the form of dependees prior to a depender question.  While the
+results of this latter investigation are inconclusive due to low $N$, the
+preliminary evidence suggests that these interventions may have a positive
+effect.  Future work will further investigate the effect of these dependency
+interventions.
+
+\bibliographystyle{apacite}
+\bibliography{interact}
+
+
+\end{document}
