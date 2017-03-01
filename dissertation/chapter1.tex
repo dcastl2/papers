@@ -1,10 +1,137 @@
 
 \section{Bloom's Taxonomy}
 
+Bloom's cognitive taxonomy organizes questions into levels depending on the
+cognitive functions required of the answerer.  The levels are: knowledge,
+comprehension, application, analysis, evaluation, and synthesis.  A brief
+overview is given below, with definitions and examples of questions covering
+the concept of for-loops:
+
+\begin{itemize}
+
+\item \textbf{Knowledge}. Recalling factual information.  \emph{What is a
+for-loop?}
+
+\item \textbf{Comprehension}. Assigning meaning to information.  \emph{What
+does the example for-loop output? (Give example.)}
+
+\item \textbf{Application}. Applying a rule to a specific instance.  \emph{How
+can the update statement of the loop be changed to print only even numbers?}
+
+\item \textbf{Analysis}. Breaking information into parts and exploring
+relationships.  \emph{What would happen if the update statement decremented
+instead of incremented the counter?}
+
+\item \textbf{Evaluation}. Judging the use of knowledge or the validity of an
+argument.  \emph{Which is better for reading user input: a for-loop or a
+while-loop? Why?}
+
+\item \textbf{Synthesis}. Utilizing knowledge to create a new solution to
+satisfy a goal.  \emph{Write a for-loop to print only even numbers up to ten.}
+
+\end{itemize}
+
+Each category depends on the cognitive functions used in the previous category.
+That is, comprehension requires knowledge, application requires comprehension,
+and so forth.  Furthermore the mastery of one of the levels is with respect to
+a given concept.  A student may be able to synthesize solutions to problems
+dealing with expressions, but may not possess knowledge of equations, and thus
+could not solve problems involving equations.
+
+The utility of Bloom's taxonomy lies in its ability to pinpoint the underlying
+cause of the student's problem-solving impasses \cite{shuhidan2011}.  Suppose a
+test of mastery of loops is given with the comprehension question ``What does
+such-and-such loop output?'' is given, and the student reaches an impasse.  If
+the question ``What are the three expressions of the loop and what do they
+do?'' is asked and the student does not know, the impasse can be attributed to
+a lack of knowledge about loops.  If the student does know about the loop
+expressions but still cannot answer, one might instead attribute it to a
+comprehension difficulty \emph{as such}; which might be remedied by giving some
+examples to build intuition, then continuing to test at the comprehension
+level.
+
+Educators may have an intuitive notion of how to do this, but Bloom's taxonomy
+gives the ability to examine the impact of questions scientifically.  By
+identifying the tested concept and the Bloom level of exercises, one can then
+form hypotheses about student responses to questions.  
+
+
 \subsection{The Interpretation in Computer Science}
+
+Bloom's taxonomy has been proven to be useful at the undergraduate level, and
+particularly in the field of software engineering \cite{britto2015,
+mahmood2014}.  It has seen success in program comprehension
+\cite{buckley2003}, where the asking of comprehension questions fosters code
+reading \cite{losada2008}. In addition, it has been useful for pinpointing the
+difficulties of novice programmers in a guided learning approach
+\cite{shuhidan2011}.  It been used to identify a marked preference for
+higher-level problems for those able to solve them \cite{bruyn2011}
+\cite{goel2004}.  At least two experiments have shown the effect of item
+ordering on performance \cite{newman1988effect,castleberry2016effect}, and the
+taxonomy has even been applied to create ratings of courses based on the
+average Bloom levels of tasks and questions in the course
+\cite{oliver2004course}.
+
+In spite of all this, there is an ongoing debate regarding the applicability of
+Bloom's taxonomy to computer science \cite{johnson2006bloom,
+fuller2007developing, thompson2008bloom}.  The crux of this debate centers
+around the interpretation of Bloom levels: not only how questions map to Bloom
+levels, but also regarding the progression of Bloom levels over the span of a
+course or curriculum.  A tacit assumption in much of the research is that Bloom
+levels equate to difficulty levels.  The current research seeks to open a
+dialogue about this interpretation in particular.
+
+
 \subsection{Assumptions of this Work}
 
 \section{Item Response Theory}
+
+We now introduce a mature assessment theory known as Item Response Theory, an
+alternative to Classical Test Theory (CCT).  Whereas Classical Test Theory
+assigns a student a grade based on the student's position in a distribution of
+composite test scores, Item Response Theory accounts for item difficulty,
+item discrimination, the probability of guessing the question correctly.
+
+One of the main appeals of IRT is its incorporation of item difficulty.
+As we will see later, this is pertinent to our interpretation of Bloom
+levels.  
+
+According to Item Response Theory (IRT), the probability $p_i$ that a student
+answers correctly the $i^{th}$ question on a test, is given by:
+
+\[
+  p_i(\theta) = \gamma + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
+\]
+
+where:
+
+\begin{itemize} 
+
+ \item $\alpha$ is the item discrimination, or how well the item can
+ distinguish students of varying trait ability;
+
+ \item $\beta$ is the question difficulty, an initial estimate of which can be
+ obtained from the proportion of students with average trait ability who pass
+ the question;
+
+ \item $\gamma$ is the probability of guessing the answer correctly,
+ which for $n$-choice questions is $1/n$;
+
+ \item and $\theta$ is the \emph{trait ability} of the student, or the
+ student's particular ability to answer that question correctly;
+
+\end{itemize} 
+
+Trait ability in IRT can be obtained using the maximum likelihood estimation
+(MLE) method, which finds a maximum-likelihood estimate of $\theta$ by testing
+a range of $\theta$ values with the IRT formula \cite{baker2004}.  The utility
+of IRT is that it requires fewer questions to gauge trait ability due to its
+account of other factors ($\alpha, \beta, \gamma$). It is thus reputed to be a
+more mature means of assessment than CTT.
+
+Until now, the fusion of IRT and Bloom's taxonomy has only existed in the
+literature as a possibility \cite{sitthisak}.  This work seeks to reconcile
+the two by offering a compatible interpretation of Bloom's taxonomy.
 
 \subsection{Evaluation of Trait Ability}
 
