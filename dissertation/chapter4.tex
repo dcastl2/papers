@@ -1,9 +1,58 @@
 \section{Trait Ability Updates}
 
+\subsection{An Assessment Item Autograder}
+
+The autograder for assessment items may be broken into three components, based
+on the approaches to autograding: (a) for multiple-choice and true/false, (b)
+code writing, (c) short answer and freewriting.  Multiple-choice and true/false
+autograding is trivial and will not be discussed. 
+
+\subsubsection{Code Writing Autograder}
+
+Drawing on previous work for a code autograder which uses parsing, the proposed
+code writing autograder will consist of a parsing expression grammar (PEG) to
+parse keywords and language constructs from source and output files.  The PEG
+of choice is Piraha, a simple PEG allowing the creation of easily configurable
+plain-text grammar files \cite{brandt2010}.  For the training run, source and output files from
+the solutions will be included.  The autograder will use the parse trees to
+construct long feature vectors of counts of certain language constructs (e.g. a
+count of nested if-statements inside for-loops).  Items will be hand-scored
+according to rubrics, where each rubric item corresponds to a portion of the
+problem or step in the problem-solving process.  Drawing from previous
+work on machine-learning-based autograding, these feature vectors will be
+trained on a neural network until a sufficient accuracy on a validation set has
+been achieved \cite{shashank2014}. 
+
+\subsubsection{Short Answer Autograder}
+
+The proposed short answer autograder will use a dependency graph alignment
+technique \cite{mohler2011} to assign a grade for short answers, but will
+investigate alternative scoring methods for computing graph-to-graph alignment,
+the potential to score for more than one instructor solution, and the effect of
+constraining the allowed length of the response.
+
+
+
 \subsection{Updates of Trait Ability from Dependees}
 \subsection{Modeling Memory: Updates due to Forgetting}
 
 \section{Dependency Resolution and Item Scheduling}
+
+The general procedure for scheduling content and assessments can be stated as
+follows.  In the first iteration, schedule the same content to each student,
+then schedule a pre-test. Perform a confirmatory factor analysis on the
+pre-test results to ensure that the questions tested the correct concepts;
+discard questions whose loadings do not match the concepts the questions were
+intended to test.  Measure trait ability $\theta_s$ for each student $s$ for the $B$ Bloom
+levels and $C$ concepts tested; then construct a $B \times C$ matrix $\Theta_s$
+containing the trait ability estimates for that student.  Then for
+$\theta_{s,b,c} < \overline{\Theta}_s$, schedule content of Bloom level $b$ and
+concept $c$ from the content pool $X$, to be studied in addition to content
+for concepts to be covered.  For the next assessment, randomly sample content
+$X_{b,c}$ for each $\theta_{s,b,c} < \overline{\Theta}_s$ in addition to
+content covered since the last assessment. If there are no questions remaining
+in $X_{b,c}$, let $\theta_{s,b,c}$ stand as the estimate of the student's
+trait ability.
 
 \subsection{Finding High-Impact Items}
 \subsection{Finding the Next Item: One-At-A-Time Scheduling}

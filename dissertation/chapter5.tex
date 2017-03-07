@@ -1,3 +1,365 @@
-\section{Experiment Supporting the Utility of the Taxonomy}
+\section{Experiments Supporting the Utility of the Taxonomy}
+
+\textbf{Experiment 1}. Our first experiment tested to see if there is a
+performance difference between computer-based assessment and paper-based
+assessment when questions are ordered by Bloom level.  Our hypothesis was that
+students taking the computer-based assessment would fare better than those
+taking the paper-based assessment because of the immediate feedback offered by
+the computer-based assessment.
+
+We designed a test of 10 questions (2 concepts, each concept having questions
+over 5 Bloom levels) to give to students\footnote{All questions may be viewed
+at: https://steam.cct.lsu.edu/assessment/}. The questions were of
+multiple-choice and short-answer format.  There were two knowledge,
+comprehension, application, analysis, and evaluation questions.  No synthesis
+questions were asked because of the constrained formats allowed by the
+computer-based testing framework.  An interrater reliability of 90\% was
+determined by two independent raters (the authors), both computer science
+educators, who assessed the Bloom levels of the questions.  After a point of
+disagreement about an evaluation-level problem, the test was adjusted to yield
+an 100\% interrater reliability.
+
+We designed a test of 10 questions (with 2 concepts, each concept having
+questions over 5 Bloom levels) to give to students. The concepts tested were on
+recursion and binary trees, and were written to be language-independent.  The
+questions were of multiple-choice and short-answer format.  There were two
+knowledge, comprehension, application, analysis, and evaluation questions.  No
+synthesis questions were asked because of the constrained formats allowed by
+the computer-based testing framework.  An interrater reliability of 90\% was
+determined by two independent raters, both computer science educators, who
+assessed the Bloom levels of the questions.  After a point of disagreement
+about an evaluation-level problem, the test was adjusted to yield an 100\%
+interrater reliability.
+
+Evaluation-level problems are resistant to multiple-choice and short-answer
+formats because of the nature of the category.  Our approach was to use
+multiple-choice questions of the ``choose the best answer'' format, in which
+there are many proposed uses of a concept or language construct, but one stands
+out as the most sensible from the standpoint of experts. 
+
+The test resembled a quiz that might be given in the normal course of teaching
+the class. At the end of the quiz, the question ``how satisfied were you with
+the (paper/computer)-based medium?'' was asked to gauge satisfaction
+differences as well.
+
+For this experiment, volunteers were recruited from a Java programming class
+for introductory computer science students.  All students volunteered; candy
+was offered as an incentive for all the experiments.  We split the classroom
+into two groups, matched based on their current grade in the course.  We gave
+the control group the paper quiz, and the experimental group the computer-based
+quiz.
+
+An answer was scored as totally correct if it coincided exactly with the
+solution, and otherwise scored as incorrect. Correct answers were encoded with
+1, incorrect with 0.  A composite score was derived by summing these scores
+per-student.
+
+\textbf{Experiment 2}.  The second experiment tested the effect of ordering the
+questions by Bloom level.  For this experiment we designed another test of 10
+questions (2 concepts, each concept having questions over 5 Bloom levels).
+This test also covered recursion and binary trees. In the control condition,
+questions were given in forward Bloom-level order.  In the experimental
+condition, they were given in reverse order.
+
+For both Experiments 2 and 3, participants were recruited in the same manner;
+however for this experiment a C++ class which followed the same conceptual
+track was also added to the pool. Matched-pairs were assigned to each group
+bsaed on their current grade in each course.  The test was constructed and
+interrater reliability gauged in the same manner, and the test was also scored
+in the same manner.
+
+\textbf{Experiment 3}. The third experiment tested the effect of intervening
+questions on the performance of later questions in the assessment.  Our
+hypothesis was that overall performance would be improved if incorrect answers
+triggered the addition of new {\em intervention} questions from a lower Bloom
+level.
+
+Experiment 3 participants were recruited from a different class. The test was
+this time language-dependent (MATLAB) and tested mastery of control structures,
+in particular for-loops.  In the control condition, the control group was given
+an assessment of 10 questions, with 2 questions per the first five Bloom
+levels. The experimental group was given an adaptive measure.  If at any point
+a student answered a question incorrectly, then a question at the next lowest
+level was given.  This applied to all levels except knowledge.  So for example
+if a student answered an application-level question incorrectly, a
+comprehension-level question (related to the application-level question) was
+scheduled before another application-level question of the same type.  The
+experimental group thus had a a maximum of 4 additional questions asked for a
+total possible 14-question test.
+
+\section{Analysis and Results}
+
+\textbf{Experiment 1}. The experimental condition ($N$=27 $M$=6.21) did in fact
+show a higher mean score than the control condition ($N$=27 $M$=5.23) in
+overall performance.  Statistical significance was tested with a one-tailed
+two-sample matched-pairs Student's t-test on the composite score. The result
+indicated a statistically significant difference ($t$=2.024, $p$=0.048).  The
+experimental condition ($M$=4.93) showed a higher mean score than the control
+condition ($M$=4.38) in satisfaction as well; a similar t-test was done and was
+marginally statistically significant ($t$=1.7753, $p$=0.082).  
+
+
+\textbf{Experiment 2}. The experimental condition ($N$=48, $M$=4.94) showed a
+higher mean score than the control condition ($N$=48, $M$=4.31).  Statistical
+significance was tested with a one-tailed parametric Student's t-test on the
+composite score.  The result indicated a statistically significant difference
+($t$=2.13, $p$=0.036).
+
+\textbf{Experiment 3}. To tell the immediate effect of the intervention
+questions, one-tailed parametric Student's t-test on the composite score of
+questions starting after the first intervention question was done. It was
+hypothesized that the experimental condition would perform better on the
+remainder of the test. The experimental group ($N$=45, $M$=6.98) outperformed
+the control group ($N$=45, $M$=6.23).  The result indicated a marginally
+statistically significant difference ($t$=1.7082, $p$=0.092).
+
+\subsection{Limitations}
+
+A few validity concerns are to be pointed out. No random order was given in
+Experiment 2 because of a lack of available subjects; hence it cannot be
+inferred that forward order is no different from random order. The
+experimenters (paper authors) designed the tests. The number of items per test
+was small to allow for a conservative testing time.  For Experiment 1,
+confounding variables (those other than immediate feedback) may have played a
+role in test-taking because the test-taking media were different.
+
+
+\section{Experiments Supporting the Reconciliation of the Taxonomy with IRT}
+
+\subsection{Experiment 1}
+
+\textbf{Experiment 1 Design}. In the first experiment, a selection of 16
+multiple-choice questions on topics in operating systems concepts were asked to
+a sample group of students (N=54) in an undergraduate-level operating systems
+class.  Each question had 5 choices ($\gamma$=.2). These questions were tagged
+with Bloom levels, and interrater reliability was calculated between two
+independent raters with experience in curricular and course design.  Questions
+were tagged with hypothesized difficulty levels, which were targeted to be
+inversely proportional to the Bloom levels.  Hence the question author intended
+for the knowledge questions to be difficult relative to analysis questions,
+while still maintaining the appropriate Bloom category.
+
+
+\textbf{Analysis of Experiment 1 Data}.  Interrater reliability on Bloom levels
+was calculated to be 93\%.  Means for each Bloom level are reported below.
+Clearly
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+                                                                 \hline
+      &   Knowledge & Comprehension & Appplication & Analysis \\ \hline
+ $M$  &  .42 & .53 & .67 & .82  \\ \hline
+\end{tabular}
+\end{center}
+
+One-tailed Student t-tests were performed on the three consecutive pairs of
+means.  The mean for comprehension was statistically significantly greater than
+the mean for knowledge ($t=2.00$), the same held true for application and
+comprehension ($t=2.33$), and analysis and application ($t=2.64$).  These
+statistics, in conjunction with the interrater reliability for the assignment
+of Bloom levels, support the view that Bloom level and difficulty are
+distinguishable.
+
+In light of this data, a modification of IRT was sought in order to account for
+the dependency relationships that existed among the questions.  Intuitively,
+this modification of $p_i$ should possess the properties that: (a) if a
+question $x_j$ is unrelated, $p_i$ should be unaffected; and (b) if $x_j$ is
+fully related, $p_i$ should be equal to the response value for $x_j$. 
+
+The degree of relationship may be expressed with Pearson's $r$, where
+$r_{ij}=0$ indicates no relationship between $x_i$ and $x_j$ and $r=1$
+indicates a full positive correlation.  An even more viable metric is the
+coefficient of determination $r^2$, which indicates the proportion of variance
+in the depender which is attributable to the dependee.  Intuitively, it is this
+proportion of the probability which should be associated with the correctness
+of $j$.  The remainder may be left to item response theory.  In the event of a
+negative correlation, the response should be opposite.
+
+
+\begin{align*}
+  p_i(\theta) &=& (1-r^2) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
+              &+& (r^2)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
+\end{align*}
+
+The above formula satisfies our needs.  The \textbf{sgn} function gives the
+sign of $r$.  For $r=1$, $p_i$ defaults to the correctness of the dependee's
+answer (0 or 1, depending on whether or not the dependee was answered
+correctly);  and for $r=-1$, $p_i$ assumes the flip of the dependee's answer.
+For $r=0$, $p_i$ assumes the form of original IRT.  
+
+In the MLE estimation of $\theta$, we would omit question $j$, since it is
+included already in the above formula.
+
+\subsection{Experiment 2}
+
+\textbf{Experiment 2 Design}.  To test this modified theory, another experiment
+was conducted.  The purpose of this experiment was to explore the relationship
+among the probability predicted by unmodified IRT, the probability predicted by
+modified IRT, and the correctness of the actual response.  It was hypothesized
+that modified IRT should produce a more accurate output than unmodified due to
+its account of dependency relationships.
+
+As in the first experiment, a selection of 16 multiple-choice questions on
+topics in operating systems concepts were asked to the same sample group of
+students (N=54) in the same manner ($\gamma$=.2).  The questions covered 4
+concepts, and each concept had 4 questions, each of different Bloom levels
+(Knowledge, Comprehension, Application, Analysis), where each question of a
+Bloom level higher than Knowledge was dependent on a question of an
+immediately-lower Bloom level (e.g. the Application question was dependent on
+the Comprehension question of the same concept).  These questions were asked in
+forward Bloom order.  The hypothesized difficulties were held equal across
+Bloom levels.
+
+
+\textbf{Analysis of Experiment 2 Data}. \ldots Interrater reliability on Bloom
+levels was once again calculated to be 93\%. 
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+                                                                 \hline
+      &   Knowledge & Comprehension & Appplication & Analysis \\ \hline
+ $M$  &  .78 & .62 & .48 & .41  \\ \hline
+\end{tabular}
+\end{center}
+
+
+To test the hypothesis that modified IRT leads to an increase in accuracy,
+a t-test on the increase in accuracy of probability was conducted at the
+.05 significance level.
+
+First the probabilities $p_i^{irt}(\theta)$ (for original IRT) and
+$p_i^{mod}(\theta)$ (for modified IRT) were calculated.  Note that each of
+these formulas require $\theta$. The value for $\theta$ was calculated
+per-student using the MLE method on the first data set.  To determine whether
+or not $p_i^{mod}(\theta)$ was on the whole more accurate than $p_i^{irt}$, the
+result
+
+\[
+  \Delta p_{si} = (2x_{si}-1) (p_i^{mod} - p_i^{irt})
+\]
+
+was calculated. Here $p_{si}$ represents the probability that student $s$ will
+answer item $i$ correctly.  Then $\Delta p_{si}$ represents the increase in
+accuracy of the probability; for example, it is positive if $p_i^{mod} >
+p_i^{irt}$ and $x_{si} = 1$.
+
+Finally, to test the effectiveness of $p_i^{mod}$, a one-tailed Student's
+t-test was calculated on $\Delta p_{si}$ for the dependee questions (N=648).
+The test revealed that $\Delta p_{si}$ is statistically significantly greater
+than zero ($t=2.05$), implying that $p_i^{mod}$ indeed produces a more accurate
+estimate than IRT alone. 
+
+As the data reveals, the proportion of students who passed a question did not
+agree with the hypothesized difficulties.  It was suspected that this may be
+due to the effect of item dependencies, which the next experiment investigates
+in further detail.
+
+\subsection{Experiment 3}
+
+\textbf{Experiment 3 Design}.  One question remains: can $p_i^{mod}$ be used in
+some meaningful way?  Suppose we wish to maximize the probability that a
+student answers an Analysis question correctly, and that this Analysis question
+depends on an Application question.  For that matter, it may depend on more
+questions, each of which having its own degree of relatedness to the depender.
+
+We thus posit a more general form of modified IRT which takes into account
+multiple dependencies using factor analysis \citep{kim1978}.  From a factor
+analysis, it is possible to obtain the proportion of variance explained by each
+dependency by squaring the factor loading.  A factor analysis was performed on
+the dependent question using dependees as factors to obtain these proportions
+of variance explained.
+
+Those proportions of variance could then be used as part of a more generalized
+modification to IRT:
+
+\begin{align*}
+  p_i(\theta) &=& (1- (\displaystyle\sum_j v_j)) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
+              &+& \displaystyle\sum_j (v_j)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
+\end{align*}
+
+In this generalized formula, $v_j$ refers to the proportion of variance
+explained by the dependee $j$ (the squared factor loading for $j$).  Therefore
+the sum of these is the total explained variance; one minus the sum is the
+total unexplained variance.  Intuitively the probability is proportional to the
+amount of variance explained by a dependee.  On the one hand, if one dependee
+explains 90\% of the total variance, and the student answers this dependee
+correctly, the probability should depend heavily on whether or not the dependee
+was correct.  On the other hand, if the total unexplained variance is 1, this
+would imply the dependees are not dependees at all.  In this case, the
+probability defaults to the item response theory calculation, which uses the
+best available information (trait ability and question parameters).
+
+In our experiment to test the utility of this formula, we first required a
+small problem set with one depender and multiple dependees.  The experiment
+was intended to test whether or not the asking of highly-dependent questions
+increased mean scores.
+
+For this we first required proportions of variance between depender and
+dependees.  We created 4 questions, where the 4th question had three dependees.
+We then asked some of our students (N=22) to answer all of these questions to
+obtain proportions of variance, which are listed below.  
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+                                  \hline
+      &   q1 &  q2  & q3 & q4  \\ \hline
+$v_j$ &  .02 & .23 & .30 &     \\ \hline
+ M    &  .67 & .66 & .43 & .34 \\ \hline
+\end{tabular}
+\end{center}
+
+The others would receive a combination of questions.  Each student was randomly
+assigned to one of eight groups.  Four students received each combination of
+three questions, such that 4 received the depender outright, 12 received one of
+the three dependees (4 each) before the depender, 12 received two of the three
+dependees (6 each) prior, and 4 received all three dependees.  The purpose of
+this was to test the effect of exposure of each dependee.  Thus each dependee
+question appeared in half of the students' assessments.  The total number of
+respondents for the depender was 32, and the total number of respondents for
+each dependee was 16.  
+
+\textbf{Analysis of Experiemnt 3 Data}.  The analysis of this data required
+examining the relationship between dependent response and dependee exposure.
+
+Let $E_{sj}$ be 1 if student $s$ was exposed to $j$, 0 otherwise.  Then, our
+hypothesis was that exposure of dependee questions should result in an increase
+in the probability that the student answers the depender correctly, in
+proportion to the amount of variance explained by the dependee.  Below in the
+table is the number of times the depender was answered correctly given
+exposure to a set of dependees.  Though the data set is small, there does
+appear to be a trend in the data.  A clearer trend can be observed by summing
+the number of correct responses per exposure to a given question.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+dependees    & \#correct &  percent & \#correct & percent \\ \hline
+none         &  1  & .25  &1&  .06 \\ \hline
+q1           &  1  & .25  &8&  .50 \\ \hline
+q2           &  2  & .50  &10& .62 \\ \hline
+q3           &  3  & .75  &11& .69 \\ \hline
+q1, q2       &  2  & .50  && \\ \hline
+q1, q3       &  2  & .50  && \\ \hline
+q2, q3       &  3  & .75  && \\ \hline
+q1, q2, q3   &  3  & .75  && \\ \hline
+\end{tabular}
+\end{center}
+
+The table shows the percent of students who answered the depender correctly
+given a particular set of questions (left), as well as the percent of students
+who answered the depender correctly given exposure to a given question (right). 
+It is interesting to note that to an extent, the proportions of variance
+explained by a given question appear to be co-related to the percentage of
+students who answered the depender correctly.  However, the numbers are too
+small to draw a definitively conclusion.
+
+Due to the low $N$ in Experiment 3, the results do not present
+\emph{conclusive} evidence that the intervention of the dependee questions was
+responsible.  However, there is enough preliminary evidence to warrant further
+investigation.  If there is an effect, it is suspected that exposure to the
+dependee problem solution by the ITS plays a larger role than simply the
+question itself.
+
+
 
 \section{Experiment Supportng the Utility of the Scheduler}
