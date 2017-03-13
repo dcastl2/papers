@@ -1,59 +1,160 @@
-\section{Trait Ability Updates}
+\section{Dependency Information}
 
-\subsection{An Assessment Item Autograder}
+No representation of trait ability mentioned so far specifically accounts for
+dependency relationships between questions.  There are certainly dependency
+relationships between whole (Bloom $\times$ concept) catogories.  For example,
+one must be able to execute a for-loop (Comprehension of Loops) well before
+gaining the ability to write one which satisfies an intended goal (Synthesis of
+Loops). This is a course-grained dependency.
 
-The autograder for assessment items may be broken into three components, based
-on the approaches to autograding: (a) for multiple-choice and true/false, (b)
-code writing, (c) short answer and freewriting.  Multiple-choice and true/false
-autograding is trivial and will not be discussed. 
+Other course-grained dependencies might be less obvious; questions in
+categories for which concept is high-level and Bloom is low-level, depending on
+questions in categories for which concept is lower-level and Bloom is
+high-level.  For example, understanding a for-loop (Comprehension of Loops) is
+predicated on being able to evaluate expressions (Application of Expressions).
+In a trait ability matrix, these categories might even lie on a diagonal, which
+would otherwise seem to suggest their independence.
 
-\subsubsection{Code Writing Autograder}
+Consider finer-grained dependency relationships among the following specific
+questions regarding expressions:
 
-Drawing on previous work for a code autograder which uses parsing, the proposed
-code writing autograder will consist of a parsing expression grammar (PEG) to
-parse keywords and language constructs from source and output files.  The PEG
-of choice is Piraha, a simple PEG allowing the creation of easily configurable
-plain-text grammar files \cite{brandt2010}.  For the training run, source and output files from
-the solutions will be included.  The autograder will use the parse trees to
-construct long feature vectors of counts of certain language constructs (e.g. a
-count of nested if-statements inside for-loops).  Items will be hand-scored
-according to rubrics, where each rubric item corresponds to a portion of the
-problem or step in the problem-solving process.  Drawing from previous
-work on machine-learning-based autograding, these feature vectors will be
-trained on a neural network until a sufficient accuracy on a validation set has
-been achieved \cite{shashank2014}. 
+\begin{verbatim}
+ (a) What is (5 % 2)?
+ (b) What is (5 / 2)?
+ (c) What is (5 % (5 / 2))?
+\end{verbatim}
 
-\subsubsection{Short Answer Autograder}
+The intuition captured by this example is that Part (c) could not be answered
+correctly, at least not by any logical chain of reasoning, without possessing
+the specific application ability that Part (a) and Part (b) test for.
 
-The proposed short answer autograder will use a dependency graph alignment
-technique \cite{mohler2011} to assign a grade for short answers, but will
-investigate alternative scoring methods for computing graph-to-graph alignment,
-the potential to score for more than one instructor solution, and the effect of
-constraining the allowed length of the response.
+It is probably true that Part (c) is more difficult than Part (a) or Part (b),
+but this is not the reason for the dependency; rather it would appear the
+dependency is the reason for the higher difficulty.  In terms of questions
+which test application ability for expressions, all of the questions are in the
+same neighborhood of difficulty; it is even possible albeit unlikely for the
+$\beta$ values for all of these to be equal.  
 
+However, if dependencies of the form $c \rightarrow a$ and $c \rightarrow b$
+exist (that is, $c$ depends on $a$ and $b$), they would be indicated by high
+binary correlations between $c$ and $a$ and $c$ and $b$.
 
+% TODO: definitions
 
-\subsection{Updates of Trait Ability from Dependees}
-\subsection{Modeling Memory: Updates due to Forgetting}
+Even more telling than the coefficients of determination are the loadings from
+a confirmatory factor analysis, which when squared give the proportions of
+variance attributable to $a$ and $b$.  This technique gives an indication of
+the degree to which $c$ depends on $a$ and $b$, and the relative proportions of
+this dependency.
 
-\section{Dependency Resolution and Item Scheduling}
+% TODO: definitions
 
-The general procedure for scheduling content and assessments can be stated as
-follows.  In the first iteration, schedule the same content to each student,
-then schedule a pre-test. Perform a confirmatory factor analysis on the
-pre-test results to ensure that the questions tested the correct concepts;
-discard questions whose loadings do not match the concepts the questions were
-intended to test.  Measure trait ability $\theta_s$ for each student $s$ for the $B$ Bloom
-levels and $C$ concepts tested; then construct a $B \times C$ matrix $\Theta_s$
-containing the trait ability estimates for that student.  Then for
-$\theta_{s,b,c} < \overline{\Theta}_s$, schedule content of Bloom level $b$ and
-concept $c$ from the content pool $X$, to be studied in addition to content
-for concepts to be covered.  For the next assessment, randomly sample content
-$X_{b,c}$ for each $\theta_{s,b,c} < \overline{\Theta}_s$ in addition to
-content covered since the last assessment. If there are no questions remaining
-in $X_{b,c}$, let $\theta_{s,b,c}$ stand as the estimate of the student's
-trait ability.
+\subsection{Probability Estimates Using Dependees}
 
-\subsection{Finding High-Impact Items}
-\subsection{Finding the Next Item: One-At-A-Time Scheduling}
-\subsection{Predicting the Final Order: All-At-Once Scheduling}
+Consider the vector of squared factor loadings for a set of content items,
+where the depender is a content item $j$.  Suppose these content items are
+independent.
+
+\begin{equation}
+ \begin{array}{llll}
+  \Lambda = \Big[ \lambda_1^2 & \lambda_2^2 & \ldots & \lambda_n^2 \Big]
+ \end{array}
+\end{equation}
+
+The total amount of explained variance is given by:
+
+\begin{equation}
+ \begin{array}{llll}
+  E = \displaystyle\sum_{i=1}^n \lambda_i^2
+ \end{array}
+\end{equation}
+
+And the unexplained variance by:
+
+\begin{equation}
+ \begin{array}{llll}
+  U = 1 - E.
+ \end{array}
+\end{equation}
+
+Suppose a student gives a unique one-time response to each question, thereby 
+producing a response set vector:
+
+\begin{equation}
+ \begin{array}{llll}
+  X = \Big[ x_1 & x_2 & \ldots & x_n \Big]
+ \end{array}
+\end{equation}
+
+The regression model used to obtain the probability that the student answers
+the depender question correctly is:
+
+\begin{equation}
+ \begin{array}{llll}
+  p_j =  x_1\lambda_1^2 + x_2\lambda_2^2 + \ldots + x_n\lambda_n^2 + U\epsilon
+ \end{array}
+\end{equation}
+
+Alternatively:
+
+\begin{equation}
+ \begin{array}{llll}
+  p_j =  \displaystyle\sum x_i\lambda_i^2 + U\epsilon
+ \end{array}
+\end{equation}
+
+where $\epsilon$ is some error function not accounted for by the dependencies,
+having range $0 \leq \epsilon \leq 1$.  It accounts for factors not explained
+in the confirmatory factor analysis which nevertheless influence the test;
+these could be the student's intelligence, aptitude for that particular
+problem, or how many hours of sleep were had the night before; or other,
+inconceivable factors.
+
+The proceeding assumption is that the unexplained variance is due to item
+discrimination, problem difficulty, and trait ability.  That is:
+
+\begin{equation}
+ \begin{array}{llll}
+  \epsilon = \gamma_j + \frac{1}{1 + e^{\alpha_j (\theta_s^{*} - \beta_j)}},
+ \end{array}
+\end{equation}
+
+which is to say that the remainder of the probability can be estimated using
+Item Response Theory and what is known about the student's trait ability from
+other problems which, while not strictly dependencies, inform the probability
+that a student will be able to answer a question of this nature.  A caveat is
+that the $\theta_s$ used in this calculation should not include any of the
+depenedencies in its MLE, since they are accounted for in the formula.  This
+value is denoted as $\theta_s^{*}$
+
+And therefore the estimated probability is:
+
+\begin{equation}
+ \begin{array}{llll}
+  p_j =  \displaystyle\sum x_i\lambda_i^2 + U \Bigg[ \gamma_j + \frac{1}{1 + e^{\alpha_j (\theta_s^{*} - \beta_j)}} \Bigg].
+ \end{array}
+\end{equation}
+
+This assumes, however, an atemporal view.  It assumes a scenario in which
+memory is flawless; that all of the dependencies reside in memory at the time
+of the asking of the target (depender) question.  Also, it assumes that there
+is no feedback given for incorrect responses to questions. 
+
+Rather than a response $x_i$, instead a probability $p_i$ can be modeled by
+a combination of Item Response Theory and theories of memory and forgetting.
+In that case:
+
+\begin{equation}
+ \begin{array}{llll}
+  p_j(t) =  \displaystyle\sum p_i(t)\lambda_i^2 + U \Bigg[ \gamma_j + \frac{1}{1 + e^{\alpha_j (\theta_s^{*} - \beta_j)}} \Bigg].
+ \end{array}
+\end{equation}
+
+That is, the probability of answering a target question correctly is the
+product of the probabilities of answering the dependencies correctly by the
+proportions of variance explained by the dependencies, plus the remainder of
+variance explained by Item Response Theory: the item parameters and the
+student's trait ability.  
+
+What remains is a temporal account of questions, in particular the role of
+memory and forgetting.

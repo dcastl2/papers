@@ -1,5 +1,14 @@
 \section{Representing Items}
 
+A database was used to represent items, item sets, students, and student
+responses.  A full diagrammatic representation of the database is shown in
+Figure~\ref{fig:database}.
+
+\begin{sidewaysfigure}[p!]
+ \label{fig:database}
+ \includegraphics[width=9in]{fig/database.png} 
+ \caption{The database layout.}
+\end{sidewaysfigure}
 
 The database contains items of the following nature:
 
@@ -23,16 +32,16 @@ from the student has the following ordinal dimensions:
 \begin{itemize}
 
   \item \emph{Difficulty}. Following the +/- grading system, difficulties range
-  from -7 (very easy) to +7 (very hard), with 0 being medium. The difficulty
-  indicates the probability that any given student in the class will answer the
-  item correctly.
+  from -3 (very easy) to +3 (very hard), with 0 being medium. As alluded to
+  earlier, difficulty determines the probability that a given student in the 
+  class will answer the item correctly.
 
   \item \emph{Bloom level}.  The Bloom levels of cognitive functioning are
   Knowledge, Comprehension, Application, Analysis, Evaluation, and Synthesis.
 
-  \item \emph{Concept}.  Concepts are covered in an elementary C++
-  programming course, and include: Variables, Expressions, Control Structures,
-  etc.
+  \item \emph{Concept}.  Concepts covered in computer science courses; for
+  example in a programming course, these may include: Variables, Expressions,
+  Control Structures, etc.
 
 \end{itemize}
 
@@ -43,123 +52,124 @@ Any output to the student also has the following categorial dimensions:
   \item \emph{Context}.  A problem may have a domain-specific context, e.g. it
   may be a problem relevant to biology, chemistry, physics, mathematics, etc.
 
-  \item \emph{Type}.  The problem may be true/false, multiple-choice, code
-  writing, code simulation, short answer, or freewriting.
+  \item \emph{Type}.  The problem may be true/false, multiple-choice, short
+  answer.
 
 \end{itemize}
 
 Each output may also have a dependency list, that is a list of IDs of, or a
 rule describing, other output entries which the student should be exposed to
-prior to that output.  It is important to note that the dimensions of the data
-are not limited to the above; an exploratory factor analysis has the potential
-to extend the dimensionality of the data semi-automatically.  For the moment,
-Bloom level, subject domain, concept, and difficulty are dimensions of a test
-question.  Exploratory factor analysis gives loadings of some $n$ number of
-factors which are hypothesized to account for the variance in the data.  Thus
-it could potentially find a factor other than one listed which accounts for a
-significant amount of variance. In that case, the instructor could interpret
-the loading matrix and label the levels of the factor accordingly.
+prior to that output.  For this system, Bloom level, subject domain, concept,
+and difficulty are dimensions of a test question.  
 
-\subsubsection{Examples of Content Items}
+It is important to note that the dimensions of the data are not necessarily
+limited to the above; an exploratory factor analysis (EFA) could be used to
+extend the dimensionality of the data semi-automatically.  This functionality
+has not been implemented, but there exists a potential for it.
 
-What follows is example output which does not aim to solicit input, but rather
-inform the user (content).  Below is a definition of a compiler output.
+\subsection{Examples of Content Items}
 
-\begin{quote}
-[Definition 1]: compiler: a program which generates an executable from a source
-code
-\end{quote}
+% TODO
 
-Likewise, below is a fact which has as one of its dependencies the definition
-of a compiler, given above.
+\section{Reconciling Bloom's Taxonomy with Item Response Theory}
 
-\begin{quote}
-[Fact 1]: A compiler is itself a program.
-\end{quote}
+A popular interpretation of Bloom's cognitive levels is that they are
+difficulty levels, and that these difficulty levels are fixed
+\cite{newman1988effect,oliver2004course,lord2007moving,
+johnson2006bloom,fuller2007developing}.  Knowledge is easy; synthesis is hard.
+We will call this the Bloom-equals-difficulty hypothesis.
 
-In a content schedule, Fact 1 has Definition 1 as a dependency. Therefore in
-any schedule including Fact 1, Definition 1 will be included unless an
-assessment response set shows that Definition 1 is known.
+A creative interpretation of this hypothesis is that per-student difficulty can
+be explained in terms of the demotion of Bloom levels.  The synthesis \emph{and
+therefore difficult} questions, once the solution is obtained, are reduced to
+knowledge \emph{and therefore easy} questions.  Certainly, this is one possible
+scenario.  However, it does not explain a student's ability to answer
+altogether distinct synthesis problems; this is to suggest students engage the
+cognitive functions of synthesis, presumably as an effect of learning the use
+of those functions.  To maintain that Bloom equals difficulty would either
+require sustaining the view that students are able to pass the questions
+because of a demotion of the cognitive functions required (which poses a rather
+cynical view of cognition and of education); or else some notion of trait
+ability--in particular one which offsets difficulty, allowing an increase in
+the probability of passing the question.
 
-\subsubsection{Measuring Trait Ability}
+The latter option takes the shape of a primeval form of IRT, mapping Bloom
+levels to $\beta$.  This is highly convenient for the hypothesis that Bloom
+equals difficulty, as it becomes agreeable to evaluation with IRT.  Nontheless,
+there are still several issues with the hypothesis.
 
-To form a statistical basis for content scheduling, the measure of trait
-ability should be done per-concept and Bloom level.  For each $i^{th}$
-question, the trait ability estimation should take into account:
+Consider first that exposure to knowledge and knowledge questions causes an
+increase in $\theta$, provided the student acquires the knowledge.  According
+to Bloom's theory, this would increase the probability of answering
+comprehension questions correctly.  This agrees with the theory.  However,
+according to IRT, it would also increase the probability of answering
+application questions correctly even if no comprehension-level questions are
+asked.  In fact, it is theoretically possible to design tests with sufficient
+numbers of knowledge questions to place, for any $\beta$, $\theta-\beta$ much
+greater than zero--that is for example to say, asking a sufficient number of
+knowledge questions should give the reasonable assurance that application-level
+ability is high enough not to bother testing it.
 
-\begin{itemize}
+As many educators will no doubt agree, this is not the case. Even if a student
+scores exceptionally well on knowledge questions, it gives no such assurance
+that the student will score similarly on application-level questions.  Even if
+knowledge and application scores are found to be correlated, there may be an
+additional underlying factor contributing to both scores (such as
+intelligence).  The application level is \emph{qualitatively} different; hence
+it needs to be tested in spite of the value of $\theta$.
 
-  \item the probability of guessing the question correctly, $\gamma_i$,
+Second, if the hypotheses is strictly true, then there can exist no
+counterexample to the claim.  That is to say that there exists no problem on a
+lower Bloom level which is more difficult than a problem on a higher Bloom
+level.  To take an example, it would be mistaken to call an application problem
+easier than any comprehension problem. 
 
-  \item the item discrimination $\alpha_i$, or to what extent the question
-        distinguishes good from poor trait ability for the concept,
+Counterexmaples with intuitive appeal can be constructed.  Take for-loops for
+example.  To ask a student to print out the result of a simple loop which
+prints numbers 1 to 10 should present an easy enough task.  This is an
+application of the many rules of for-loops, but which does not require creative
+synthesis or critical thinking on the part of the student (hence it is an
+application problem). 
 
-  \item the difficulty $\beta_i$, including the question difficulty \emph{as
-        such}
+Consider then asking the student to impose a flowchart over the same code,
+including the initialization, condition and update statements and the body of
+the loop, and to indicate the start and stop of the loop.  Suppose the student
+has seen flowcharts over similar loops before.  This is a test of
+comprehension--in particular, comprehension of the internal workings (the
+control flow) of the loop.    
 
-  \item the propensity of trait level to change over time.
+The application problem above requires only an intuitive comprehension of the
+loop: ``\emph{It prints the sequence from 1 up to 10 in steps of 1}'', the
+student may realize.  It demands only shallow comprehension and the rule to be
+applied is simple.  In the comprehension problem, on the other hand, a higher
+degree of precision in comprehension of the loop is demanded to solve the
+problem.  The comprehension problem also depends on mastery of the knowledge,
+comprehension, and application of flowchart symbols.  Regardless, explaining
+the control flow of the loop in full detail is a more difficult undertaking
+than simply printing its output. 
 
-  \end{itemize}
+Likewise, it is possible to ask the student to synthesize a loop printing the
+first ten powers of two, then ask a comparatively difficult analysis question
+in the form of an obfuscated loop code.  Impasses in this situation may be
+attributed to a lack of knowledge or comprehension of the constructs used in
+the presented code.  In the synthesis problem, the student has the advantage
+of using known syntax. 
 
-Trait ability will be measured using (a possibly modified form of) IRT.  In
-contrast to CTT---in which the meaning of a composite test score is interpreted
-by comparing it to the mean of composite scores obtained from the same
-sample--- IRT obtains meaning of test results by computing the likelihood that
-the student could answer the questions in the way he or she did assuming a
-trait ability.  In CTT, for a standardized test, one may calculate the z-score
-for a composite test score as follows:
+Third, by Bloom's own admission, it is possible to skip levels for certain
+concepts \cite{bloom1956}.  In this case, the ordinality of Bloom levels
+breaks down.  A plausible example is given above.  It is possible to teach how
+to obtain the numeric sequences printed by for-loops before covering in full
+detail the control flow of the loop.  In that particular case, application of
+the rule does not depend on comprehension of the code construct.
 
-\[
-  z = \frac{x - \mu}{\sigma}.
-\]
-%\todo{Is z-score a per trait thing? a per bloom level thing?}
-%\response{The z-score is calculated from composite test scores. It tells how
-%many standard deviations above or below the mean a composite score is.}
+Alternative interpretations of Bloom levels distinguish between facility or
+difficulty and complexity of a problem \cite{hill1981testing,
+thompson2008bloom}.  In such interpreations, the cognitive complexity has an
+orthogonal relationship to the item difficulty.  The problem with such
+interpretations, however, is that they do not readily explain the moderate
+correlation that does exist between mean performance and Bloom level
+\cite{hill1981testing}.
 
-The $z$-score gives the number of standard deviations from the mean.  $-1 < z <
-l$ average, $z > 1$ is above average, and $z < -1$ is below average.  One may
-score the test accordingly.  Some instructors use a more intuitive approach,
-graphing the distribution and clustering the data, to identify distinct
-clusters of scores.  However, neither measure of trait ability accounts for the
-considerations above (unless item discrimination was ensured by using a factor
-analysis to design the test). 
+\subsection{Difficulty vs. Bloom Level}
 
-In IRT, the trait ability is measured using a formula expressing the
-probability that the student $s$ will answer the item $i$ correctly
-\cite{embretson2000}: 
 
-\[
- P(X_{is}=1 | \theta_s, \alpha_i, \beta_i, \gamma_i) = 
- \gamma_i + (1-\gamma_i) 
- \frac{    e^{\alpha_{i}(\theta_{s} - \beta_{i})}}
-      {1 + e^{\alpha_{i}(\theta_{s} - \beta_{i})}}
-\]
-
-Suppose the student's response vector is $y_s$, where $y_{is}$ is the student's
-response to the $i^{th}$ question.  $y_{is}$ is 0 if the answer is incorrect,
-and 1 otherwise.  If the trait ability $\theta_s$ is not known, then it may be
-estimated by searching the hypothesis space of $\theta_s$ for the probability
-which maximizes $\prod^m P(y_{is})$, that is the product of probabilities that
-$s$ answers each of the $m$ total questions for that question in the manner
-he or she did.  That is, we seek the $\theta_s$ which maximizes the probility
-of the student's response set:
-
-\[
- \underset{\theta_s}{\textrm{argmax}}
- \prod^m
- \Bigg[
- \gamma_i + (1-\gamma_i) 
- \frac{    e^{\alpha_{i}(\theta_{s} - \beta_{i})}}
-      {1 + e^{\alpha_{i}(\theta_{s} - \beta_{i})}}
- \Bigg].
-\]
-
-To find this trait ability, we may use a gradient descent method on the above
-function of $\theta_s$ until convergence to a satisfactory precision required
-to assign a letter grade (1e-1) \cite{embretson2000}. 
-
-\subsection{Dependency Information}
-
-\section{Representing Assessments}
-
-\subsection{Graph Structure}

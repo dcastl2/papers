@@ -1,119 +1,177 @@
-\section{Reconciling Bloom's Taxonomy with IRT}
+\section{Representing Ability}
 
-
-\subsection{Difficulty vs. Bloom Level}
-
-A popular interpretation of Bloom's cognitive levels is that they are
-difficulty levels, and that these difficulty levels are fixed
-\cite{newman1988effect,oliver2004course,lord2007moving,
-johnson2006bloom,fuller2007developing}.  Knowledge is easy; synthesis is hard.
-We will call this the Bloom-equals-difficulty hypothesis.
-
-A creative interpretation of this hypothesis is that per-student difficulty can
-be explained in terms of the demotion of Bloom levels.  The synthesis \emph{and
-therefore difficult} questions, once the solution is obtained, are reduced to
-knowledge \emph{and therefore easy} questions.  Certainly, this is one possible
-scenario.  However, it does not explain a student's ability to answer
-altogether distinct synthesis problems; this is to suggest students engage the
-cognitive functions of synthesis, presumably as an effect of learning the use
-of those functions.  To maintain that Bloom equals difficulty would either
-require sustaining the view that students are able to pass the questions
-because of a demotion of the cognitive functions required (which poses a rather
-cynical view of cognition and of education); or else some notion of trait
-ability--in particular one which offsets difficulty, allowing an increase in
-the probability of passing the question.
-
-The latter option takes the shape of a primeval form of IRT, mapping Bloom
-levels to $\beta$.  This is highly convenient for the hypothesis that Bloom
-equals difficulty, as it becomes agreeable to evaluation with IRT.  Nontheless,
-there are still several issues with the hypothesis.
-
-% Ideal mapping
-
-
-Consider first that exposure to knowledge and knowledge questions causes an
-increase in $\theta$, provided the student acquires the knowledge.  According
-to Bloom's theory, this would increase the probability of answering
-comprehension questions correctly.  This agrees with the theory.  However,
-according to IRT, it would also increase the probability of answering
-application questions correctly even if no comprehension-level questions are
-asked.  In fact, it is theoretically possible to design tests with sufficient
-numbers of knowledge questions to place, for any $\beta$, $\theta-\beta$ much
-greater than zero--that is for example to say, asking a sufficient number of
-knowledge questions should give the reasonable assurance that application-level
-ability is high enough not to bother testing it.
-
-As many educators will no doubt agree, this is not the case. Even if a student
-scores exceptionally well on knowledge questions, it gives no such assurance
-that the student will score similarly on application-level questions.  Even if
-knowledge and application scores are found to be correlated, there may be an
-additional underlying factor contributing to both scores (such as
-intelligence).  The application level is \emph{qualitatively} different; hence
-it needs to be tested in spite of the value of $\theta$.
-
-Second, if the hypotheses is strictly true, then there can exist no
-counterexample to the claim.  That is to say that there exists no problem on a
-lower Bloom level which is more difficult than a problem on a higher Bloom
-level.  To take an example, it would be mistaken to call an application problem
-easier than any comprehension problem. 
-
-Counterexmaples with intuitive appeal can be constructed.  Take for-loops for
-example.  To ask a student to print out the result of a simple loop which
-prints numbers 1 to 10 should present an easy enough task.  This is an
-application of the many rules of for-loops, but which does not require creative
-synthesis or critical thinking on the part of the student (hence it is an
-application problem). 
-
-Consider then asking the student to impose a flowchart over the same code,
-including the initialization, condition and update statements and the body of
-the loop, and to indicate the start and stop of the loop.  Suppose the student
-has seen flowcharts over similar loops before.  This is a test of
-comprehension--in particular, comprehension of the internal workings (the
-control flow) of the loop.    
-
-The application problem above requires only an intuitive comprehension of the
-loop: ``\emph{It prints the sequence from 1 up to 10 in steps of 1}'', the
-student may realize.  It demands only shallow comprehension and the rule to be
-applied is simple.  In the comprehension problem, on the other hand, a higher
-degree of precision in comprehension of the loop is demanded to solve the
-problem.  The comprehension problem also depends on mastery of the knowledge,
-comprehension, and application of flowchart symbols.  Regardless, explaining
-the control flow of the loop in full detail is a more difficult undertaking
-than simply printing its output. 
-
-Likewise, it is possible to ask the student to synthesize a loop printing the
-first ten powers of two, then ask a comparatively difficult analysis question
-in the form of an obfuscated loop code.  Impasses in this situation may be
-attributed to a lack of knowledge or comprehension of the constructs used in
-the presented code.  In the synthesis problem, the student has the advantage
-of using known syntax. 
-
-Third, by Bloom's own admission, it is possible to skip levels for certain
-concepts \cite{bloom1956}.  In this case, the ordinality of Bloom levels
-breaks down.  A plausible example is given above.  It is possible to teach how
-to obtain the numeric sequences printed by for-loops before covering in full
-detail the control flow of the loop.  In that particular case, application of
-the rule does not depend on comprehension of the code construct.
-
-Alternative interpretations of Bloom levels distinguish between facility or
-difficulty and complexity of a problem \cite{hill1981testing,
-thompson2008bloom}.  In such interpreations, the cognitive complexity has an
-orthogonal relationship to the item difficulty.  The problem with such
-interpretations, however, is that they do not readily explain the moderate
-correlation that does exist between mean performance and Bloom level
-\cite{hill1981testing}.
-
-
-\section{Dependencies, Time, and Trait Ability}
-
-
-\subsection{The Influence of Dependees on Dependent Scores}
+To form a statistical basis for content scheduling, the measure of trait
+ability should be done per-concept and Bloom level.  Therefore if there are $m$
+concepts and $n$ levels, there are then $nm$ number of $\theta$ values.  This
+shall be called $\Theta$, the trait ability matrix; and $\Theta_s$ will denote
+the trait ability matrix of student $s$.  Let $j$ be the index of a Bloom level
+and $k$ be the index of a concept, then:
 
 \begin{equation}
-  p_i(\theta) = (1- (\displaystyle\sum_j v_j)) \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
-     + \displaystyle\sum_j (v_j)  \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
+\Theta_s =\left[
+         \begin{array}{lllll}
+              \theta_{s11} & \ldots       & \ldots       & \ldots & \theta_{sn1}  \\
+              \vdots       & \ddots       &              &        &               \\
+              \vdots       &              & \theta_{sjk} &        &               \\
+              \vdots       &              &              & \ddots &               \\
+              \theta_{s1m} &              &              &        & \theta_{snm}  \\
+         \end{array}
+       \right]
 \end{equation}
 
-\subsection{Memory, Time, and Forgetting}
+While not strict, there is certainly an ordering about $\Theta$. Lower-level
+concepts come before higher-level concepts, and lower Bloom levels come before
+higher Bloom levels.  Conceivably a $\Theta$ may look like the following:
 
-Ebbinghaus...
+\begin{equation}
+\Theta_1 =\left[
+         \begin{array}{llllll}
+             3 & 2.5 & 1   & \y0 & -1     & -2   \\
+             2 & 1.5 & \y0 & -.5 & -1.5   & -2.5 \\
+             1 &  .5 & \y0 & -1  & -2     & -3   \\
+             1 & \y0 & -.5 & -1  & -2.5   & -3   \\
+         \end{array}
+       \right]
+\end{equation}
+\vspace{12pt}
+
+Highlighted are areas where $\theta_{sjk} = 0$. These are the areas where the
+student has roughly .5 probability of answering a question at difficulty
+$\beta=0$ correctly.  Now the question arises: given a rich content item set
+with questions in all (Bloom $\times$ concept $\times$ difficulty) categories,
+which categories should be selected?  Many factors are taken into account.
+
+\section{Proximal Zone of Development}
+
+Clearly the higher $\theta_{sjk}$ values should be left alone, particularly
+those nearing 3, since this demonstrates exceptional mastery of that (Bloom
+$\times$ concept) category.  In particular, if $\theta_{sjk} = 3$, there is no
+sense in asking at all since trait abilities are capped at 3.  In probabilistic
+terms and relative to questions, asking questions for which the estimated
+probably is overwhelmingly high, for example $p > .9$, serves no purpose, since
+probability estimates of that degree require $\theta-\beta$ significantly
+greater than 0.
+
+If $\theta_{sjk} = x$ then it would be ``unfair`` to ask questions in that
+category which have $\beta > x$.  According to Equation~\ref{eq:irt}, if $\beta
+> x$ and $\theta_s < x$, then $\theta-\beta < 0$ and therefore $p(\theta_s) <
+.5$, which means the student has less than .5 probability to answer correctly.
+Asking questions for which $p(\theta_s) < .5$ has psychological ramifications,
+and potential problems for the updated MLE of $\theta_s$.
+
+It is true that correct answers of more challenging questions raise the ability
+returned by a maximum likelihood estimate, however if the probability of
+answering them is consistently less than chance and the student responds
+accordingly, it is unlikely the estimate will return any $\theta_{sjk} > x$ for
+those problems.  Also, given the information $\Theta_s$ about the student, if
+it is known that the particular student will more than likely fail a particular
+question, it would not make sense to ask it from a psychological standpoint,
+provided that the intention of asking is to raise trait ability levels.  If the
+student consistently experiences more failures than successes, the student is
+more likely to be discouraged by the testing. 
+%citation
+
+There is another consideration: the concept tier and Bloom levels.  The course
+is a progression of concepts across Bloom levels.  Ideally, the student should
+see steady progress in the course.  The set of questions asked at any given
+time in a course of study typically range over a subset of concepts.  Testing
+for all concepts begins at the Knowledge level; as new concepts are introduced
+over time, the tested Bloom level for earlier-introduced concepts rises.  In a
+``perfect'' situation, we might observe a trait ability matrix as in
+Equation~\ref{eq:perfect}, which shows a clear diagonal reflecting a
+progression in both concepts and Bloom levels.  
+
+\begin{equation}
+\label{eq:perfect}
+\Theta_2 =\left[
+         \begin{array}{llllll}
+             3   & 3   & 2   &  1 & \y0\\
+             3   & 2   & 1   &\y0 & -1 \\
+             2   & 1   & \y0 & -1 & -2 \\
+             1   & \y0 & -1  & -2 & -3 \\
+             \y0 & -1  & -2  & -3 & -3 \\
+         \end{array}
+       \right]
+\end{equation}
+\vspace{12pt}
+
+With all this in mind, the most logical subset of (Bloom $\times$ concept)
+categories to select questions from are those in the neighborhood of
+$\theta_{sjk} = 0$.  One interpretation of this subset is that it is the
+student's proximal zone of development.  In the psychology of learning, the
+proximal zone of development is the area or areas in which a student can
+perform a task with assistance, but could not perform the task without
+assistance.  This is consistent with $p \approx .5$.
+% citation
+
+However, any question can potentially be asked for any (Bloom $\times$ concept)
+category while still placing $p$ at or just slightly above .5 by manipulating
+difficulty.  In fact, a matrix of difficulties for desired target questions
+could be calculated from the ability matrix:
+
+\begin{equation}
+  B_s = \Theta_s - \delta
+\end{equation}
+
+where $\delta$ is a sufficiently low value, such as .5.  In the case of
+student $s=1$, $B$ would then equal:
+
+\begin{equation}
+B_1 =\left[
+         \begin{array}{llllll}
+             2.5 & 2    & 1   & -.5  & -1.5   & -2.5 \\
+             1.5 & 1.5  & -.5 & -1   & -2     & -3   \\
+             .5  &  0   & -.5 & -1.5 & -2.5   & -3.5 \\
+             .5  & -.5  & -1  & -1.5 & -3     & -3.5 \\
+         \end{array}
+       \right]
+\end{equation}
+\vspace{12pt}
+
+Then, it is possible to threshold the matrix so as to eliminate (Bloom $\times$
+concept) categories after this stepladder, but include some lag up to and not
+including those $\beta_{sjk}$ values for which the student has $\theta_{sjk}$
+indicating distinguished mastery:
+
+\begin{equation}
+B_1 =\left[
+         \begin{array}{llllll}
+                 & 2    & 1   & -.5  &        &      \\
+             1.5 & 1.5  & -.5 &      &        &      \\
+             .5  &  0   & -.5 &      &        &      \\
+             .5  & -.5  &     &      &        &      \\
+         \end{array}
+       \right]
+\end{equation}
+\vspace{12pt}
+
+From here, the density of questions asked may be in proportion to the distance
+from -.5.  Eventually, either the student will reach $\theta_{sjk} = 3$ or else
+the tutoring system will run out of questions for that (Bloom $\times$
+concept), in which event the trait ability level will stay.
+
+This structure, $\Theta$, therefore shows where to begin asking questions.  It
+also helps to define the goal of the intelligent tutoring system: to increase
+values in $\Theta$ successively along its diagonal, thereby engineering an
+experience similar to course progression.
+
+\section{Updating Ability}
+
+The trait ability matrix must be refreshed (either after a student response,
+for a more fine-grained scheduling, or after a total assessment for
+course-grained scheduling).  Therefore the student responses must be
+auto-graded, and an MLE for each element in $\Theta$ must be performed.
+
+\subsection{Short Answer}
+
+For short answer questions, $\gamma$ is set to 0, since it is assumed that
+there are infinitely many possible responses to the short answer question,
+unless otherwise indicated in the problem specification. 
+
+Support for auto-grading short answer questions was easily obtained.  Short
+answer questions can be graded using the Levenshtein distance, also known as
+the edit distance.  Essentially, the Levenshtein distance gives the number of
+edits (insertions, substitutions and deletions) required to arrive from the
+student input to the solution.  If the Levenshtein distance is below a
+threshold, the answer is marked correct; otherwise it is marked incorrect. 
+

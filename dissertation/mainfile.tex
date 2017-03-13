@@ -1,5 +1,12 @@
 \documentclass[12pt,letterpaper]{lsuetd}
 \usepackage{setspace,graphics,dsfont,verbatim,paralist,indentfirst,amsmath}
+\usepackage{tabularx}
+\usepackage{empheq}
+\usepackage{color}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{rotating}
+\usepackage{fancyref}
 \setlength{\topmargin}{-0.5in}
 \setlength{\textheight}{9.0in}
 \addtolength{\evensidemargin}{-0.50in}
@@ -8,6 +15,28 @@
 \setlength{\parindent}{1.75em}
 \setlength{\parskip}{0ex}
 \setcounter{tocdepth}{2}
+
+\definecolor{Gray}{gray}{.9}
+\newcommand\y{\cellcolor{gray!10}}
+
+
+\usepackage{titlesec}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+\titlespacing*{\section}
+{0pt}{36pt}{24pt}
+\titlespacing*{\subsection}
+{0pt}{24pt}{18pt}
+\titlespacing*{\subsubsection}
+{0pt}{18pt}{12pt}
+
+%\titleformat*{\subsubsection}{\large\bfseries\thesection.\thesubsection}
+\titleformat*{\subsubsection}{\large\bfseries}
 
 \makeatletter
 
@@ -127,34 +156,54 @@ Insert the text of your abstract here.  Make sure there is one blank line betwee
 \input{chapter1}
 \pagebreak
 \singlespacing
-\chapter{Assessments as Data Structures}
+\chapter{Items and Sets}
 \doublespacing
 \input{chapter2}
 \pagebreak
 \singlespacing
-\chapter{Modeling of Trait Ability}
+\chapter{Trait Ability}
 \doublespacing
 \input{chapter3}
 \pagebreak
 \singlespacing
-\chapter{Item Dependency Resolution and Scheduling}
+\chapter{Item Dependencies}
 \doublespacing
 \input{chapter4}
 \pagebreak
 \singlespacing
-\chapter{Experimental Results}
+\chapter{Memory}
 \doublespacing
 \input{chapter5}
 \pagebreak
 \singlespacing
+\chapter{Scheduling}
+\doublespacing
+\input{chapter6}
+\pagebreak
+\singlespacing
+\chapter{Experimental Results}
+\doublespacing
+\input{chapter7}
+\pagebreak
+\singlespacing
+\chapter{Executability and Reporting}
+\doublespacing
+\input{chapter8}
+\pagebreak
+\singlespacing
+
 %To insert additional chapters, copy the previous five lines, using chapterX as the argument of the 
 %\input command for Chapter X, where X=6,7,8,...
 \addtocontents{toc}{\vspace{12pt}}
 \addcontentsline{toc}{chapter}{\hspace{-1.6em} REFERENCES}
-\begin{thebibliography}{999}
-\vspace{0.9em}
-\input{bibliography}
-\end{thebibliography}
+%\begin{thebibliography}{999}
+%\vspace{0.9em}
+%\input{bibliography}
+%\end{thebibliography}
+\doublespacing
+\bibliographystyle{plain}
+\bibliography{mainfile}
+
 \pagebreak
 \singlespacing
 \addtocontents{toc}{\vspace{12pt} \hspace{-1.8em} APPENDIX \vspace{-1em}}
