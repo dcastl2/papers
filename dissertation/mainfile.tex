@@ -7,6 +7,7 @@
 \usepackage{colortbl}
 \usepackage{rotating}
 \usepackage{fancyref}
+\usepackage[final]{pdfpages}
 \setlength{\topmargin}{-0.5in}
 \setlength{\textheight}{9.0in}
 \addtolength{\evensidemargin}{-0.50in}
@@ -216,6 +217,14 @@ Insert the text of your abstract here.  Make sure there is one blank line betwee
 \vspace{0.5em}
 \input{appendixB}
 \pagebreak
+
+\chapter{Appendix C: IRB Documents}
+\vspace{0.5em}
+\input{appendixC}
+\pagebreak
+
+% \includepdf[pages=-]{file.pdf}
+
 %If you need to insert additional appendices, copy the previous four lines, using appendixY as the
 %argument of the \input commnd for Appendix Y, for Y=C,D,E,...
 
