@@ -145,7 +145,25 @@ which the problem solution can be committed to memory.
 
 \subsection{Spacing Effect}
 
+The spacing effect is the effect that the amount of time in between trials has
+on the memorization of a chunk of memory.  In the above model, memorization is
+interpreted as an increase in the lifespan of a memory.  If only a short amount
+of time passes between the last trial, the effect will not be as great as if a
+longer time has passed.  One consequence of this is that, according to the
+spacing effect hypothesis, cramming is ineffective (where cramming is namely
+repeating trials in short bursts).
+
+The spacing effect can be accommodated in the memory model used by the
+intelligent tutoring system.  We define a function for the dropoff:
+
+\begin{equation}
+  \label{eq:spacing}
+  \sigma(t) = \rho_s(1 - e^{-t})
+\end{equation}
+
 \begin{equation}
 \label{eq:ebbinghaus}
- \lambda_n = \rho_s \lambda_{n-1}
+ \lambda_n = \sigma(t) \mu_i \rho_s \lambda_{n-1}
 \end{equation}
+
+
