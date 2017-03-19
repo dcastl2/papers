@@ -7,6 +7,7 @@
 \usepackage{colortbl}
 \usepackage{rotating}
 \usepackage{fancyref}
+\usepackage{hyperref}
 \usepackage[final]{pdfpages}
 \setlength{\topmargin}{-0.5in}
 \setlength{\textheight}{9.0in}
@@ -17,8 +18,24 @@
 \setlength{\parskip}{0ex}
 \setcounter{tocdepth}{2}
 
+%\renewcommand{\end{equation}}{\end{equation}\vspace{12pt}}
+
+\newenvironment{equations}{\vspace{6pt}\begin{equation}}{\end{equation}\vspace{3pt}}
+
+
+
+\definecolor{red}{RGB}{128,0,0}
+\hypersetup{
+  colorlinks,
+  citecolor=red,
+  filecolor=red,
+  linkcolor=red,
+  urlcolor=red
+}
+
 \definecolor{Gray}{gray}{.9}
 \newcommand\y{\cellcolor{gray!10}}
+\newcommand{\logit}{\mathrm{logit}}
 
 
 \usepackage{titlesec}
@@ -32,14 +49,19 @@
 \titlespacing*{\section}
 {0pt}{36pt}{24pt}
 \titlespacing*{\subsection}
-{0pt}{24pt}{18pt}
+{0pt}{30pt}{24pt}
 \titlespacing*{\subsubsection}
-{0pt}{18pt}{12pt}
+{0pt}{20pt}{16pt}
 
 %\titleformat*{\subsubsection}{\large\bfseries\thesection.\thesubsection}
 \titleformat*{\subsubsection}{\large\bfseries}
 
 \makeatletter
+
+\setlength{\abovedisplayskip}{3em}
+\setlength{\belowdisplayskip}{3em}
+\setlength{\abovedisplayshortskip}{3em}
+\setlength{\belowdisplayshortskip}{3em}
 
 \begin{document}
 \renewcommand\@pnumwidth{1.55em}
@@ -143,7 +165,20 @@ my career.
 \begin{abstract}
 \vspace{0.55ex}
 \doublespacing
-Insert the text of your abstract here.  Make sure there is one blank line between the end of the Abstract text and the ``end'' command below to maintain double--spaced lines.
+
+This dissertation details an intelligent tutoring system which aims to raise
+student trait abilities across concepts and levels of Bloom's taxonomy within
+an educational program.  
+
+The system utilizes Item Response Theory, a probabilistic theory of assessment
+which accounts for item discrimination, difficulty, and probability of guessing
+in its assessment of student trait ability.
+
+The intelligent tutoring system features a graph-based model of dependency
+relationships among questions, models of memory and forgetting, and
+fine-grained characterization-based models of student ability.  In conjunction,
+these lend to efforts to schedule problems for the particular student which
+have the highest payoff.
 
 \end{abstract}
 

@@ -14,10 +14,10 @@ time.
 For that matter, any program can be thought of as a sequence of these tuples,
 thereby forming a schedule of items: 
 
-\begin{equation}
+\begin{equations}
 \label{eq:schedule}
    X = \langle (\chi_1, t_1), (\chi_2, t_2), \ldots (\chi_n, t_n) \rangle.
-\end{equation}
+\end{equations}
 \vspace{2pt}
 
 Furthermore $\chi$ could be a question, which could be thought of as an item
@@ -67,7 +67,7 @@ comprehension, application, analysis, evaluation, and synthesis.  A brief
 overview is given in Table~\ref{tab:bloom}, with definitions and examples of
 questions covering the concept of for-loops:
 
-\begin{table}
+\begin{table}[!p]
 \label{tab:bloom}
 \caption{The levels of Bloom's taxonomy defined}
 \vspace{12pt}
@@ -103,6 +103,32 @@ satisfy a goal.
 \end{tabularx}
 \vspace{36pt}
 \end{table}
+
+\begin{table}[!p]
+\label{tab:grades}
+\caption{Grades mapped to trait ability levels}
+\vspace{12pt}
+\begin{tabularx}{\textwidth}{||l|c|X||}
+\hline\hline
+\rowcolor{Gray}
+Letter  & $\theta$  & Explanation \\\hline
+F  & -3.0   & unsatisfactory \\\hline
+D- & -2.5   &                \\
+D  & -2.0   & minimal        \\
+D+ & -1.5   &                \\\hline
+C- & -1.0   &                \\
+C  & -0.5   & acceptable     \\
+C+ & 0.0    &                \\\hline
+B- & 0.5    &                \\
+B  & 1.0    & good           \\
+B+ & 1.5    &                \\\hline
+A- & 2.0    &                \\
+A  & 2.5    & distinguished  \\
+A+ & 3.0    &                \\\hline\hline
+\end{tabularx}
+\vspace{36pt}
+\end{table}
+
 
 Each category depends on the cognitive functions used in the previous category.
 That is, comprehension requires knowledge, application requires comprehension,
@@ -155,7 +181,8 @@ A tacit assumption in much of the research is that Bloom levels equate to
 difficulty levels.  While there is certainly a relationship between Bloom level
 and difficulty in the ``ordinary course'' of devising problems, a distinction
 can be made between the two.
-% TODO: (SRB) cite the papers you cite in the difficulty paper regarding this assumption.
+% TODO: (SRB) cite the papers you cite in the difficulty paper regarding this
+% assumption.
 
 \subsection{Assumptions of this Work}
 
@@ -188,10 +215,10 @@ will be shown later, this is pertinent to the interpretation of Bloom levels.
 According to Item Response Theory (IRT), the probability $p_i$ that a student
 answers correctly the $i^{th}$ question on a test, is given by:
 
-\begin{equation}
+\begin{equations}
  \label{eq:irt}
   p_i(\theta_s) = \gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
-\end{equation}
+\end{equations}
 
 where:
 
@@ -200,12 +227,9 @@ where:
  \item $\alpha$ is the item discrimination, or how well the item can
  distinguish students of varying trait ability;
 
- \item $\beta$ is the question difficulty, an initial estimate of which can be
- obtained from the proportion of students with average trait ability who pass
- the question;
+ \item $\beta$ is the question difficulty, 
 
  \item $\gamma$ is the probability of guessing the answer correctly,
- which for $n$-choice questions is $1/n$;
 
  \item and $\theta$ is the \emph{trait ability} of the student, or the
  student's particular ability to answer that question correctly.
@@ -221,12 +245,89 @@ shown \ref{fig:irt}.
  \caption{A probability curve in Item Response Theory.}
 \end{figure}
 
+\begin{figure}[p!]
+ \label{fig:mle}
+ \includegraphics{fig/mle.eps} 
+ \caption{A maximum-likelihood estimation for IRT}
+\end{figure}
+
 Note that $\alpha_i$, $\beta_i$, and $\gamma_i$ are parameters of the item $i$;
-however $\theta_s$ is particular to the student $s$.  If the trait ability of
-the student is known in addition to the item parameters, then the probability
-of a correct response can be calculated.  However, it is more often than not
-the case that the response set of the student is known, and trait ability is
-unknown.  In such a case, a variety of techniques are deployable.
+however $\theta_s$ is particular to the student $s$.  
+
+The question difficulty $\beta$ can be estimated by the proportion of students
+who pass the question.  The value $\beta$ is analogous to standard deviation in
+classical test theory.  If a model of student ability based upon the number of
+standard deviations from the mean is desired, and the scores are normally
+distributed, then the $\beta$ values can simply be obtained from the
+probability density function for a Student's t distribution.
+
+Supposing $\phi$ is the proportion of students who pass the question, $f(v, x)$
+is the probability density function for the Student's t-distribution with $v$
+degrees of freedom then the relationship between $\phi$ and $\beta$ in such an
+assignment would be given by
+
+%\begin{equation}
+%  p(x) = \frac{e^{-\frac{1}{2} x^2}}{\sqrt{2\pi}}
+%\end{equation}
+
+
+\begin{equation}
+  \phi = \int_{\beta}^{\infty} f(v, x) \ dx
+\end{equation}
+
+That is, $\beta$ is the number of standard deviations such that the area from
+$\beta$ to $\infty$ under the curve is equal to the proportion of students who
+pass the question.  The value can also be obtained from a t-table.
+
+Insofar as the intelligent tutoring system is concerned, the instructor or user
+is free to assign $\beta$.  Varying assignments of the $\beta$ scores will
+slightly alter the behavior of the system; if a given question is tagged as
+easier (that is, assigned a lower $\beta$ value), it will have a greater chance
+of appearing earlier in any given student's schedule.
+
+The item discrimination, $\alpha_i$, is defined as the Pearson product-moment
+correlation coefficient between the item responses and the composite score on
+the test.  Since the item responses are dichotomous, a correlation known as the
+point-biserial correlation is computed.  It is defined as:
+
+\begin{equations}
+  \alpha_i = \frac{M_1 - M_0}{s_n} \sqrt{\frac{n_0 n_1}{n^2}}
+\end{equations}
+
+where $M_1$ is the mean composite score for all correct responses; $M_0$ is the
+mean composite score for incorrect responses; $n_0$, $n_1$, and $n$ are number
+of incorrect, correct, and total responses, respectively; and the standard
+deviation $s_n$ is defined as:
+
+\begin{equations}
+  s_n = \sqrt{ \frac{1}{n} \displaystyle\sum_{i=1}^n (X_i - \overline{X})^2} 
+\end{equations}
+
+where $X_i$ is the ith response and $\overline{X}$ is the mean of the
+responses.  $\alpha$ values have range $[-1, 1]$.  Positive values indicate
+that the question is positively discriminating; it is a question which is
+useful for gauging the constructs which the composite score seeks to measure.
+Students who succeed on a question with a higher $\alpha$ are more likely to
+have higher composite scores.  Likewise, negative values indicate that the
+question is inversely related to composite score.  Values near zero indicate
+that the question is unrelated.
+
+The probability of guessing is defined as
+
+\begin{equations}
+  \gamma_i = \frac{1}{m_i}
+\end{equations}
+
+where $m_i$ is the number of options in a multiple choice question.  It is
+assumed that each option is equally likely to be chosen if a student with
+very low trait ability were to answer the question; that is, there can be
+no allowance for logical process-of-elimination tactics.
+
+If the trait ability of the student is known in addition to the item
+parameters, then the probability of a correct response can be calculated.
+However, it is more often than not the case that the response set of the
+student is known, and trait ability is unknown.  In such a case, a variety of
+techniques are deployable.
 
 Trait ability in IRT can be obtained using a maximum likelihood estimation
 (MLE) method, which finds a maximum-likelihood estimate of $\theta$ by testing
@@ -253,10 +354,10 @@ incorrect or correct.  This is true in the case of multiple choice questions
 
 Suppose the student has a response set for content items: 
 
-\begin{equation}
+\begin{equations}
   \label{eq:responses}
   X_s = x_{s1}, x_{s2}, \ldots, x_{si}, \ldots x_{sn}
-\end{equation}
+\end{equations}
 
 Here $X_s$ is the response vector of student $s$, and $x_{si}$ is the
 correctness of the response to content item $i$ by student $s$; it is zero if
@@ -273,30 +374,30 @@ will become apparent later.
 Recall that the probability $p_{si}$ of student $s$ answering the $i^{th}$
 question correctly is:
 
-\begin{equation}
-  p_{si}(\theta_s) = \gamma + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
+\begin{equations}
+  p_{si}(\theta_s) = \gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta_s-\beta_i)}}
   \tag{\ref{eq:irt}}
-\end{equation}
+\end{equations}
 
 Since $\theta_s$ is unknown but the response set is known, one method for
-determining $\theta_s$ is by guessing all possible values.  First, one can
-define a function $f_{si}$:
+determining $\theta_s$ is by guessing a range of possible values.  First, one
+can define a function $f_{si}$:
 
-\begin{equation}
+\begin{equations}
 f_{si}(\theta_s) =\left\{
          \begin{array}{ll}
-               p_i(\theta_s) & \mathrm{if}\  x_{si} = 1 \\
-               q_i(\theta_s) & \mathrm{otherwise}
+               p_{si}(\theta_s) & \mathrm{if}\  x_{si} = 1 \\
+               q_{si}(\theta_s) & \mathrm{otherwise}
          \end{array}
        \right.
-\end{equation}
+\end{equations}
 % TODO: (SRB) Do you mean p_{si} above when you type p_i?
 
 where 
 
-\begin{equation}
+\begin{equations}
    q_{si}(\theta_s)  = 1 - p_{si}(\theta_s).
-\end{equation}
+\end{equations}
 
 That is, $f_{si}$ assumes the probability $p_{si}$ if answered correctly and
 $q_{si}$ if not answered correctly.  Proceeding on the assumption that each of
@@ -305,64 +406,42 @@ probablity of observing a total response set given a particular $\theta_s$
 value is the product of the probabilities $f_{si}$ for all $i$, $1 \leq i \leq
 n$, or
 
-\begin{equation}
+\begin{equations}
   \prod_{i=1}^n f_{si}(\theta_s).
-\end{equation}
+\end{equations}
 
 Supposing that there exists some $\theta_s$ which maximizes this product,
 the most likely value for the student's true trait ability $\theta_s$ is
 defined by:
 
-\begin{equation}
+\begin{equations}
   \theta_s = 
   \underset{\theta}{\textrm{argmax}}
   \Bigg[ 
   \prod_{i=1}^n f_{si}(\theta).
   \Bigg]
-\end{equation}
+\end{equations}
+
 
 that is, that value of $\theta_s$ which maximizes the product which gives the
-probability of all the observations occuring together, given $\theta_s$.  To
+probability of all the observations occuring together, given $\theta$.  To
 obtain this, products for a range of possible $\theta$ values are calculated.
 
 In the intelligent tutoring system which has been constructed, there are only
 thirteen such values, drawing from the +/- system.  The mapping of grades to
 trait ability levels is given in Table~\ref{tab:grades}.  This mapping could
-also be applied to difficulty levels of questions.  A ``C question`` is one
+also be applied to difficulty levels of questions.  A ``C question'' is one
 which students of average trait ability (and perhaps just more than half the
-class) may be expected to answer; an ``A+ question`` is a very difficult
+class) may be expected to answer; an ``A+ question'' is a very difficult
 question which students of only A+ ability at the time of asking may be
-expected to answer; and an ``F question`` is one which may be used to determine
+expected to answer; and an ``F question'' is one which may be used to determine
 if a student's trait ability is minimally satisfactory.  This mapping lends to
 a intuitive understanding of trait ability--as the familiar letter grade.  An
 MLE may thereby effectively grade the student.
-% TODO: (SRB) Is there some reason why you have ``C question`` instead of ``C question''?
-% TODO: (SRB) Something should be said about the confidence in the trait ability assessment given above. In principle, a letter grade could be obtained from 2 questions.
 
-\begin{table}[t]
-\label{tab:grades}
-\caption{Grades mapped to trait ability levels}
-\vspace{12pt}
-\begin{tabularx}{\textwidth}{||l|c|X||}
-\hline\hline
-\rowcolor{Gray}
-Letter  & $\theta$  & Explanation \\\hline
-F  & -3.0   & unsatisfactory \\\hline
-D- & -2.5   &                \\
-D  & -2.0   & minimal        \\
-D+ & -1.5   &                \\\hline
-C- & -1.0   &                \\
-C  & -0.5   & acceptable     \\
-C+ & 0.0    &                \\\hline
-B- & 0.5    &                \\
-B  & 1.0    & good           \\
-B+ & 1.5    &                \\\hline
-A- & 2.0    &                \\
-A  & 2.5    & distinguished  \\
-A+ & 3.0    &                \\\hline\hline
-\end{tabularx}
-\vspace{36pt}
-\end{table}
+% TODO: (SRB) Something should be said about the confidence in the trait
+% ability assessment given above. In principle, a letter grade could be
+% obtained from 2 questions.
 
 To that end, rather than using a fine-grained MLE, it makes practical sense to
 calculate products for these thirteen values of $\theta$, since higher
@@ -372,8 +451,9 @@ products calculated to this set of values also makes sense from an efficiency
 standpoint.  The total time complexity of the MLE is linear in the size of the
 response set, regardless of the number of guesses in $\theta$; while not
 asymptotically reduced from using a smaller step size, it is five times faster
-than $10^{-1}$, and fifty times faster than $10^{-2}$.  A graph calculating
-likelihoods for MLE is depicted in Figure~\ref{fig:mle}.
+than the typical choice of $10^{-1}$, and fifty times faster than the
+fine-grained $10^{-2}$.  A graph calculating likelihoods for MLE is depicted in
+Figure~\ref{fig:mle}.
 
 % Talk about gradient descent and Newton-Raphson
 
@@ -382,67 +462,8 @@ equal to the total number of responses for all questions throughout a course,
 which can be quite large; it is proportional to the number of students times
 the number of items. 
 
-\begin{figure}[p!]
- \label{fig:mle}
- \includegraphics{fig/mle.eps} 
- \caption{A maximum-likelihood estimation for IRT}
-\end{figure}
-
-\section{Factor Analysis}
-
-Suppose ${Y}$ is a vector of $m$ observed random variables.  It is
-posited that there are $n : n \leq m$ latent, or hidden variables which explain
-${Y}$, in addition to item-specific variables $\epsilon$.  ${Y}$
-may be scores on test questions (what is directly measured); latent variables
-may be degree of understanding, amount of time spent studying, alertness,
-verbal intelligence, and so forth (what is indirectly measured).  An example
-of a factor analysis diagram is given in Figure~\ref{fig:factors}.
-
-This relationship may be expressed this using the following system of equations
-\cite{mulaik2010}:
-
-\begin{equation}
-\begin{array}{ll}
-\label{eq:factsystem}
-  y_1  = & \lambda_{11} \zeta_{1}  +  \lambda_{12} \zeta_{2}  +  \ldots  \lambda_{1n} \zeta_{n}  +  \psi_1 \epsilon_1 \\
-  y_2  = & \lambda_{21} \zeta_{1}  +  \lambda_{22} \zeta_{2}  +  \ldots  \lambda_{2n} \zeta_{n}  +  \psi_2 \epsilon_2 \\
-  \vdots \\
-  y_m  = & \lambda_{m1} \zeta_{1}  +  \lambda_{m2} \zeta_{2}  +  \ldots  \lambda_{mn} \zeta_{n}  +  \psi_m \epsilon_m \\
-\end{array}
-\end{equation}
-
-Here, $\zeta$ represents a factor, or latent variable. The $\lambda$ weight
-represents a factor loading, or extent to which the factor influences $y$;
-$\epsilon$ is an item-specific random variable, and $\psi$ is its loading. This
-above system may be expressed in matrix notation:
-
-\begin{equation}
- \label{eq:factmatrix}
- {Y} = {\Lambda} {X} + {\Psi} {E}
-\end{equation}
-
-This is known as the fundamental equation of factor analysis. Here, ${\Lambda}$
-is known as the loading matrix of the factors.  For normalized ${Y}$, it gives
-the amount of variance accounted for by each factor in ${X}$.  
-
-The means by which ${\Lambda}$ is obtained:
-
-% TODO
-
-It suffices to say that factor analysis involves the interpretation of
-${\Lambda}$, and may be one of two types: confirmatory or exploratory.
-
-
-\subsection{Confirmatory vs. Exploratory}
-
-Confirmatory factor analysis (CFA) seeks to confirm that hypothesized factors
-accounted for a certain threshold of variance. Exploratory factor analysis
-(EFA) seeks to find factors which account for unexplained variance.
-
-In this thesis, the use of CFA is to confirm that dependency relationships
-among items exist.  It is also used to find the extent of variance accounted
-for by those dependency relationships.
 
 \section{Previous Research}
 
 % TODO
+

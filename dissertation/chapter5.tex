@@ -5,25 +5,31 @@ withstood empirical study for over a century \cite{ebbinghaus}. It is known as
 the power law of forgetting.  According to the power law of forgetting, the
 strength of a memory after a time $t$ falls off exponentially: 
 
-\begin{equation}
+\begin{equations}
 \label{eq:ebbinghaus}
  S(t) = ae^{-bt}
-\end{equation}
+\end{equations}
 
 In this model, $a$ is the initial strength of the memory, and $b^{-1}$ is a
 decay rate.  The curve drawn by this function is known as the curve of
 forgetting, which is depicted in Figure~\ref{fig:forgetting}.  If $a=1$, the
 function may be interpreted as a probability function:
 
-\begin{equation}
-\label{eq:ebbinghaus}
- p(t) = e^{-bt}
-\end{equation}
+\begin{equations}
+\label{eq:ebbinghaus-p}
+ p_{recall}(t) = e^{-bt}
+\end{equations}
 
 \begin{figure}[p!]
  \label{fig:forgetting}
  \includegraphics{fig/forgetting.eps} 
  \caption{The curve of forgetting}
+\end{figure}
+
+\begin{figure}[p!]
+ \label{fig:modified}
+ \includegraphics{fig/modified.eps} 
+ \caption{The modified curve of forgetting}
 \end{figure}
 
 According to the theory, if the memory strength falls below a certain
@@ -51,10 +57,10 @@ that other chunks of information (related concepts, words, ideas, etc.) which
 have some association to $i$ are attended to.  This notion is captured in the
 following equation:
 
-\begin{equation}
-\label{eq:anderson}
+\begin{equations}
+\label{eq:anderson-activation}
 a_i = b_i + \displaystyle\sum_{i=j}^n w_j s_{ji}
-\end{equation}
+\end{equations}
 
 In this equation, known as the activation equation, the activation of a chunk
 $i$ is equal to its base activation $b_i$, plus the products of the attentional
@@ -66,10 +72,10 @@ or mentioning related material.
 Practice has the effect of causing the base strength of the memory to increase,
 and delays cause the strength of the memory to drop off:  
 
-\begin{equation}
-\label{eq:anderson}
+\begin{equations}
+\label{eq:anderson-spacing}
 b_i = \mathrm{ln} \Bigg( \displaystyle\sum_{j=1}^n t_j^{-d} \Bigg)
-\end{equation}
+\end{equations}
 
 Here, $t_j$ is the time since the jth practice of an item, and $d$ is a decay
 rate. \ldots
@@ -86,6 +92,12 @@ them.  Also, associative strenghts are established using a factor analysis.
  \caption{Forgetting with re-activation}
 \end{figure}
 
+\begin{figure}[p!]
+ \label{fig:spacing}
+ \includegraphics{fig/spacing.eps} 
+ \caption{The learning curve}
+\end{figure}
+
 \section{Alterations to Memory Model}
 
 A slight modification to this theory accounts for short-term memory and
@@ -93,10 +105,10 @@ short-term memorization, which allows for a small time window for the student
 to enjoy a high probability of recollection before dropping off sharply, as in
 the original curve:
 
-\begin{equation}
-\label{eq:modified}
- p(t) = \frac{1}{1 + e^{{m(t-\lambda)}}}
-\end{equation}
+\begin{equations}
+\label{eq:my-memory}
+ p_{recall}(t) = \frac{1}{1 + e^{{m(t-\lambda)}}}
+\end{equations}
 
 In this equation, $\lambda$ is the lifespan of the memory; or, the amount of
 time that passes until there remains only a .5 probability that the student
@@ -104,21 +116,17 @@ recalls the information.  The value $m$ is a parameter which controls the rate
 of dropoff, much like the decay rate in Ebbinghaus' model.  An example curve
 for this equation is given in Figure~\ref{fig:modified}.
 
-\begin{figure}[p!]
- \label{fig:modified}
- \includegraphics{fig/modified.eps} 
- \caption{The modified curve of forgetting}
-\end{figure}
 
 \section{Re-Activation}
+\ref{sec:reactivation}
 
 To account for re-activation, a simple model for the extension of half-life
 may be used: 
 
-\begin{equation}
-\label{eq:ebbinghaus}
+\begin{equations}
+\label{eq:lambda-rho}
  \lambda_n = \rho_s \lambda_{n-1}
-\end{equation}
+\end{equations}
 
 Here, $n$ refers to exposure or trial number $n$.  In the intelligent tutoring
 system, this is the nth time that the student has seen the problem.
@@ -131,10 +139,10 @@ Apparently there is a difference in problems in the ease with which they are
 learned.  An addendum to this can be used to account for individual differences
 in problems: 
 
-\begin{equation}
-\label{eq:ebbinghaus}
+\begin{equations}
+\label{eq:lambda-mu}
  \lambda_n = \mu_i \rho_s \lambda_{n-1}
-\end{equation}
+\end{equations}
 
 Here, $\mu_i$ represents the memorability of the problem, or the ease with
 which the problem solution can be committed to memory. 
@@ -156,14 +164,41 @@ repeating trials in short bursts).
 The spacing effect can be accommodated in the memory model used by the
 intelligent tutoring system.  We define a function for the dropoff:
 
-\begin{equation}
+\begin{equations}
   \label{eq:spacing}
-  \sigma(t) = \rho_s(1 - e^{-t})
-\end{equation}
+  \sigma_t = (1 - e^{-at})
+\end{equations}
 
-\begin{equation}
-\label{eq:ebbinghaus}
- \lambda_n = \sigma(t) \mu_i \rho_s \lambda_{n-1}
-\end{equation}
+This indicates the extent to which the spacing from the time the item
+was last seen influences the increase in the lifespan of the memory: 
+
+\begin{equations}
+\label{eq:lambda-final}
+ \lambda_n = (1 + \sigma_t \mu_i \rho_s) \lambda_{n-1}
+\end{equations}
+
+The utility of this model is in assessing the probability with which a student
+answers a question; not only based on trait ability and dependency
+relationships, but also on the inherit tendency to forget information with the
+passage of time.
+
+It will be assumed that, if a student has been exposed to a item before, then
+the probability of being able to answer the item correctly may assume one of
+two values.  The first is based upon recollection; it is the probability of
+recalling the facts, processes, and so forth required to produce the solution
+for an item.  The second is based upon derivation of the solution from known
+facts, processes, and so forth in the dependencies.  That is, if a student does
+not recall the process for solving a problem, the probability defaults to the
+probability based upon trait ability and dependency relationships:
+
+\begin{equations}
+\label{eq:p-final}
+p =\left\{
+         \begin{array}{ll}
+               p_{recall}(t) & \mathrm{if}\  p_{recall} > p({\theta_s, x_1, \ldots}) \\
+               p({\theta_s, x_1, \ldots}) & \mathrm{otherwise}
+         \end{array}
+       \right.
+\end{equations}
 
 

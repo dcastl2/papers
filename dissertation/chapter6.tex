@@ -1,18 +1,25 @@
 \section{Item Scheduling}
+\label{sec:scheduler}
 
 The general procedure for scheduling content and assessments can be stated as
-follows.  First, the trait ability matrix for the student is initialized:
+follows.  First, at the very beginning of the program, the trait ability matrix
+for the student is initialized:
 
-\begin{equation}
-  \Theta \leftarrow -\infty
-\end{equation}
+\begin{equations}
+  \Theta \leftarrow -3
+\end{equations}
 
-That is, the algorithm initially proceeds on the assumption that it is not
-possible for any student to answer any question with probability greater than
-zero.  In the first iteration, schedule a preliminary test consisting of a
-diagonal block of the trait ability matrix, for example:
+That is, the algorithm initially proceeds on the assumption that it is unlikely
+for any student to answer any question.  The initial estimate for the $\alpha$
+values may be 1, such that the Item Response Theory 3PL model defaults to 2PL
+in the absence of any data.  The initial difficulty estimates may be determined
+by the instructor, or they may be initialized set to 0.  The $\mu$ values may
+be initialized to 1.
 
-\begin{equation}
+The first iteration schedules a preliminary test consisting of a diagonal block
+of the trait ability matrix, for example:
+
+\begin{equations}
 \Theta_s =\left[
          \begin{array}{llll}
               \y\theta_{s11} & \y\theta_{s21} & \y\theta_{s31} & \ldots \\
@@ -21,36 +28,33 @@ diagonal block of the trait ability matrix, for example:
               \vdots         &                &                 &        \\
          \end{array}
        \right]
-\end{equation}
+\end{equations}
 
 The test should be small enough to be feasible while having enough questions to
 support an MLE.  At least two questions are needed per (Bloom $\times$ concept)
-for an MLE.  A 3 $\times$ 3 or triangle is sufficient.
-
-Once the data is collected, it is then possible to calculate $\alpha_i$ and
-$\beta_i$ for all items. 
+for an MLE.  Asking the questions from a single catetegory is sufficient to
+jumpstart the process, but the larger the triangle, the richer the initial
+information ($\alpha$, $\beta$ values).  Once the data is collected, it is then
+possible to re-calculate $\alpha_i$ and $\beta_i$ for all items. 
 
 With respect to $\alpha_i$, it is desirable to discard any question $i$ for
-which $\alpha_i < 0$.  Recall that negative values of $\alpha$ indicate a
+which $\alpha_i \leq 0$.  Recall that negative values of $\alpha$ indicate a
 negative biserial correlation with the composite score, which means that the
 question asked is an indicator of whether or not the student will perform
 poorly on the overall measure.  
 
-It $\alpha_i$ is close to -1, then the question may have powerful predictive
-power, in which case it should be analyzed for its properties.  It may be
-desirable to retain such questions for the purpose of predicting success.
-Regardless, if $\alpha_i < 0$, then it along with its subtree should be severed
-from the dependency graph, and should only be asked independently as part
-of a preliminary testing measure.
+If $\alpha_i$ is close to -1, then the question may have predictive power, in
+which case it should be analyzed for its properties.  It may be desirable to
+retain such questions for the purpose of predicting success.  Regardless, if
+$\alpha_i < 0$, then it along with its subtree should be severed from the
+dependency graph.
 
 With the response set, $\Theta_s$ can be constructed and the proximal zone of
-development can be identified, as well as a distribution to select the category
-from.  
+development can be identified.
 
-Once a category is selected, the roots of the assessment tree are traversed
-until either a question within the neighborhood of the trait ability is found,
-or if no question is found, the traversal ends and another random category is
-selected.
+The roots of the assessment tree are traversed until either a question within
+the neighborhood of the trait ability is found, or if no question is found, the
+traversal ends and another random category is selected.
 
 \subsection{Finding High-Impact Items}
 
@@ -70,9 +74,9 @@ analysis is re-run on the remaining dependencies.
 The most impactful dependency is sought.  This dependency item $i$ is selected
 as follows: 
 
-\begin{equation}
+\begin{equations}
   \underset{i}{\mathrm{argmax}} \Bigg[ (1 - p_i) \lambda_i^2 \Bigg]
-\end{equation}
+\end{equations}
 
 The value $\lambda^2$ is the proportion of variance due to that dependency, so
 it is preferred to start with higher proportions of variance.  Also $(1-p_i)$
@@ -92,4 +96,5 @@ Eventually, the algorithm will converge on either a question for which $p_i >
 in the sub-tree for which $p_i$
 
 \subsection{Finding the Whole Schedule}
+
 

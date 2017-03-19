@@ -7,7 +7,7 @@ shall be called $\Theta$, the trait ability matrix; and $\Theta_s$ will denote
 the trait ability matrix of student $s$.  Let $j$ be the index of a Bloom level
 and $k$ be the index of a concept, then:
 
-\begin{equation}
+\begin{equations}
 \Theta_s =\left[
          \begin{array}{lllll}
               \theta_{s11} & \ldots       & \ldots       & \ldots & \theta_{sn1}  \\
@@ -17,13 +17,13 @@ and $k$ be the index of a concept, then:
               \theta_{s1m} &              &              &        & \theta_{snm}  \\
          \end{array}
        \right]
-\end{equation}
+\end{equations}
 
 While not strict, there is certainly an ordering about $\Theta$. Lower-level
 concepts come before higher-level concepts, and lower Bloom levels come before
 higher Bloom levels.  Conceivably a $\Theta$ may look like the following:
 
-\begin{equation}
+\begin{equations}
 \Theta_1 =\left[
          \begin{array}{llllll}
              3 & 2.5 & 1   & \y0 & -1     & -2   \\
@@ -32,7 +32,7 @@ higher Bloom levels.  Conceivably a $\Theta$ may look like the following:
              1 & \y0 & -.5 & -1  & -2.5   & -3   \\
          \end{array}
        \right]
-\end{equation}
+\end{equations}
 \vspace{12pt}
 
 Highlighted are areas where $\theta_{sjk} = 0$. These are the areas where the
@@ -81,7 +81,7 @@ over time, the tested Bloom level for earlier-introduced concepts rises.  In a
 Equation~\ref{eq:perfect}, which shows a clear diagonal reflecting a
 progression in both concepts and Bloom levels.  
 
-\begin{equation}
+\begin{equations}
 \label{eq:perfect}
 \Theta_2 =\left[
          \begin{array}{llllll}
@@ -92,7 +92,7 @@ progression in both concepts and Bloom levels.
              \y0 & -1  & -2  & -3 & -3 \\
          \end{array}
        \right]
-\end{equation}
+\end{equations}
 \vspace{12pt}
 
 With all this in mind, the most logical subset of (Bloom $\times$ concept)
@@ -109,14 +109,14 @@ category while still placing $p$ at or just slightly above .5 by manipulating
 difficulty.  In fact, a matrix of difficulties for desired target questions
 could be calculated from the ability matrix:
 
-\begin{equation}
+\begin{equations}
   B_s = \Theta_s - \delta
-\end{equation}
+\end{equations}
 
 where $\delta$ is a sufficiently low value, such as .5.  In the case of
 student $s=1$, $B$ would then equal:
 
-\begin{equation}
+\begin{equations}
 B_1 =\left[
          \begin{array}{llllll}
              2.5 & 2    & 1   & -.5  & -1.5   & -2.5 \\
@@ -125,7 +125,7 @@ B_1 =\left[
              .5  & -.5  & -1  & -1.5 & -3     & -3.5 \\
          \end{array}
        \right]
-\end{equation}
+\end{equations}
 \vspace{12pt}
 
 Then, it is possible to threshold the matrix so as to eliminate (Bloom $\times$
@@ -133,7 +133,7 @@ concept) categories after this stepladder, but include some lag up to and not
 including those $\beta_{sjk}$ values for which the student has $\theta_{sjk}$
 indicating distinguished mastery:
 
-\begin{equation}
+\begin{equations}
 B_1 =\left[
          \begin{array}{llllll}
                  & 2    & 1   & -.5  &        &      \\
@@ -142,13 +142,31 @@ B_1 =\left[
              .5  & -.5  &     &      &        &      \\
          \end{array}
        \right]
-\end{equation}
+\end{equations}
 \vspace{12pt}
 
 From here, the density of questions asked may be in proportion to the distance
 from -.5.  Eventually, either the student will reach $\theta_{sjk} = 3$ or else
 the tutoring system will run out of questions for that (Bloom $\times$
 concept), in which event the trait ability level will stay.
+
+Sometimes the trait ability matrix may be jagged:
+
+\begin{equations}
+\Theta_1 =\left[
+         \begin{array}{llllll}
+             3 & 3   & 2   & \y0  & -1     & -2   \\
+             3 & 2.5 & 1   & \y-.5  & -1.5   & -2.5 \\
+             3 & 3   & 2.5 & \y-1 & -2     & -3   \\
+             2 & 1.5 & \y-.5 & -1   & -2.5   & -3   \\
+         \end{array}
+       \right]
+\end{equations}
+\vspace{12pt}
+
+in which event, the scheduler discussed in Sec~\ref{sec:scheduler} will attempt
+to correct the trait ability matrix by asking questions in such a manner as to
+have the proximal zone of development conform to a diagonal shape.
 
 This structure, $\Theta$, therefore shows where to begin asking questions.  It
 also helps to define the goal of the intelligent tutoring system: to increase
@@ -174,4 +192,33 @@ the edit distance.  Essentially, the Levenshtein distance gives the number of
 edits (insertions, substitutions and deletions) required to arrive from the
 student input to the solution.  If the Levenshtein distance is below a
 threshold, the answer is marked correct; otherwise it is marked incorrect. 
+
+\subsection{Coding}
+
+An independent component for auto-grading code does exist, but it has not been
+integrated into the system.  The code auto-grader uses a humble approach; it
+associates regular expressions with point values:
+
+ \begin{align*}
+  \langle expr \rangle_1 & \rightarrow  x_1 \\
+  \langle expr \rangle_2 & \rightarrow  x_2 \\
+                         & \vdots       \\
+  \langle expr \rangle_i & \rightarrow  x_i \\
+                         & \vdots       \\
+  \langle expr \rangle_n & \rightarrow  x_n 
+ \end{align*}
+
+where $\langle expr \rangle_i$ is some regular expression, and $x_i$ is the
+point value assigned, which may be negative.  This is to dock for the
+appearance of certain constructs.
+
+The problem is scored based upon the expressions which were parsed, allowing
+a minimum score no greater than zero:
+
+\begin{equation}
+  \max \Bigg\{ \displaystyle\sum_{i=1}^n x_i, 0 \Bigg\}
+\end{equation}
+
+
+
 
