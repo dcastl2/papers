@@ -138,15 +138,19 @@ dealing with expressions, but may not possess knowledge of equations, and thus
 could not solve problems involving equations.
 
 The utility of Bloom's taxonomy lies in its ability to pinpoint the underlying
-cause of the student's problem-solving impasses \cite{shuhidan2011}.  Suppose a
-test of mastery of loops is given with the comprehension question ``What does
-such-and-such loop output?'' is given, and the student reaches an impasse.  If
-the question ``What are the three expressions of the loop and what do they
-do?'' is asked and the student does not know, the impasse can be attributed to
-a lack of knowledge about loops.  If the student does know about the loop
-expressions but still cannot answer, one might instead attribute it to a
-comprehension difficulty \emph{as such}; which might be remedied by giving some
-examples to build intuition, then continuing to test at the comprehension
+cause of the student's problem-solving impasses \cite{shuhidan2011}.  
+There is even evidence to suggest that Bloom levels correspond to different
+electroencephalographic (EEG) signatures \cite{chatterjee2015}, implicating
+distinct brain functions in their use. 
+
+Suppose a test of mastery of loops is given with the comprehension question
+``What does such-and-such loop output?'' is given, and the student reaches an
+impasse.  If the question ``What are the three expressions of the loop and what
+do they do?'' is asked and the student does not know, the impasse can be
+attributed to a lack of knowledge about loops.  If the student does know about
+the loop expressions but still cannot answer, one might instead attribute it to
+a comprehension difficulty \emph{as such}; which might be remedied by giving
+some examples to build intuition, then continuing to test at the comprehension
 level.
 
 Educators may have an intuitive notion of how to do this, but Bloom's taxonomy
@@ -266,11 +270,6 @@ is the probability density function for the Student's t-distribution with $v$
 degrees of freedom then the relationship between $\phi$ and $\beta$ in such an
 assignment would be given by
 
-%\begin{equation}
-%  p(x) = \frac{e^{-\frac{1}{2} x^2}}{\sqrt{2\pi}}
-%\end{equation}
-
-
 \begin{equation}
   \phi = \int_{\beta}^{\infty} f(v, x) \ dx
 \end{equation}
@@ -284,6 +283,20 @@ is free to assign $\beta$.  Varying assignments of the $\beta$ scores will
 slightly alter the behavior of the system; if a given question is tagged as
 easier (that is, assigned a lower $\beta$ value), it will have a greater chance
 of appearing earlier in any given student's schedule.
+
+\begin{figure}[p!]
+ \label{fig:ctt}
+ \includegraphics{fig/ctt.eps} 
+ \caption{The standard normal curve; the distribution of test scores
+  as modeled by Classical Test Theory}
+\end{figure}
+
+\begin{figure}[p!]
+ \label{fig:pl1}
+ \includegraphics{fig/pl1.eps} 
+ \caption{The PL1 Item Response Theory model, where $\beta$=1}
+\end{figure}
+
 
 The item discrimination, $\alpha_i$, is defined as the Pearson product-moment
 correlation coefficient between the item responses and the composite score on
@@ -329,13 +342,27 @@ However, it is more often than not the case that the response set of the
 student is known, and trait ability is unknown.  In such a case, a variety of
 techniques are deployable.
 
+\begin{figure}[p!]
+ \label{fig:pl2}
+ \includegraphics{fig/pl2.eps} 
+ \caption{The PL2 Item Response Theory model, where the item discrimination 
+ $\alpha=.5$ and $\beta=0$}
+\end{figure}
+
+\begin{figure}[p!]
+ \label{fig:pl3}
+ \includegraphics{fig/pl3.eps} 
+ \caption{The PL3 Item Response Theory model, where $\alpha=1$ and $\beta=0$,
+ and probability of guessing $\gamma=.25$}
+\end{figure}
+
 Trait ability in IRT can be obtained using a maximum likelihood estimation
 (MLE) method, which finds a maximum-likelihood estimate of $\theta$ by testing
 a range of $\theta$ values with the IRT formula \cite{baker2004}.  Later it
 will be shown how $\theta$ can be estimated.  Another potential technique is
 Newton-Raphson, which in most other applications would be the more efficient
-and desirable method.  It will later be discussed why the MLE method is
-preferred.
+and desirable method \cite{baker2004}.  It will later be discussed why the MLE
+method is preferred.
 
 %The utility of IRT is that it requires fewer questions to gauge trait ability
 %due to its account of other factors ($\alpha, \beta, \gamma$). It is thus
@@ -463,7 +490,198 @@ which can be quite large; it is proportional to the number of students times
 the number of items. 
 
 
-\section{Previous Research}
+\section{Previous Literature}
 
-% TODO
+\subsection{Works Mentioning Bloom's Taxonomy and Item Response Theory}
+
+There has been one suggestion by Sitthisak et al.  linking Item Response Theory
+with Bloom's taxonomy which interprets Bloom levels as difficulty levels.  That
+is, the values of $\beta$ from Item Response Theory are mapped directly to
+Bloom levels \cite{sitthisak}.  This suggestion exists in the form of a
+proposal to implement a computer-aided tester using Item Response Theory.
+
+Another study identifies difficulty by levels of Bloom's taxonomic levels, and
+evidently applies Item Response Theory to scoring of the same questions;
+however it is unclear how the Bloom levels are mapped ot Item Response Theory
+$\beta$ values, or whether or not the mentioned difficulties were hypothesized
+or actual difficulties \cite{osborne2013grounded}.  
+
+It is discussed in Sec~\ref{sec:reconciling} why it is desirable for the
+current intelligent tutoring system to main difficulty and Bloom levels as
+separate entities.
+
+Ghulman et al. may be the closest to a full separation of Bloom's taxonomy and
+difficulty, as well as establishing the connection between Bloom's taxonomy and
+Item Response Theory, as it categorizes questions by Bloom level before
+applying a Rasch model to score them \cite{ghulman2009modern}.  The Rasch model
+is a model simpler in nature than Item Response Theory which uses one paramter
+and is derived from the data set itself.
+
+\subsection{Categories of Systems}
+
+Conole and Warburton have developed a classification system for such
+computer-aided testing tools.  Web-based systems \cite{wang2004web} fall under
+networked systems, which in turn fall under computer-based assessment
+utilities, which in turn falls under computer-assisted assessment
+\cite{conole2005review}.  Conole and Warbuton identify that Bloom's taxonomy is
+often used as an outcomes-based categorization tool for questions, and that
+Classical Test Theory and Item Response Theory are the two main ways in which
+computer-aided systems score questions; however these are mentioned in
+isolation.
+
+Bejar distinguishes between two types of systems: deficit assessment and error
+analysis \cite{bejar1984educational}.  Deficit assessment is concerned with
+finding where a student is lacking (such as in trait ability), and error
+analysis with what steps in the problem-solving process the student is making
+errors in.  This distinction is similar to Anderson's characterization-based
+models versus process-based models in intelligent tutoring systems; where
+characterization-based models attempt to create a representation of the
+student's strengths, process-based models attempt to simulate the student's
+problem-solving processes \cite{anderson}.  The current work would fall
+squarely within the realm of Bejar's deficit assessment-type system, or
+Anderson's characterization-based model.
+
+\subsection{Memory and Forgetting}
+
+Ebbinghaus is credited with having created one of the first mathematical
+memories of rememberance and forgetting \cite{ebbinghaus}.  In particular, he
+identified that recall drops off exponentially with time.  Empirical studies
+since then have supported his original finding.
+
+John Anderson developed a model for process-based learning which could provide
+the foundation for an intelligent tutoring system \cite{anderson}.  He called
+this Adaptive Control of Thought-Rational (ACT-R).  In ACT-R, there are goals,
+akin to problem statements; and rules, or processes used to solve problems; and
+finally facts, or knowledge utilized in the course of applying rules.  In this
+regard, the structure of an ACT-R model resembles a logic program.  Anderson
+also developed a memory model for ACT-R fact and rule recall loosely based on
+Ebbinghaus' recall functions, as well as models of re-activation of knowledge
+generalized from his own empirial research.
+
+
+\cite{bacon2003assessing}
+
+
+\subsection{Executability} 
+
+Finally, some supplementary work on the executability component of the
+intelligent tutoring system has been done \cite{castleberry2011}.  One
+component of the intelligent tutoring system allows for arbitrary code to
+execute before a question or item is displayed to the student.  This feature
+was inspired by earlier work on what are known as executable papers.
+Executable papers are academic publications residing inside of a virtual (or
+other) machine which have editable codes on the front-end and compilers or
+interpreters on the backend.  The front-end codes may be edited, then the
+paper may be re-compiled so that results from the codes are substituted back
+into the paper.  
+
+This idea was originally intended for use with computational science codes, but
+was adapted for statistics codes \cite{castleberry2013}.  It has been
+integrated into the present work to allow for sophisticated random-number
+generation, and for the nature of the questions and items to change in response
+to the student or other contextual data.
+
+
+\subsection{Reconciling Bloom's Taxonomy with Item Response Theory}
+\label{sec:reconciling}
+
+A popular interpretation of Bloom's cognitive levels is that they are
+difficulty levels, and that these difficulty levels are fixed
+\cite{newman1988effect,oliver2004course,lord2007moving,
+johnson2006bloom,fuller2007developing}.  Knowledge is easy; synthesis is hard.
+We will call this the Bloom-equals-difficulty hypothesis.
+
+A creative interpretation of this hypothesis is that per-student difficulty can
+be explained in terms of the demotion of Bloom levels.  The synthesis \emph{and
+therefore difficult} questions, once the solution is obtained, are reduced to
+knowledge \emph{and therefore easy} questions.  Certainly, this is one possible
+scenario.  However, it does not explain a student's ability to answer
+altogether distinct synthesis problems; this is to suggest students engage the
+cognitive functions of synthesis, presumably as an effect of learning the use
+of those functions.  To maintain that Bloom equals difficulty would either
+require sustaining the view that students are able to pass the questions
+because of a demotion of the cognitive functions required (which poses a rather
+cynical view of cognition and of education); or else some notion of trait
+ability--in particular one which offsets difficulty, allowing an increase in
+the probability of passing the question.
+
+The latter option takes the shape of a primeval form of Item Response Theory,
+mapping Bloom levels to $\beta$.  This is highly convenient for the hypothesis
+that Bloom equals difficulty, as it becomes agreeable to evaluation with Item
+Response Theory.  Nontheless, there are still several issues with the
+hypothesis.
+
+Consider first that exposure to knowledge and knowledge questions causes an
+increase in $\theta$, provided the student acquires the knowledge.  According
+to Bloom's theory, this would increase the probability of answering
+comprehension questions correctly.  This agrees with the theory.  However,
+according to Item Response Theory, it would also increase the probability of
+answering application questions correctly even if no comprehension-level
+questions are asked.  In fact, it is theoretically possible to design tests
+with sufficient numbers of knowledge questions to place, for any $\beta$,
+$\theta-\beta$ much greater than zero--that is for example to say, asking a
+sufficient number of knowledge questions should give the reasonable assurance
+that application-level ability is high enough not to bother testing it.
+
+As many educators will no doubt agree, this is not the case. Even if a student
+scores exceptionally well on knowledge questions, it gives no such assurance
+that the student will score similarly on application-level questions.  Even if
+knowledge and application scores are found to be correlated, there may be an
+additional underlying factor contributing to both scores (such as
+intelligence).  The application level is \emph{qualitatively} different; hence
+it needs to be tested in spite of the value of $\theta$.
+
+Second, if the hypotheses is strictly true, then there can exist no
+counterexample to the claim.  That is to say that there exists no problem on a
+lower Bloom level which is more difficult than a problem on a higher Bloom
+level.  To take an example, it would be mistaken to call an application problem
+easier than any comprehension problem. 
+
+Counterexmaples with intuitive appeal can be constructed.  Take for-loops for
+example.  To ask a student to print out the result of a simple loop which
+prints numbers 1 to 10 should present an easy enough task.  This is an
+application of the many rules of for-loops, but which does not require creative
+synthesis or critical thinking on the part of the student (hence it is an
+application problem). 
+
+Consider then asking the student to impose a flowchart over the same code,
+including the initialization, condition and update statements and the body of
+the loop, and to indicate the start and stop of the loop.  Suppose the student
+has seen flowcharts over similar loops before.  This is a test of
+comprehension--in particular, comprehension of the internal workings (the
+control flow) of the loop.    
+
+The application problem above requires only an intuitive comprehension of the
+loop: ``\emph{It prints the sequence from 1 up to 10 in steps of 1}'', the
+student may realize.  It demands only shallow comprehension and the rule to be
+applied is simple.  In the comprehension problem, on the other hand, a higher
+degree of precision in comprehension of the loop is demanded to solve the
+problem.  The comprehension problem also depends on mastery of the knowledge,
+comprehension, and application of flowchart symbols.  Regardless, explaining
+the control flow of the loop in full detail is a more difficult undertaking
+than simply printing its output. 
+
+Likewise, it is possible to ask the student to synthesize a loop printing the
+first ten powers of two, then ask a comparatively difficult analysis question
+in the form of an obfuscated loop code.  Impasses in this situation may be
+attributed to a lack of knowledge or comprehension of the constructs used in
+the presented code.  In the synthesis problem, the student has the advantage of
+using known syntax; it is a ``constructed-response'' type of question, rather
+than a closed-form question \cite{kuechler2010performance}. 
+
+Third, by Bloom's own admission, it is possible to skip levels for certain
+concepts \cite{bloom1956}.  In this case, the ordinality of Bloom levels
+breaks down.  A plausible example is given above.  It is possible to teach how
+to obtain the numeric sequences printed by for-loops before covering in full
+detail the control flow of the loop.  In that particular case, application of
+the rule does not depend on comprehension of the code construct.
+
+Alternative interpretations of Bloom levels distinguish between facility or
+difficulty and complexity of a problem \cite{hill1981testing,
+thompson2008bloom}.  In such interpreations, the cognitive complexity has an
+orthogonal relationship to the item difficulty.  The problem with such
+interpretations, however, is that they do not readily explain the moderate
+correlation that does exist between mean performance and Bloom level
+\cite{hill1981testing}.
+
 

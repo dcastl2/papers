@@ -92,6 +92,20 @@ these edges have weights which indicate the extent of the dependency
 relationship.  The root of each such tree is a depender.  Not all items in the
 set are part of the same tree; there may thus be a forest for an item set.
 
+\begin{figure}[!p]
+\label{fig:forest}
+  \centering\includegraphics{fig/forest.eps}
+\caption{A forest obtained from an item set, where each tree is a subset
+of the item set which has dependency relationships}
+\end{figure}
+
+\begin{figure}[!p]
+\label{fig:severance}
+  \centering\includegraphics{fig/severance.eps}
+\caption{The severance of dependency relationships based upon low $\alpha$
+values}
+\end{figure}
+
 There are two incarnations of each graph: one is a base dependency graph whose
 nodes contain the item-specific information. The node $i$ for the ith item
 contains item response theory parameters $\alpha_i$, $\beta_i$, and $\gamma_i$;
@@ -115,13 +129,14 @@ Fig~\ref{fig:student-graph}.
 \begin{figure}[!p]
 \label{fig:base-graph}
   \centering\includegraphics{fig/base-graph.eps}
-\caption{The base item set graph}
+\caption{The base item set graph, which includes item-specific paramters}
 \end{figure}
 
 \begin{figure}[!p]
 \label{fig:student-graph}
   \centering\includegraphics{fig/student-graph.eps}
-\caption{The student-specific item set graph}
+\caption{The student-specific item set graph, which includes the list of
+student responses and timestamps for each response}
 \end{figure}
 
 \subsection{Probability Estimates Using Dependees}
@@ -267,6 +282,32 @@ a dependee at all, in which case the edge indicating the dependency
 relationship may be pruned from the tree.  The logistic regression model will
 naturally assign a low weight to such a dependee, and its use in the scheduling
 algorithm will be limited by its relative weight.
+
+\begin{figure}[!p]
+\label{fig:neural}
+  \centering\includegraphics[width=.6\textwidth]{fig/neural.eps}
+\caption{A perceptron; a single-layer neural network, where the inputs a, b, and c
+are multiplied by weights, summed, and applied to a sigmoid squash function}
+\end{figure}
+
+\begin{figure}[!p]
+\label{fig:deps}
+  \centering\includegraphics[width=.6\textwidth]{fig/deps.eps}
+\caption{A view of the dependency graph and weights used in the logistic regression,
+including the item parameters}
+\end{figure}
+
+The use of the logistic regression model in the intelligent tutoring system
+suggests that the student would need to have answered all the dependencies
+(that values of 0 or 1 are available).  In many instances where it is desirable
+to use such a predictive model, this is not the case; instead what is available
+is a probability that the student will be able to answer the question
+correctly.  In such cases, the model is used with the probabilities calculated
+using Item Response Theory.
+
+The above probability estimates also assume an atemporal view of questions: if
+the student has answered a question, the student remembers the answer to the
+question permanently; however this is evidently not the case.  
 
 What remains is a temporal account of questions, in particular the role of
 memory and forgetting.

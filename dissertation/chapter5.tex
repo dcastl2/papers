@@ -23,13 +23,15 @@ function may be interpreted as a probability function:
 \begin{figure}[p!]
  \label{fig:forgetting}
  \includegraphics{fig/forgetting.eps} 
- \caption{The curve of forgetting}
+ \caption{The Ebbinghaus curve of forgetting, which features an exponential
+ dropoff of memory strength over time}
 \end{figure}
 
 \begin{figure}[p!]
  \label{fig:modified}
  \includegraphics{fig/modified.eps} 
- \caption{The modified curve of forgetting}
+ \caption{The modified curve of forgetting, which resembles the reverse
+ sigmoid function}
 \end{figure}
 
 According to the theory, if the memory strength falls below a certain
@@ -41,12 +43,12 @@ individual has more than likely forgotten the information.
 
 \section{ACT-R}
 
-John Anderson developed a model for process-based learning which could provide
-the foundation for an intelligent tutoring system \cite{anderson}.  He called
-this Adaptive Control of Thought-Rational (ACT-R).  In ACT-R, there are goals,
-akin to problem statements; and rules, or processes used to solve problems; and
-finally facts, or knowledge utilized in the course of applying rules.  In this
-regard, the structure of an ACT-R model resembles a logic program.  
+As has been mentioned in Sec~\ref{sec:litreview}, John Anderson is credited
+with having developed Adaptive Control of Thought-Rational (ACT-R), a
+process-based model which simulates the solving of problems.  In ACT-R, there
+are goals, akin to problem statements; and rules, or processes used to solve
+problems; and finally facts, or knowledge utilized in the course of applying
+rules. 
 
 In addition to this, however, Anderson added models for memory and forgetting
 to support realistic recall probabilities and latencies.  The memory component
@@ -89,13 +91,15 @@ them.  Also, associative strenghts are established using a factor analysis.
 \begin{figure}[p!]
  \label{fig:memory}
  \includegraphics{fig/memory.eps} 
- \caption{Forgetting with re-activation}
+ \caption{Forgetting with re-activation; each spike in the graph is an
+ additional trial where the student is exposed to the item again}
 \end{figure}
 
 \begin{figure}[p!]
  \label{fig:spacing}
  \includegraphics{fig/spacing.eps} 
- \caption{The learning curve}
+ \caption{The learning curve, which indicates the extent of memory
+ lifespan increase given a time between trials}
 \end{figure}
 
 \section{Alterations to Memory Model}
@@ -106,7 +110,7 @@ to enjoy a high probability of recollection before dropping off sharply, as in
 the original curve:
 
 \begin{equations}
-\label{eq:my-memory}
+\label{eq:memory}
  p_{recall}(t) = \frac{1}{1 + e^{{m(t-\lambda)}}}
 \end{equations}
 
@@ -187,9 +191,11 @@ the probability of being able to answer the item correctly may assume one of
 two values.  The first is based upon recollection; it is the probability of
 recalling the facts, processes, and so forth required to produce the solution
 for an item.  The second is based upon derivation of the solution from known
-facts, processes, and so forth in the dependencies.  That is, if a student does
-not recall the process for solving a problem, the probability defaults to the
-probability based upon trait ability and dependency relationships:
+facts, processes, and so forth in the dependencies, as if the student were
+answering the question for the first time.  That is, if a student does not
+recall the process for solving a problem, the probability defaults to the
+probability based upon item parameters, trait ability and dependency
+relationships:
 
 \begin{equations}
 \label{eq:p-final}
@@ -200,5 +206,10 @@ p =\left\{
          \end{array}
        \right.
 \end{equations}
+
+Now the intelligent tutoring system has models of dependency relationships
+among questions and probability estimates for questions, and all other
+mathematical equipment required to schedule problems. 
+
 
 

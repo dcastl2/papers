@@ -1,4 +1,5 @@
 \section{Experiments Supporting the Utility of the Taxonomy}
+\label{sec:experiments}
 
 \subsection{Experiment 1 Design}. 
 
@@ -211,16 +212,22 @@ increased mean scores.
 For this we first required proportions of variance between depender and
 dependees.  We created 4 questions, where the 4th question had three dependees.
 We then asked some of our students (N=22) to answer all of these questions to
-obtain proportions of variance, which are listed below.  
+obtain proportions of variance, which are listed in Table~\ref{tab:variance}.  
 
+\begin{table}
 \begin{center}
-\begin{tabular}{|l|l|l|l|l|}
+\label{tab:variances}
+\caption{Proportions of variance due to questions for Experiment 1}
+\vspace{12pt}
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
                                   \hline
-      &   q1 &  q2  & q3 & q4  \\ \hline
-$v_j$ &  .02 & .23 & .30 &     \\ \hline
- M    &  .67 & .66 & .43 & .34 \\ \hline
-\end{tabular}
+      &\y q1 &\y q2 &\y  q3 &\y q4  \\ \hline
+\y $v_j$ &  .02 & .23 & .30 &     \\ \hline
+\y M    &  .67 & .66 & .43 & .34 \\ \hline
+\end{tabularx}
+\vspace{24pt}
 \end{center}
+\end{table}
 
 The others would receive a combination of questions.  Each student was randomly
 assigned to one of eight groups.  Four students received each combination of
@@ -236,17 +243,20 @@ each dependee was 16.
 
 \subsection{Experiment 1 Analysis}
 
-Interrater reliability on Bloom levels
-was calculated to be 93\%.  Means for each Bloom level are reported below.
-Clearly
+Interrater reliability on Bloom levels was calculated to be 93\%.  Means for
+each Bloom level are reported below.
 
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|}
+\begin{table}
+\caption{Item means per Bloom category for Experiment 1 ($M_1$) and Experiment 2 ($M_2$)}
+\vspace{12pt}
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
                                                                  \hline
-      &   Knowledge & Comprehension & Appplication & Analysis \\ \hline
- $M$  &  .42 & .53 & .67 & .82  \\ \hline
-\end{tabular}
-\end{center}
+      & \y Knowledge & \y Comprehension & \y Appplication & \y Analysis \\ \hline
+\y $M_1$  &  .42 & .53 & .67 & .82  \\ \hline
+\y $M_2$  &  .78 & .62 & .48 & .41  \\ \hline
+\end{tabularx}
+\vspace{24pt}
+\end{table}
 
 One-tailed Student t-tests were performed on the three consecutive pairs of
 means.  The mean for comprehension was statistically significantly greater than
@@ -289,20 +299,10 @@ included already in the above formula.
 
 \subsection{Experiment 2 Analysis}
 
-Interrater reliability on Bloom levels was once again calculated to be 93\%. 
-
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|}
-                                                                 \hline
-      &   Knowledge & Comprehension & Appplication & Analysis \\ \hline
- $M$  &  .78 & .62 & .48 & .41  \\ \hline
-\end{tabular}
-\end{center}
-
-
-To test the hypothesis that modified IRT leads to an increase in accuracy,
-a t-test on the increase in accuracy of probability was conducted at the
-.05 significance level.
+Interrater reliability on Bloom levels was once again calculated to be 93\%.
+To test the hypothesis that modified IRT leads to an increase in accuracy, a
+t-test on the increase in accuracy of probability was conducted at the .05
+significance level.
 
 First the probabilities $p_i^{irt}(\theta)$ (for original IRT) and
 $p_i^{mod}(\theta)$ (for modified IRT) were calculated.  Note that each of
@@ -345,10 +345,14 @@ exposure to a set of dependees.  Though the data set is small, there does
 appear to be a trend in the data.  A clearer trend can be observed by summing
 the number of correct responses per exposure to a given question.
 
-\begin{center}
-\begin{tabular}{|l|l|l|l|l|}
+\begin{table}[t]
+\caption{ The percent of students who answered the depender correctly
+given a particular set of questions (left), as well as the percent of students
+who answered the depender correctly given exposure to a given question (right).}
+\vspace{12pt}
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
 \hline
-dependees    & \#correct &  percent & \#correct & percent \\ \hline
+\y dependees    & \y \#correct &  \y percent & \y \#correct & \y percent \\ \hline
 none         &  1  & .25  &1&  .06 \\ \hline
 q1           &  1  & .25  &8&  .50 \\ \hline
 q2           &  2  & .50  &10& .62 \\ \hline
@@ -357,12 +361,10 @@ q1, q2       &  2  & .50  && \\ \hline
 q1, q3       &  2  & .50  && \\ \hline
 q2, q3       &  3  & .75  && \\ \hline
 q1, q2, q3   &  3  & .75  && \\ \hline
-\end{tabular}
-\end{center}
+\end{tabularx}
+\vspace{24pt}
+\end{table}
 
-The table shows the percent of students who answered the depender correctly
-given a particular set of questions (left), as well as the percent of students
-who answered the depender correctly given exposure to a given question (right). 
 It is interesting to note that to an extent, the proportions of variance
 explained by a given question appear to be co-related to the percentage of
 students who answered the depender correctly.  However, the numbers are too

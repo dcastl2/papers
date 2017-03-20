@@ -2,7 +2,11 @@
 \label{sec:scheduler}
 
 The general procedure for scheduling content and assessments can be stated as
-follows.  First, at the very beginning of the program, the trait ability matrix
+follows.  
+
+\subsection{Preliminaries}
+
+First, at the very beginning of the program, the trait ability matrix
 for the student is initialized:
 
 \begin{equations}
@@ -52,49 +56,111 @@ dependency graph.
 With the response set, $\Theta_s$ can be constructed and the proximal zone of
 development can be identified.
 
-The roots of the assessment tree are traversed until either a question within
-the neighborhood of the trait ability is found, or if no question is found, the
-traversal ends and another random category is selected.
+\subsection{Subsequent Assessments}
+
+When a student is assigned an assessment, first the probabilities that the
+student will be able to answer each question are recursively calculated.  They
+must be calculated from the bottom-up, since internal nodes require probability
+estimates from their children.  The leaves are the only nodes that do not
+require logistic regression to obtain a probability estimate, since the leaves
+have no dependencies.  Probability estimates for the children are obtained
+using Item Response Theory.
+
+For each node which has been answered, the probability of recall can be
+calculated using Eq~\ref{eq:memory}.  In the presence of a probability of
+recall, the final probability of answering the question can be calculated
+using Eq~\ref{eq:p-final}.  
+
+Then, a recursive traversal beings at the root of each tree.  If the
+probability of answering the question at the root is within the neighborhood of
+[$\delta$, .5+$\delta$], it is asked.  Recall that low probabilities correspond
+to higher differences in $\beta-\theta$; thus if a probability is very low, yet
+the student answers the question correctly, it will indicate a corresponding
+rise in trait ability.  Such items have higher impact on the MLE estimate of
+trait ability.  Yet if the probability is below .5, there is no reasonable
+assurance the student will be able to answer it to begin with.
+
+If the probability to answer the question correctly is in the neighborhood of
+[.5+$\delta$, 1],  the question is skipped.  The algorithm may recursively
+descend into its dependencies to find lower-$p$ items.
+
+If the probability is less than .5, then the system will seek to raise the
+probability by targetting the dependees, in order of the highest-impact
+dependees to the lowest-impact.
 
 \subsection{Finding High-Impact Items}
 
-Once a node on the tree is found, a check is performed to ensure the
-dependencies have been asked.  If not, an in-order recursive descent is done on
-each dependency, and this procedure is performed on the sub-dependencies.  If
-all dependencies have been asked, the probability of the target question is
-evaluated.  If the probability is .5, the question is asked. 
+The dependee which controls the highest amount of variance in the parent
+probability is that dependee which has the highest coefficient the logistic
+regression model.  However the student may already have a high probability of
+answering that dependee, such that there is little room for increases in the
+probability in the parent node due to answering the child node question
+correctly.
 
-If the probability is less than .5, a confirmatory factor analysis is performed
-on the dependencies of the node.  At any time, this factor analysis may reveal
-a squared loading near zero, which indicates that the dependency relationship
-indicated by the graph is not an actual dependency.  In that event, the link
-between the target and the ``dependency`` is severed and a confirmatory factor
-analysis is re-run on the remaining dependencies.
-
-The most impactful dependency is sought.  This dependency item $i$ is selected
-as follows: 
+Supposing $p_i$ is the probability of answering the ith dependee correctly,
+then the amount which can be gained in the dependee is
 
 \begin{equations}
-  \underset{i}{\mathrm{argmax}} \Bigg[ (1 - p_i) \lambda_i^2 \Bigg]
+  \Delta_i = 1 - p_i
 \end{equations}
 
-The value $\lambda^2$ is the proportion of variance due to that dependency, so
-it is preferred to start with higher proportions of variance.  Also $(1-p_i)$
-is the room for improvement in the probability of the answering the dependency
-correctly.  The intuition is that the more likely it is that the student is
-able to answer the dependency correctly, the probability of answering the
-target question rises---to the extent of the dependency relationship. 
+If $\Delta_i$ assumes a value close to zero, it implies two things: first,
+the student's trait ability for the dependee is high enough not to bother
+testing it, and second, raising it to 1 would likely have little effect on
+the probability estimate of the parent. 
 
-\subsection{Finding the Next Item}
+Thus the highest impact item is determined not only by the coefficient, but
+also by the gain in probability for the dependee.  Supposing that the odds
+estimate for the parent $j$ were given by
 
-The maximal value for $(1 - p_i) \lambda_i^2$ may have $p_i < .5$, in which
-case the above procedure is recursively applied to the dependencies with
-$i$ as the target question.  
+\begin{equations}
+  logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i \ldots b_n p_n}
+\end{equations}
 
-Eventually, the algorithm will converge on either a question for which $p_i >
-.5$, or it will hit the leaves.  What this means is that there is no question
-in the sub-tree for which $p_i$
+Then the odds estimate for the parent $j$ if the probability were to rise
+to 1 would be
+
+\begin{equations}
+  logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta \ldots b_n p_n}
+\end{equations}
+
+then the odds ratio would be equal to 
+
+\begin{equations}
+  \frac{ 
+    e^{b_1 p_1 + b_2 p_2 + \ldots + b_i p_i + \ldots b_n p_n} 
+  } {
+    e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta_i + \ldots b_n p_n}
+  }
+\end{equations}
+
+which when reduced is simply
+
+\begin{equations}
+    e^{b_i \Delta_i}
+\end{equations}
+
+Thus that dependency which has the highest increase in the odds ratio is
+the item $i$ such that
+
+\begin{equations}
+  \underset{i}{\mathrm{argmax}} \Bigg[ \Big( e^{b_i} \Big)^{\Delta_i} \Bigg]
+\end{equations}
+
+If that dependency has a probability within the window [.5, .5+$\delta$], it is
+asked; otherwise if it has probability [0, .5), the algorithm is recursively
+applied to the dependency.
 
 \subsection{Finding the Whole Schedule}
 
+The above algorithm may find a complete schedule by iteratively finding the
+next item in the schedule, then proceeding on the assumption that the item is
+answered correctly and is re-activated.  In order to preserve the data in the
+course of iteratively finding the next item, the student's trait ability matrix
+and the student dependency graph may first be copied.  Any changes to trait
+ability estimates or to the student's responses set are reflected in the
+copies.
+
+The algorithm comes to a stopping point when there exists no question for which
+the probability of answering falls below .5+$\delta$.
 

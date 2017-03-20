@@ -72,14 +72,16 @@ more likely to be discouraged by the testing.
 %citation
 
 There is another consideration: the concept tier and Bloom levels.  The course
-is a progression of concepts across Bloom levels.  Ideally, the student should
-see steady progress in the course.  The set of questions asked at any given
-time in a course of study typically range over a subset of concepts.  Testing
-for all concepts begins at the Knowledge level; as new concepts are introduced
-over time, the tested Bloom level for earlier-introduced concepts rises.  In a
-``perfect'' situation, we might observe a trait ability matrix as in
-Equation~\ref{eq:perfect}, which shows a clear diagonal reflecting a
-progression in both concepts and Bloom levels.  
+is a progression of concepts across Bloom levels.  There is evidence to suggest
+that students prefer problems with Bloom levels as high as they are able to
+solve \cite{goel2004}; and ideally, the student should see steady progress in the
+concepts of the course.  The set of questions asked at any given time in a course of study
+typically range over a subset of concepts.  Testing for all concepts begins at
+the Knowledge level; as new concepts are introduced over time, the tested Bloom
+level for earlier-introduced concepts rises.  In a ``perfect'' situation, we
+might observe a trait ability matrix as in Equation~\ref{eq:perfect}, which
+shows a clear diagonal reflecting a progression in both concepts and Bloom
+levels.  
 
 \begin{equations}
 \label{eq:perfect}
@@ -168,6 +170,28 @@ in which event, the scheduler discussed in Sec~\ref{sec:scheduler} will attempt
 to correct the trait ability matrix by asking questions in such a manner as to
 have the proximal zone of development conform to a diagonal shape.
 
+It is possible, in fact, to have a three-dimensional structure as depicted in
+Fig~\ref{fig:lattice}.  In the original conception of this work, the schedular
+was intended to support not only progressions along the (concept $\times$
+Bloom) categories, but also to identify subdomains of interest.
+Introductory-level computer science invites many creative opportunities for
+assigning interdisciplinary problems; for example coding problems related to
+biology, chemistry, physics, mathematics, and even digital art.  It was assumed
+that assigning problems catering to the students' interests would raise the
+incentive to learn the concept.  
+
+While the features of the scheduler were not extended to support the capability
+to ``zero in'' on the student's domain-specific interests, the database problem
+taxonomy supports tagging problems by subdomain.  The trait ability matrix may
+be extruded to include this interest dimension.
+
+\begin{figure}[p!]
+ \label{fig:lattice}
+ \includegraphics[width=\textwidth]{fig/lattice.eps} 
+ \caption{The trait ability lattice, which accounts for domain-specific 
+  interests}
+\end{figure}
+
 This structure, $\Theta$, therefore shows where to begin asking questions.  It
 also helps to define the goal of the intelligent tutoring system: to increase
 values in $\Theta$ successively along its diagonal, thereby engineering an
@@ -218,7 +242,5 @@ a minimum score no greater than zero:
 \begin{equation}
   \max \Bigg\{ \displaystyle\sum_{i=1}^n x_i, 0 \Bigg\}
 \end{equation}
-
-
 
 
