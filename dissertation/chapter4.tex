@@ -39,6 +39,8 @@ However, if dependencies of the form $c \rightarrow a$ and $c \rightarrow b$
 exist (that is, $c$ depends on $a$ and $b$), they may be indicated by a
 high simple matching coefficient:
 
+% TODO: (SRB) not sure what this coefficient indicates. Maybe use different notation? nc = (n_aa + n_bb)/(n_aa + n_bb + n_ab + n_ba)
+
 \begin{table}
  \caption{Notation for counts of joint observations}
  \vspace{12pt}
@@ -85,6 +87,7 @@ Items are organized into sets, called item sets.  Alternatively they may be
 called assessments.  These are groups of items used for testing; practically
 speaking, they may be tests, worksheets, homework assignments, and so forth. 
 
+% TODO: (SRB) in the form of a 
 Subsets containing items which have dependency relationships form a directed
 graph, specifically in form of a tree.  In such a tree graph, $x \rightarrow y$
 indicates that $x$ depends on $y$.  In addition, as will be discussed later,
@@ -106,6 +109,7 @@ of the item set which has dependency relationships}
 values}
 \end{figure}
 
+% TODO: (SRB) maybe remind us what alpha, beta, and gamma are?
 There are two incarnations of each graph: one is a base dependency graph whose
 nodes contain the item-specific information. The node $i$ for the ith item
 contains item response theory parameters $\alpha_i$, $\beta_i$, and $\gamma_i$;
@@ -141,6 +145,7 @@ student responses and timestamps for each response}
 
 \subsection{Probability Estimates Using Dependees}
 
+% TODO: (SRB) in a question
 Logistic regression (pioneered by David Cox \cite{cox:1958}) is an ideal tool
 for predicting success or failure given prior information about dependencies.
 This is due to the fact that the dependent variable in question (the success of
@@ -157,6 +162,8 @@ variable $Y$ depends on some response $X$:
 where $a$ is some constant, $b$ is a coefficient, $\epsilon$ is the error, and
 $Y$ assumes one of two possible values, 0 for failure or 1 for success.  Linear
 regression has five assumptons, three of which are violated in this situation:
+
+%TODO: (SRB) I can't follow this.
 
 \begin{itemize}
 
@@ -247,6 +254,7 @@ the right-hand-side of the logit function:
   a + bx = \alpha(\beta - 1)\theta
 \end{equations}
 
+% TODO: (SRB) What is the 2PL model?
 In the 2PL model, in which $\gamma_i$ is absent, the Item Response Theory
 calculation of $\theta_s$ can be interpreted as a logistic regression in which
 the unknown coefficient is $\theta_s$, the item-dependent inputs are given by
@@ -255,6 +263,7 @@ $\alpha(\beta-1)$, and the constant $a=0$.
 Thus, a modified form of logistic regression may be sought.  It is desirable
 to keep in account the item discrimination as well as the trait ability of
 the student. 
+%TODO: (SRB) define Y, X, etc.
 
 \begin{equations}
   Y = b_1X_1 + b_2X_2 + \ldots + b_{n-1}X_{n-1} + b_n\alpha_i(\theta_s-\beta_i)

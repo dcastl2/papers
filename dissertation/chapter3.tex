@@ -52,6 +52,9 @@ probably is overwhelmingly high, for example $p > .9$, serves no purpose, since
 probability estimates of that degree require $\theta-\beta$ significantly
 greater than 0.
 
+% TODO: (SRB) What does the x in $\theta_{sjk} = x$ mean? Is it a question difficulty?
+% TODO: (SRB) consistency... \theta_s, \theta_{sjk}, \Theta_s
+% TODO: (SRB) quotes are wonky
 If $\theta_{sjk} = x$ then it would be ``unfair`` to ask questions in that
 category which have $\beta > x$.  According to Equation~\ref{eq:irt}, if $\beta
 > x$ and $\theta_s < x$, then $\theta-\beta < 0$ and therefore $p(\theta_s) <
@@ -130,6 +133,7 @@ B_1 =\left[
 \end{equations}
 \vspace{12pt}
 
+% TODO: (SRB) I have trouble following the next paragraph
 Then, it is possible to threshold the matrix so as to eliminate (Bloom $\times$
 concept) categories after this stepladder, but include some lag up to and not
 including those $\beta_{sjk}$ values for which the student has $\theta_{sjk}$
@@ -169,6 +173,7 @@ Sometimes the trait ability matrix may be jagged:
 in which event, the scheduler discussed in Sec~\ref{sec:scheduler} will attempt
 to correct the trait ability matrix by asking questions in such a manner as to
 have the proximal zone of development conform to a diagonal shape.
+% TODO: (SRB) why diagonal?
 
 It is possible, in fact, to have a three-dimensional structure as depicted in
 Fig~\ref{fig:lattice}.  In the original conception of this work, the schedular
@@ -199,6 +204,7 @@ experience similar to course progression.
 
 \section{Updating Ability}
 
+% TODO: (SRB) coarse-grained, not course-grained... unless this is a pun?
 The trait ability matrix must be refreshed (either after a student response,
 for a more fine-grained scheduling, or after a total assessment for
 course-grained scheduling).  Therefore the student responses must be
@@ -216,12 +222,14 @@ the edit distance.  Essentially, the Levenshtein distance gives the number of
 edits (insertions, substitutions and deletions) required to arrive from the
 student input to the solution.  If the Levenshtein distance is below a
 threshold, the answer is marked correct; otherwise it is marked incorrect. 
+% TODO: (SRB) my experience with Levenshtein distance is that it rarely performs as well as counting the number of letters in common.
 
 \subsection{Coding}
 
 An independent component for auto-grading code does exist, but it has not been
 integrated into the system.  The code auto-grader uses a humble approach; it
 associates regular expressions with point values:
+% TODO: (SRB) A regex or a Piraha expression?
 
  \begin{align*}
   \langle expr \rangle_1 & \rightarrow  x_1 \\
