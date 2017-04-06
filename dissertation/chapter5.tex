@@ -86,8 +86,7 @@ Some concepts, particularly the notion of re-activation of memories, have been
 borrowed from ACT-R and modified to fit the more coarse-grained intelligent
 tutoring system presented in this work.  In particular, total problems rather
 than individial processes will have probabilities of recall associated with
-them.  Also, associative strenghts are established using a factor analysis.
-% TODO: (SRB) strengths
+them.  Also, associative strengths are established using a factor analysis.
 
 \begin{figure}[p!]
  \label{fig:memory}
@@ -153,7 +152,6 @@ in problems:
 Here, $\mu_i$ represents the memorability of the problem, or the ease with
 which the problem solution can be committed to memory. 
 
-
 % TODO: relationship to power law of learning or learning curve.
 % TODO: show relationship between Anderson and this?
 
@@ -175,18 +173,17 @@ intelligent tutoring system.  We define a function for the dropoff:
   \sigma_t = (1 - e^{-at})
 \end{equations}
 
-This indicates the extent to which the spacing from the time the item
-was last seen influences the increase in the lifespan of the memory: 
+This indicates the extent to which the spacing from the time the item was last
+seen influences the increase in the lifespan of the memory: 
 
 \begin{equations}
 \label{eq:lambda-final}
  \lambda_n = (1 + \sigma_t \mu_i \rho_s) \lambda_{n-1}
 \end{equations}
 
-% TODO: (SRB) inherent tendency to forget
 The utility of this model is in assessing the probability with which a student
 answers a question; not only based on trait ability and dependency
-relationships, but also on the inherit tendency to forget information with the
+relationships, but also on the inherent tendency to forget information with the
 passage of time.
 
 It will be assumed that, if a student has been exposed to a item before, then

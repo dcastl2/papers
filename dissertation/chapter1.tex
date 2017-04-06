@@ -203,8 +203,6 @@ re-activation of forgotten knowledge, none have undergone extensive empirical
 testing as is typical for psychological models.  The components of this body of
 work regarding re-activation introduce hypotheses.
 
-% TODO: more on this
-
 \section{Item Response Theory}
 
 Here is introduced a mature assessment theory known as Item Response Theory, an
@@ -216,8 +214,9 @@ discrimination, the probability of guessing the question correctly.
 One of the main appeals of IRT is its incorporation of item difficulty.  As
 will be shown later, this is pertinent to the interpretation of Bloom levels.  
 
-According to Item Response Theory (IRT), the probability $p_i$ that a student
-answers correctly the $i^{th}$ question on a test, is given by:
+According to Item Response Theory (IRT), in what is known as the 3PL or 3
+parameter logistic model, the probability $p_i$ that a student answers
+correctly the $i^{th}$ question on a test, is given by:
 
 \begin{equations}
  \label{eq:irt}
@@ -284,6 +283,14 @@ slightly alter the behavior of the system; if a given question is tagged as
 easier (that is, assigned a lower $\beta$ value), it will have a greater chance
 of appearing earlier in any given student's schedule.
 
+If only $\beta$ is used as a parameter, the resulting model is known as the
+1PL or 1 paramter logistic model:
+
+\begin{equations}
+ \label{eq:irt}
+  p_i(\theta_s) = \frac{1}{1+e^{\theta-\beta_i}}
+\end{equations}
+
 \begin{figure}[p!]
  \label{fig:ctt}
  \includegraphics{fig/ctt.eps} 
@@ -294,7 +301,7 @@ of appearing earlier in any given student's schedule.
 \begin{figure}[p!]
  \label{fig:pl1}
  \includegraphics{fig/pl1.eps} 
- \caption{The PL1 Item Response Theory model, where $\beta$=1}
+ \caption{The 1PL Item Response Theory model, where $\beta$=1}
 \end{figure}
 
 
@@ -325,6 +332,15 @@ have higher composite scores.  Likewise, negative values indicate that the
 question is inversely related to composite score.  Values near zero indicate
 that the question is unrelated.
 
+If only $\alpha$ and $\beta$ are used as parameters, the resulting model is
+known as the 2PL or 2 paramter logistic model:
+
+\begin{equations}
+ \label{eq:irt}
+  p_i(\theta_s) = \frac{1}{1+e^{\alpha(\theta-\beta_i)}}
+\end{equations}
+
+
 The probability of guessing is defined as
 
 \begin{equations}
@@ -336,6 +352,9 @@ assumed that each option is equally likely to be chosen if a student with
 very low trait ability were to answer the question; that is, there can be
 no allowance for logical process-of-elimination tactics.
 
+Addition of the probability of guessing results in the 3PL model, given
+in Eq~\ref{eq:irt}.
+
 If the trait ability of the student is known in addition to the item
 parameters, then the probability of a correct response can be calculated.
 However, it is more often than not the case that the response set of the
@@ -345,7 +364,7 @@ techniques are deployable.
 \begin{figure}[p!]
  \label{fig:pl2}
  \includegraphics{fig/pl2.eps} 
- \caption{The PL2 Item Response Theory model, where the item discrimination 
+ \caption{The 2PL Item Response Theory model, where the item discrimination 
  $\alpha=.5$ and $\beta=0$}
 \end{figure}
 
@@ -507,9 +526,8 @@ $\beta$ values, or whether or not the mentioned difficulties were hypothesized
 or actual difficulties \cite{osborne2013grounded}.  
 
 It is discussed in Sec~\ref{sec:reconciling} why it is desirable for the
-current intelligent tutoring system to main difficulty and Bloom levels as
+current intelligent tutoring system to maintain difficulty and Bloom levels as
 separate entities.
-% TODO: (SRB) s/to main difficulty/to maintain difficulty/
 
 Ghulman et al. may be the closest to a full separation of Bloom's taxonomy and
 difficulty, as well as establishing the connection between Bloom's taxonomy and
@@ -557,11 +575,7 @@ finally facts, or knowledge utilized in the course of applying rules.  In this
 regard, the structure of an ACT-R model resembles a logic program.  Anderson
 also developed a memory model for ACT-R fact and rule recall loosely based on
 Ebbinghaus' recall functions, as well as models of re-activation of knowledge
-generalized from his own empirial research.
-
-
-\cite{bacon2003assessing}
-% TODO: (SRB) The huge gap between the last sentence and the citation is bad.
+generalized from his own empirial research.  \cite{bacon2003assessing}
 
 
 \subsection{Executability} 
