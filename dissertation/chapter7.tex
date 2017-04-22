@@ -21,19 +21,6 @@ educators, who assessed the Bloom levels of the questions.  After a point of
 disagreement about an evaluation-level problem, the test was adjusted to yield
 an 100\% interrater reliability.
 
-We designed a test of 10 questions (with 2 concepts, each concept having
-questions over 5 Bloom levels) to give to students. The concepts tested were on
-recursion and binary trees, and were written to be language-independent.  The
-questions were of multiple-choice and short-answer format.  There were two
-knowledge, comprehension, application, analysis, and evaluation questions.  No
-synthesis questions were asked because of the constrained formats allowed by
-the computer-based testing framework.  An interrater reliability of 90\% was
-determined by two independent raters, both computer science educators, who
-assessed the Bloom levels of the questions.  After a point of disagreement
-about an evaluation-level problem, the test was adjusted to yield an 100\%
-interrater reliability.
-%TODO: (SRB) this paragraph repeats the last one.
-
 Evaluation-level problems are resistant to multiple-choice and short-answer
 formats because of the nature of the category.  Our approach was to use
 multiple-choice questions of the ``choose the best answer'' format, in which
@@ -92,7 +79,6 @@ comprehension-level question (related to the application-level question) was
 scheduled before another application-level question of the same type.  The
 experimental group thus had a a maximum of 4 additional questions asked for a
 total possible 14-question test.
-% TODO: (SRB) "a a maximum"
 
 \section{Analysis and Results}
 
@@ -171,78 +157,7 @@ the Comprehension question of the same concept).  These questions were asked in
 forward Bloom order.  The hypothesized difficulties were held equal across
 Bloom levels.
 
-\subsection{Experiment 3 Design}
 
-% TODO: (SRB) what is p_i^{mod}? It seems that it's defined later on. Editing problem.
-One question remains: can $p_i^{mod}$ be used in some meaningful way?  Suppose
-we wish to maximize the probability that a student answers an Analysis question
-correctly, and that this Analysis question depends on an Application question.
-For that matter, it may depend on more questions, each of which having its own
-degree of relatedness to the depender.
-
-We thus posit a more general form of modified IRT which takes into account
-multiple dependencies using factor analysis \cite{kim1978}.  From a factor
-analysis, it is possible to obtain the proportion of variance explained by each
-dependency by squaring the factor loading.  A factor analysis was performed on
-the dependent question using dependees as factors to obtain these proportions
-of variance explained.
-
-Those proportions of variance could then be used as part of a more generalized
-modification to IRT:
-
-\begin{align*}
-  p_i(\theta) &=& (1- (\displaystyle\sum_j v_j)) & \Big(\gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}\Big) \\
-              &+& \displaystyle\sum_j (v_j)   & \Big(\mathbf{sgn}(r)x_{sj}+\frac{1-\mathbf{sgn}(r)}{2}\Big)
-\end{align*}
-
-In this generalized formula, $v_j$ refers to the proportion of variance
-explained by the dependee $j$ (the squared factor loading for $j$).  Therefore
-the sum of these is the total explained variance; one minus the sum is the
-total unexplained variance.  Intuitively the probability is proportional to the
-amount of variance explained by a dependee.  On the one hand, if one dependee
-explains 90\% of the total variance, and the student answers this dependee
-correctly, the probability should depend heavily on whether or not the dependee
-was correct.  On the other hand, if the total unexplained variance is 1, this
-would imply the dependees are not dependees at all.  In this case, the
-probability defaults to the item response theory calculation, which uses the
-best available information (trait ability and question parameters).
-
-In our experiment to test the utility of this formula, we first required a
-small problem set with one depender and multiple dependees.  The experiment
-was intended to test whether or not the asking of highly-dependent questions
-increased mean scores.
-
-For this we first required proportions of variance between depender and
-dependees.  We created 4 questions, where the 4th question had three dependees.
-We then asked some of our students (N=22) to answer all of these questions to
-obtain proportions of variance, which are listed in Table~\ref{tab:variance}.  
-
-\begin{table}
-\begin{center}
-\label{tab:variances}
-\caption{Proportions of variance due to questions for Experiment 1}
-\vspace{12pt}
-\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
-                                  \hline
-      &\y q1 &\y q2 &\y  q3 &\y q4  \\ \hline
-\y $v_j$ &  .02 & .23 & .30 &     \\ \hline
-\y M    &  .67 & .66 & .43 & .34 \\ \hline
-\end{tabularx}
-\vspace{24pt}
-\end{center}
-\end{table}
-
-The others would receive a combination of questions.  Each student was randomly
-assigned to one of eight groups.  Four students received each combination of
-three questions, such that 4 received the depender outright, 12 received one of
-the three dependees (4 each) before the depender, 12 received two of the three
-dependees (6 each) prior, and 4 received all three dependees.  The purpose of
-this was to test the effect of exposure of each dependee.  Thus each dependee
-question appeared in half of the students' assessments.  The total number of
-respondents for the depender was 32, and the total number of respondents for
-each dependee was 16.  
-
-\section{Analysis and Results}
 
 \subsection{Experiment 1 Analysis}
 
@@ -334,45 +249,75 @@ agree with the hypothesized difficulties.  It was suspected that this may be
 due to the effect of item dependencies, which the next experiment investigates
 in further detail.
 
+\subsection{Experiment 3 Design}
+
+Suppose we wish to maximize the probability that a student answers an Analysis
+question correctly, and that this Analysis question depends on an Application
+question.  For that matter, it may depend on more questions, each of which
+having its own degree of relatedness to the depender.
+
+We thus posit a more general form of modified IRT which takes into account
+multiple dependencies using logistic regression on the dependencies (see
+Sec~\ref{sec:probest}):
+
+\begin{equations}
+  p = \frac{1}{1 + e^{b_1X_1 + b_2X_2 + \ldots + b_{n-1}X_{n-1} + b_n\alpha_i(\theta_s-\beta_i)}}
+  \tag{\ref{eq:modirt}}
+\end{equations}
+
+In our experiment to test the utility of this formula, we first required a
+small problem set with one depender and multiple dependees.  The experiment was
+intended to test whether or not the asking of highly-dependent questions
+increased mean scores.
+
+For this we were first interested in obtaining the coefficients between
+depender and dependees for our logistic regression model.  We created 4
+questions, where the 4th question had three dependees.  We then asked some of
+our students (N=22) to answer all of these questions to obtain a training data
+set.  The other students (N=32) would receive the same questions to form 
+the validation set.
+
 \subsection{Experiment 3 Analysis}  
 
-The analysis of this data required examining the relationship between dependent
-response and dependee exposure.
+The analysis of this data required prediction on the validation set for the 4th
+question.  Our hypothesis was that exposure of dependee questions should result
+in an increase in the probability that the student answers the depender
+correctly.   Results are shown in Tab~\ref{tab:coeffs} and Tab~\ref{tab:confu}.
 
-Let $E_{sj}$ be 1 if student $s$ was exposed to $j$, 0 otherwise.  Then, our
-hypothesis was that exposure of dependee questions should result in an increase
-in the probability that the student answers the depender correctly, in
-proportion to the amount of variance explained by the dependee.  Below in the
-table is the number of times the depender was answered correctly given
-exposure to a set of dependees.  Though the data set is small, there does
-appear to be a trend in the data.  A clearer trend can be observed by summing
-the number of correct responses per exposure to a given question.
-
-\begin{table}[t]
-\caption{ The percent of students who answered the depender correctly
-given a particular set of questions (left), as well as the percent of students
-who answered the depender correctly given exposure to a given question (right).}
+\begin{table}[p!]
+\label{tab:coeffs}
+\caption{The intercept and coefficients for the logistic regression model.}
 \vspace{12pt}
 \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
-\hline
-\y dependees    & \y \#correct &  \y percent & \y \#correct & \y percent \\ \hline
-none         &  1  & .25  &1&  .06 \\ \hline
-q1           &  1  & .25  &8&  .50 \\ \hline
-q2           &  2  & .50  &10& .62 \\ \hline
-q3           &  3  & .75  &11& .69 \\ \hline
-q1, q2       &  2  & .50  && \\ \hline
-q1, q3       &  2  & .50  && \\ \hline
-q2, q3       &  3  & .75  && \\ \hline
-q1, q2, q3   &  3  & .75  && \\ \hline
+\hline \hline
+                     & (Intercept)  & q1         & q2          & q3         \\ \hline
+ coefficient         & -0.120870    & 0.006087   & 0.360000    & 0.407826   \\ \hline
+increase in log odds & 0.8861495    & 1.0061055  & 1.4333294   & 1.5035457  \\ \hline
+\hline \hline
 \end{tabularx}
 \vspace{24pt}
 \end{table}
 
-It is interesting to note that to an extent, the proportions of variance
-explained by a given question appear to be co-related to the percentage of
-students who answered the depender correctly.  However, the numbers are too
-small to draw a definitively conclusion.
-% TODO: (SRB) draw a definitive conclusion.
+
+\begin{table}[p!]
+\label{tab:confu}
+\caption{The confusion matrix for the logistic regression model.}
+\vspace{12pt}
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+\hline \hline
+                     & Reference &       &     \\ \hline \hline
+          Prediction & FALSE     & TRUE  &     \\ \hline
+          FALSE      & 11        & 7     & 18  \\ \hline
+          TRUE       & 1         & 13    & 14  \\ \hline
+                     & 12        & 20    & 34  \\ \hline \hline
+\end{tabularx}
+\vspace{24pt}
+\end{table}
+
+
+Though the numbers are too small to draw a definitive conclusion, it appears
+that 24/34 or 70\% of the predictions by the logistic regression model were
+accurate. 
 
 Due to the low $N$ in Experiment 3, the results do not present
 \emph{conclusive} evidence that the intervention of the dependee questions was
@@ -380,5 +325,4 @@ responsible.  However, there is enough preliminary evidence to warrant further
 investigation.  If there is an effect, it is suspected that exposure to the
 dependee problem solution by the ITS plays a larger role than simply the
 question itself.
-
 

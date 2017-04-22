@@ -39,9 +39,6 @@ However, if dependencies of the form $c \rightarrow a$ and $c \rightarrow b$
 exist (that is, $c$ depends on $a$ and $b$), they may be indicated by a
 high simple matching coefficient:
 
-% TODO: (SRB) not sure what this coefficient indicates. Maybe use different
-% notation? nc = (n_aa + n_bb)/(n_aa + n_bb + n_ab + n_ba)
-
 \begin{table}
  \caption{Notation for counts of joint observations}
  \vspace{12pt}
@@ -146,11 +143,12 @@ student responses and timestamps for each response}
 \end{figure}
 
 \subsection{Probability Estimates Using Dependees}
+\label{sec:propest}
 
-Logistic regression (pioneered by David Cox \cite{cox:1958}) is an ideal tool
-for predicting success or failure in answering a question given prior
-information about dependencies.  This is due to the fact that the dependent
-variable in question (the success of answering a depender) is binary.  
+Logistic regression (pioneered by David Cox \cite{cox1958regression}) is an
+ideal tool for predicting success or failure in answering a question given
+prior information about dependencies.  This is due to the fact that the
+dependent variable in question (the success of answering a depender) is binary.  
 
 One may wonder why any other form of regression technique is preferred over
 linear regression.  Consider the linear equation in which a binary dependent
@@ -163,8 +161,6 @@ variable $Y$ depends on some response $X$:
 where $a$ is some constant, $b$ is a coefficient, $\epsilon$ is the error, and
 $Y$ assumes one of two possible values, 0 for failure or 1 for success.  Linear
 regression has five assumptons, three of which are violated in this situation:
-
-%TODO: (SRB) I can't follow this.
 
 \begin{itemize}
 
@@ -255,7 +251,6 @@ the right-hand-side of the logit function:
   a + bx = \alpha(\beta - 1)\theta
 \end{equations}
 
-% TODO: (SRB) What is the 2PL model?
 In the 2PL (2-parameter logistic) model, in which the parameter $\gamma_i$ is
 absent, the Item Response Theory calculation of $\theta_s$ can be interpreted
 as a logistic regression in which the unknown coefficient is $\theta_s$, the
@@ -278,6 +273,7 @@ items.  This results in a probability function for answering the depender
 question correctly given responses for the dependee questions:
 
 \begin{equations}
+  \label{eq:modirt}
   p = \frac{1}{1 + e^{b_1X_1 + b_2X_2 + \ldots + b_{n-1}X_{n-1} + b_n\alpha_i(\theta_s-\beta_i)}}
 \end{equations}
 

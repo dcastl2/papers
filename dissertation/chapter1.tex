@@ -23,17 +23,62 @@ thereby forming a schedule of items:
 Furthermore $\chi$ could be a question, which could be thought of as an item
 which accepts a response back that has a correct answer.  Items and questions
 share many similar properties which help to distinguish them, such as the
-ones in Fig~\ref{fig:properties}.
+ones in Fig~\ref{tab:properties}.
 
 The main question this body of work seeks to answer is this: \emph{based on
 input from the student on any subset of questions in an item schedule, how
 should the remaining questions be scheduled}?
 
+\begin{table}[!p]
+\label{tab:properties}
+\caption{The properties of items and questions}
+\vspace{12pt}
+\begin{tabularx}{\textwidth}{||l|X||}
+\hline \hline
+\rowcolor{Gray}
+Property &  Explanation  \\\hline
+
+Difficulty & 
+Proportion of students who pass the question, or who
+understand the item on the first exposure.
+\\ \hline
+Bloom Level &
+The Bloom taxonomic level of the question or the item.
+An item can have an associated Bloom level; for example,
+a worked-out analysis problem would qualify
+the item for the analysis level.
+\\ \hline
+Concept & 
+The concept which is being tested by the question, or
+which the item is about. This could be expressions,
+control structures, subprograms, and so forth.
+\\ \hline
+Dependencies & 
+The questions or items which would need to be seen beforehand.  The dependency
+information could be stored in the form of a database query; for example, an
+application question on for-loops could depend on all questions whose concept
+is if-statements and whose Bloom level is application.
+
+\\ \hline \hline 
+\end{tabularx}
+\vspace{36pt}
+
+\end{table}
+
 \subsection{Novel Contributions}
 
 The answer to this question required a series of novel contributions to the
 fields of intelligent tutoring systems (ITS) and computer-aided assessment
-(CAT).  Specifically:
+(CAA) or computer-aided testing (CAT).  CAT and ITS systems seek to schedule
+items in such a way as to maximize the efficiency of the student's learning.
+The difference between a CAT and an ITS is the end goal: a CAT is used
+specifically within the context of assessment, where no or almost no
+non-question items are scheduled.  An ITS is used in the context of
+individualized coverage of the material, using assessment as an aid.  ITSs
+often contain CAT systems.  The work developed here could serve the dual
+purpose of a CAT and an ITS.
+
+The specific novel contributions are: 
 
 \begin{itemize}
 
@@ -57,7 +102,7 @@ fields of intelligent tutoring systems (ITS) and computer-aided assessment
 
 In addition to this, the body of work rests upon other incidental novel
 contributions, such as the separation of Bloom level and difficulty
-\cite{castleberry}.
+\cite{castleberry2016effect}.
 
 \section{Bloom's Taxonomy}
 
@@ -184,16 +229,13 @@ course or curriculum.
 A tacit assumption in much of the research is that Bloom levels equate to
 difficulty levels.  While there is certainly a relationship between Bloom level
 and difficulty in the ``ordinary course'' of devising problems, a distinction
-can be made between the two.
-% TODO: (SRB) cite the papers you cite in the difficulty paper regarding this
-% assumption.
+can be made between the two, as will be discussed in \ref{sec:reconciling}.
 
 \subsection{Assumptions of this Work}
 
-% TODO: (SRB) cite the prior research. I know it's not published yet.
 Prior research by the author supports the view that Bloom level and difficulty
-are separable parameters of a content item.  This work will proceed on the
-assumption to that effect. 
+are separable parameters of a content item \cite{castleberry2016effect}.  This
+work will proceed on an assumption to that effect. 
 
 In addition, some of the components of this body of work, particularly those
 pertaining to memory and recall, are supported by many decades of empirical
@@ -287,7 +329,7 @@ If only $\beta$ is used as a parameter, the resulting model is known as the
 1PL or 1 paramter logistic model:
 
 \begin{equations}
- \label{eq:irt}
+ \label{eq:1pl}
   p_i(\theta_s) = \frac{1}{1+e^{\theta-\beta_i}}
 \end{equations}
 
@@ -336,7 +378,7 @@ If only $\alpha$ and $\beta$ are used as parameters, the resulting model is
 known as the 2PL or 2 paramter logistic model:
 
 \begin{equations}
- \label{eq:irt}
+ \label{eq:2pl}
   p_i(\theta_s) = \frac{1}{1+e^{\alpha(\theta-\beta_i)}}
 \end{equations}
 
@@ -380,17 +422,18 @@ Trait ability in IRT can be obtained using a maximum likelihood estimation
 a range of $\theta$ values with the IRT formula \cite{baker2004}.  Later it
 will be shown how $\theta$ can be estimated.  Another potential technique is
 Newton-Raphson, which in most other applications would be the more efficient
-and desirable method \cite{baker2004}.  It will later be discussed why the MLE
-method is preferred.
+and desirable method \cite{hambleton1991fundamentals}. 
 
 %The utility of IRT is that it requires fewer questions to gauge trait ability
 %due to its account of other factors ($\alpha, \beta, \gamma$). It is thus
 %reputed to be a more mature means of assessment than CTT.
 
-Until now, the fusion of IRT and Bloom's taxonomy has only existed in the
-literature as a possibility \cite{sitthisak}.  This work seeks to reconcile
-the two by offering a compatible interpretation of Bloom's taxonomy.
-%TODO: (SRB) I don't think this is true. See email I sent you on 1/24/2017.
+Until now, the fusion of IRT and Bloom's taxonomy in conjunction with a testing
+algorithm or scheduling algorithm has existed in the literature as a
+possibility \cite{sitthisak} \cite{ghulman2009modern}
+\cite{lilley2005generation} \cite{osborne2013grounded}. This work seeks to
+reconcile the two by offering a compatible interpretation of Bloom's taxonomy
+which works in condordance with IRT.
 
 \subsection{Evaluation of Trait Ability}
 
@@ -401,7 +444,7 @@ incorrect or correct.  This is true in the case of multiple choice questions
 Suppose the student has a response set for content items: 
 
 \begin{equations}
-  \label{eq:responses}
+  \label{eq:responseset}
   X_s = x_{s1}, x_{s2}, \ldots, x_{si}, \ldots x_{sn}
 \end{equations}
 
@@ -510,6 +553,149 @@ the number of items.
 
 
 \section{Previous Literature}
+\label{sec:litreview}
+
+\subsection{Computer-Aided Testing}
+
+There are three main advantages of CATs.  The first is that they easily lend
+themselves to formative testing; the second is that they are amenable to the
+scientific exploration of learning theories, since the response data becomes
+immediately available (and testing algorithms are easier to implement on a
+computer-based medium); and the third is that they allow for the implementation
+of algorithms to determine the series of questions to be asked, allowing for
+dynamic testing.
+
+Any form of test that provides feedback is known as formative testing or
+formative assessment \cite{bull2003blueprint}.  Empirical studies have
+demonstrated the equivalence of paper-based and computer-based testing when a
+formative assessment component is absent from computer-based testing
+\cite{mead1993equivalence}, however when computer-based methods do provide
+formative assessment the effect sizes in overall performance tend to be large
+\cite{bangert1991instructional} \cite{lawton2012online}.
+
+A clear advantage of CATs is that they lend themselves to greater number of
+testable hypotheses than paper-based methods, since the effect of an
+intervening algorithm can be examined.  \cite{mayer2002multimedia} The notion
+of ``testing algorithms'' has existed almost as long as CATs
+\cite{wainer2000computerized}, and mainly concerns those algorithms which
+partition the test into decision points around the students responses, then
+select the next question based upon the prior response set.
+
+A theme in the workflow of CATs has been identified; namely that almost all
+cats begin with an initiation of ability estimate, then proceed with selection
+of an item and the administration of that item, followed by an update to
+ability estimate, and finally a check on the stopping criterion
+\cite{veldkamp2013bayesian}.  Some CATs use a technique known as shadow
+testing, which is used to set initial item parameters such as difficulty and
+determine the validity of items, so that the pool of questions may be pruned to
+a useful subset \cite{van2000computerized}.
+
+Not all CATs are concerned with selecting the next question; there is a
+categorization of methods used to devise an optimal test, including
+heuristic-based test assembly, which selects a new question given prior
+response data, however some methods seek the whole test at once
+\cite{van1998optimal}.  Some work has been done on the estimation of concept
+relationship degree for the purpose of pruning questions, as well as developing
+a personalized training pathway based on a genetic algorithm
+\cite{chen2008intelligent}.  
+
+The potential for CATs to be used outside the scope of a single course have
+been explored, particularly in curriculum sequencing (which is concerned with
+the order in which a student takes courses).  A CAT has been used to give
+preliminary tests for courses (what the authors call ``courseware''), and
+recommendations for courses are given in an order corresponding to the student
+trait ability estimates \cite{chen2006personalized}.
+
+
+%CATs are widespread enough that as of 2011, a guide was written with the intent
+%of evaluating a CAT \cite{davey2011guide}, which addresses several desirable
+%features of a CAT.
+% TODO: show that we meet these.
+
+\subsection{Computer-Aided Testing and Item Response Theory}
+
+Only a few mature CATs exist, but IRT and its relatives (the 1PL and 2PL
+models) are not an uncommon choice of ability estimation for those that do.
+One CAT in particular uses the Rasch model, or the 1PL model (accounting
+exclusively for difficulty) \cite{chen2005personalized}, and seeks a ``guided
+path'' for learners, namely a sequence of questions to ask.
+
+Another CAT, which contains features which place it within the scope of ITSs,
+uses IRT to estimate English language-learners' ability, then recommend
+articles for them to read based upon their trait ability estimation
+\cite{yarandi2011personalised}.  It is noteworthy that the articles which the
+students are referred to are also tagged with difficulty levels,  which is a
+feature in common with the non-question items of the present work.
+
+One CAT in particular uses IRT with what is called a process-based model of
+learning, in which individual processes are assigned trait ability estimates
+\cite{tatsuoka1990toward}.  The notion behind such an endeavor is that since
+problem-solving itself follows a process-based approach, the most effective way
+to model student performance is to obtain trait ability estimates for every
+step of the problem-solving process.  In this way, it is possible to identify
+impasses within a problem.  
+
+\subsection{Computer-Aided Testing and Bloom's Taxonomy}
+
+It has been argued that outside of computer-based systems, one of the
+requirements for computer science problems should be the use of a taxonomic
+system for educational objectives, to identify how the question fits into the
+progression of learning across a concept \cite{loria-saenz2008}.  The primary
+motivation for using Bloom's taxonomy in a CAT is to create a finer-grained
+competency model that can be used to personalize assessment
+\cite{sitthisak2007towards}, namely by identifying impasses in such a
+progression. 
+
+Specialized CATs which incorporate Bloom's taxonomy typically treat the levels
+of Bloom's taxonomy as difficulty levels. A few CATs separate the levels and
+develop ability estimates for each.  One in particular assumes the form of a
+matrix, with two dimensions being levels of Bloom's taxonomy, the third being
+specific skills \cite{raykova2011adaptive}.
+
+Specialized CATs appear particularly useful in aiding students to reach the
+effective to reach comprehension and application levels of cognitive domain
+\cite{ccepni2006effects}.  Some studies have even shown improvements in the
+higher levels of Bloom's taxonomy, especially evaluation
+\cite{hopson2001using}.  Targetting the evaluation and synthesis levels has
+proven to be challenging for CATs which rely on Bloom's taxonomy, but efforts
+in other fields, such as anatomy and physiology, have shown that
+multiple-choice questions (MCQs) can be adapted effectively to the higher
+levels \cite{de2011computer}.  For example, in the case of the anatomy and
+physiology-based CAT, the evaluation level asks for a diagnosis of a patient
+issue given symptoms.  It is agreed by the experts who evaluated the Bloom
+levels of the questions that there was a matter of correctness about subsets of
+questions at the evaluation and synthesis levels, as is required for the
+closed-ended form of MCQs \cite{lemons2013questions}.  At least one other CAT
+developed for use in the biological sciences has demonstrated that MCQs can be
+adapted to the higher Bloom levels \cite{hernan2008testing},
+\cite{lemons2013questions}.  General techniques have been outlined for doing so
+\cite{duke2001using}, and various formats of MCQs have been evaluated in the
+context of Bloom's taxonomy in terms of their effectiveness on learning
+\cite{haladyna1992effectiveness}.
+
+It is argued that innovative techniques may be used to test the higher levels
+in mathematics and computer science education, where traditionally
+evaluation-and synthesis-level questions have required a demonstration of tight
+reasoning \cite{sim2004implementation}.  Success to adapt MCQs up to the
+evaluation level has also been achieved in computer science
+\cite{castleberry2016effect}.  One strategy for testing at the analysis level
+is to present the student with a set of short logical arguments, then ask the
+student to identify an invalid argument; or to identify a valid argument among
+invalid arguments.   To solve such a problem, the student must be able to
+reason about the logical implications.  A strategy for testing the evaluation
+level is to present the student with statements which use vocabulary
+appropriate to the topic but which are nonsensical; the student must select the
+only sensical statement from the set.  To solve such a problem, the student
+must be able to distinguish shades of meaning of the words, Another strategy is
+the ``select the best response'' format, where the student must evaluate the
+strength of logical reasoning for a proposition; or questions which ask the
+student to identify a sound proof of a proposition from a set of unsound
+proofs.
+
+%It is generally agreed that MCQs possess limitations. One study proposes the
+%development of questions which enhance learner self-regulation, which includes
+%forethought (studying) and reflection on the results
+%\cite{nicol2007assessment}.
 
 \subsection{Works Mentioning Bloom's Taxonomy and Item Response Theory}
 
@@ -521,9 +707,15 @@ proposal to implement a computer-aided tester using Item Response Theory.
 
 Another study identifies difficulty by levels of Bloom's taxonomic levels, and
 evidently applies Item Response Theory to scoring of the same questions;
-however it is unclear how the Bloom levels are mapped ot Item Response Theory
+however it is unclear how the Bloom levels are mapped to Item Response Theory
 $\beta$ values, or whether or not the mentioned difficulties were hypothesized
 or actual difficulties \cite{osborne2013grounded}.  
+
+A CAT was developed which sorts questions based on topic and Bloom level.
+Questions were tagged using expert evaluations on Bloom levels, and difficulty
+level were assigned to the questions based upon Bloom levels.  This CAT would
+thus build a competency profile on the student.  However, no scheduler was
+present in the CAT \cite{lilley2005generation}.
 
 It is discussed in Sec~\ref{sec:reconciling} why it is desirable for the
 current intelligent tutoring system to maintain difficulty and Bloom levels as
@@ -533,20 +725,19 @@ Ghulman et al. may be the closest to a full separation of Bloom's taxonomy and
 difficulty, as well as establishing the connection between Bloom's taxonomy and
 Item Response Theory, as it categorizes questions by Bloom level before
 applying a Rasch model to score them \cite{ghulman2009modern}.  The Rasch model
-is a model simpler in nature than Item Response Theory which uses one paramter
+is a model simpler in nature than Item Response Theory which uses one parameter
 and is derived from the data set itself.
 
 \subsection{Categories of Systems}
 
-Conole and Warburton have developed a classification system for such
-computer-aided testing tools.  Web-based systems \cite{wang2004web} fall under
-networked systems, which in turn fall under computer-based assessment
-utilities, which in turn falls under computer-assisted assessment
-\cite{conole2005review}.  Conole and Warbuton identify that Bloom's taxonomy is
-often used as an outcomes-based categorization tool for questions, and that
-Classical Test Theory and Item Response Theory are the two main ways in which
-computer-aided systems score questions; however these are mentioned in
-isolation.
+Conole and Warburton have developed a classification system for CATs.
+Web-based systems \cite{wang2004web} fall under networked systems, which in
+turn fall under computer-based assessment utilities, which in turn falls under
+computer-assisted assessment \cite{conole2005review}.  Conole and Warbuton
+identify that Bloom's taxonomy is often used as an outcomes-based
+categorization tool for questions, and that Classical Test Theory and Item
+Response Theory are the two main ways in which computer-aided systems score
+questions; however these are mentioned in isolation.
 
 Bejar distinguishes between two types of systems: deficit assessment and error
 analysis \cite{bejar1984educational}.  Deficit assessment is concerned with
@@ -556,7 +747,7 @@ errors in.  This distinction is similar to Anderson's characterization-based
 models versus process-based models in intelligent tutoring systems; where
 characterization-based models attempt to create a representation of the
 student's strengths, process-based models attempt to simulate the student's
-problem-solving processes \cite{anderson}.  The current work would fall
+problem-solving processes \cite{anderson1996act}.  The current work would fall
 squarely within the realm of Bejar's deficit assessment-type system, or
 Anderson's characterization-based model.
 
@@ -568,15 +759,18 @@ identified that recall drops off exponentially with time.  Empirical studies
 since then have supported his original finding.
 
 John Anderson developed a model for process-based learning which could provide
-the foundation for an intelligent tutoring system \cite{anderson}.  He called
-this Adaptive Control of Thought-Rational (ACT-R).  In ACT-R, there are goals,
-akin to problem statements; and rules, or processes used to solve problems; and
-finally facts, or knowledge utilized in the course of applying rules.  In this
-regard, the structure of an ACT-R model resembles a logic program.  Anderson
-also developed a memory model for ACT-R fact and rule recall loosely based on
-Ebbinghaus' recall functions, as well as models of re-activation of knowledge
-generalized from his own empirial research.  \cite{bacon2003assessing}
-
+the foundation for an intelligent tutoring system \cite{anderson1996act}.  He
+called this Adaptive Control of Thought-Rational (ACT-R).  In ACT-R, there are
+goals, akin to problem statements; and rules, or processes used to solve
+problems; and finally facts, or knowledge utilized in the course of applying
+rules.  In this regard, the structure of an ACT-R model resembles a logic
+program.  Anderson also developed a memory model for ACT-R fact and rule recall
+loosely based on Ebbinghaus' recall functions, as well as models of
+re-activation of knowledge generalized from his own empirial research
+\cite{bacon2003assessing}.  Anderson's extension of ACT-R to the scope of
+visual learning and response times has been successful in producing models
+which accurately predicting the time it takes to navigate menus in a web
+interface \cite{anderson1997act}, demonstrating the power of the ACT-R theory.
 
 \subsection{Executability} 
 
