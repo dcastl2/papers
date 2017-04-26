@@ -892,13 +892,58 @@
     for the student is initialized:
   \end{itemize} 
 
-  \begin{equations}
+  \[
     \Theta \leftarrow -3
-  \end{equations}
+   \]
   
 }
 
 
+\frame{ \frametitle{Preliminary Testing}
+
+  \begin{itemize} 
+    \item The first iteration schedules a preliminary test consisting of a
+    diagonal block of the trait ability matrix, for example:
+  \end{itemize} 
+
+  \[
+  \Theta_s =\left[
+           \begin{array}{llll}
+                \theta_{s11} & \theta_{s21} & \theta_{s31} & \ldots \\
+                \theta_{s12} & \theta_{s22} &                &        \\
+                \theta_{s13} &                & \ddots          &        \\
+                \vdots         &                &                 &        \\
+           \end{array}
+         \right]
+  \]
+
+  \begin{itemize}
+    \item The test should be small enough to be feasible while having enough
+    questions to support an MLE.  At least two questions are needed per (Bloom
+    $\times$ concept) for an MLE. 
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{Question Pruning}
+  \begin{itemize} 
+    \item With respect to $\alpha_i$, it is desirable to discard any question $i$
+    for which $\alpha_i \leq 0$.  Recall that negative values of $\alpha$
+    indicate a negative biserial correlation with the composite score, which
+    means that the question asked is an indicator of whether or not the student
+    will perform poorly on the overall measure.  
+
+    \item If $\alpha_i$ is close to -1, then the question may have predictive
+    power, in which case it should be analyzed for its properties.  It may be
+    desirable to retain such questions for the purpose of predicting success.
+    Regardless, if $\alpha_i < 0$, then it along with its subtree should be
+    severed from the dependency graph.
+
+    \item With the response set, $\Theta_s$ can be constructed and the proximal
+    zone of development can be identified.
+  \end{itemize} 
+}
 
 
 
@@ -914,7 +959,6 @@
 
   \end{itemize} 
 }
-
 
 
 
@@ -975,45 +1019,202 @@
 
 
 
-\subsection{Auto-Grading}
+\frame{ \frametitle{Initial Calculations}
+  \begin{itemize} 
+    \item When a student is assigned an assessment, first the probabilities that
+    the student will be able to answer each question are recursively calculated.
+    They must be calculated from the bottom-up, since internal nodes require
+    probability estimates from their children.  
 
-
-
-\frame{ \frametitle{Short Answer Distance Metrics}
-  \begin{itemize}
-    \item Lehvenstein distance \ldots
+    \item The leaves are the only nodes that do not require logistic regression
+    to obtain a probability estimate, since the leaves have no dependencies.
+    Probability estimates for the children are obtained using Item Response
+    Theory.
   \end{itemize} 
 }
 
 
-\frame{ \frametitle{A Simple Code Autograder}
- \begin{align*}
-  \langle expr \rangle_1 & \rightarrow  x_1 \\
-  \langle expr \rangle_2 & \rightarrow  x_2 \\
-                         & \vdots       \\
-  \langle expr \rangle_i & \rightarrow  x_i \\
-                         & \vdots       \\
-  \langle expr \rangle_n & \rightarrow  x_n 
- \end{align*}
+
+\frame{ \frametitle{Initial Recalls}
+  \begin{itemize} 
+    \item For each node which has been answered, the probability of recall can
+    be calculated using the equation for recall.  
+    
+    \item In the presence of a probability of recall, the final probability of
+    answering the question can be calculated using the combined formula.
+  \end{itemize} 
 }
 
 
 
-\section{Experiments and Conclusion}
+\frame{ \frametitle{Finding a Question}
+  \begin{itemize}
+    \item Then, a recursive traversal beings at the root of each tree.  If the
+    probability of answering the question at the root is within the
+    neighborhood of [$\delta$, .5+$\delta$], it is asked.  
 
-\subsection{Experiment 1}
+    \item Recall that low probabilities correspond to higher differences in
+    $\beta-\theta$; thus if a probability is very low, yet the student answers
+    the question correctly, it will indicate a corresponding rise in trait
+    ability.
 
-\frame{ \frametitle{\ldots}
-  \ldots
+    \item Such items have higher impact on the MLE estimate of trait ability.
+    Yet if the probability is below .5, there is no reasonable assurance the
+    student will be able to answer it to begin with.
+  \end{itemize} 
 }
 
 
-\subsection{Experiment 2}
 
-\frame{ \frametitle{\ldots}
-  \ldots
+\frame{ \frametitle{p Too High, p Too Low}
+  \begin{itemize} 
+    \item If the probability to answer the question correctly is in the
+    neighborhood of [.5+$\delta$, 1],  the question is skipped.  The algorithm may
+    recursively descend into its dependencies to find lower-$p$ items.
+
+    \item If the probability is less than .5, then the system will seek to raise
+    the probability by targetting the dependees, in order of the highest-impact
+    dependees to the lowest-impact.
+  \end{itemize} 
 }
 
+
+
+\frame{ \frametitle{Findin the Highest-Impact Dependency}
+
+  \begin{itemize} 
+
+    \item The dependee which controls the highest amount of variance in the parent
+    probability is that dependee which has the highest coefficient in the logistic
+    regression model.  
+
+    \item However the student may already have a high probability of answering that
+    dependee, such that there is little room for increases in the probability in
+    the parent node due to answering the child node question correctly.
+
+    \item Supposing $p_i$ is the probability of answering the ith dependee
+    correctly, then the amount which can be gained in the dependee is:
+
+  \end{itemize}
+
+    \[
+      \Delta_i = 1 - p_i
+    \]
+
+}
+
+
+
+\frame{ \frametitle{Implications of 1-p}
+  \begin{itemize} 
+
+    \item If $\Delta_i$ assumes a value close to zero, it implies two things:
+    first, the student's trait ability for the dependee is high enough not to
+    bother testing it, and second, raising it to 1 would likely have little
+    effect on the probability estimate of the parent. 
+
+    \item Thus the highest impact item is determined not only by the coefficient,
+    but also by the gain in probability for the dependee.
+
+  \end{itemize} 
+}
+
+\frame{ \frametitle{The Odds Ratio}
+
+  Thus the highest impact item is determined not only by the coefficient, but
+  also by the gain in probability for the dependee.  Supposing that the odds
+  estimate for the parent $j$ were given by
+
+  \[
+    logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i \ldots b_n p_n}
+  \]
+
+  Then the odds estimate for the parent $j$ if the probability were to rise
+  to 1 would be
+
+  \[
+    logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta \ldots b_n p_n}
+  \]
+
+}
+
+\frame{ \frametitle{[]}
+
+  Then the odds ratio would be equal to 
+
+  \[
+    \frac{ 
+      e^{b_1 p_1 + b_2 p_2 + \ldots + b_i p_i + \ldots b_n p_n} 
+    } {
+      e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta_i + \ldots b_n p_n}
+    }
+  \]
+
+  which when reduced is simply
+
+  \[
+      e^{b_i \Delta_i}
+  \]
+
+}
+
+
+\frame{ \frametitle{The Highest Increase in Odds Ratio}
+
+  Thus that dependency which has the highest increase in the odds ratio is
+  the item $i$ such that
+
+  \[
+    \underset{i}{\mathrm{argmax}} \Bigg[ \Big( e^{b_i} \Big)^{\Delta_i} \Bigg]
+  \]
+
+  If that dependency has a probability within the window [.5, .5+$\delta$], it is
+  asked; otherwise if it has probability [0, .5), the algorithm is recursively
+  applied to the dependency.
+
+}
+
+
+
+%\subsection{Auto-Grading}
+%
+%
+%
+%\frame{ \frametitle{Short Answer Distance Metrics}
+%  \begin{itemize}
+%    \item Lehvenstein distance \ldots
+%  \end{itemize} 
+%}
+%
+%
+%\frame{ \frametitle{A Simple Code Autograder}
+% \begin{align*}
+%  \langle expr \rangle_1 & \rightarrow  x_1 \\
+%  \langle expr \rangle_2 & \rightarrow  x_2 \\
+%                         & \vdots       \\
+%  \langle expr \rangle_i & \rightarrow  x_i \\
+%                         & \vdots       \\
+%  \langle expr \rangle_n & \rightarrow  x_n 
+% \end{align*}
+%}
+%
+%
+%
+%\section{Experiments and Conclusion}
+%
+%\subsection{Experiment 1}
+%
+%\frame{ \frametitle{\ldots}
+%  \ldots
+%}
+%
+%
+%\subsection{Experiment 2}
+%
+%\frame{ \frametitle{\ldots}
+%  \ldots
+%}
+%
 
 
 \end{document}
