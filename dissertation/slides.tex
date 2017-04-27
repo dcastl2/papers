@@ -13,8 +13,48 @@
 \subsection{Introduction}
 
 
+\title[]{An Intelligent Tutoring System Utilizing Bloom's Taxonomy and
+Item-Response Theoretic Assessment}
 
-\frame{ \frametitle{Introduction}
+
+
+\frame{ \frametitle{Motivation}
+  \begin{itemize} 
+
+    \item Students have variance in \emph{trait ability}, that is internalized
+    problem-solving ability, with respect to certain skills.  In a classroom
+    this trait ability is normally distributed.
+    
+    \item Targetting any segment of the distribution of students provides that
+    segment with better treatment at the expense of other segments.  Targetting
+    the middle neglects the wings (both high-performing and low-performing).
+
+  \end{itemize} 
+}
+
+
+
+\frame{ \frametitle{Motivation}
+
+  \begin{itemize} 
+
+    \item In addition, students may have different levels of ability with
+    respect to different skills, and may have different interests as well.
+    Accommodating all of these with a classical approach would seem to be
+    impossible.
+
+    \item Ideally, we would like to personalize teaching; but the amount of
+    time required to do so is prohibitive. Thus we introduce ITS (intelligent
+    tutoring systems) to help us.
+
+  \end{itemize} 
+
+}
+
+
+
+
+\frame{ \frametitle{Objective}
   Any educational program can be thought of as a sequence of tuples
    \[
      (\chi_i, t_i)
@@ -37,7 +77,7 @@
   \begin{itemize} 
 
    \item The graph data structure to represent an assessment, whose nodes are
-   items, and whose eduges represent dependencies;
+   items, and whose edges represent dependencies;
 
    \item A modification to an existing assessment theory known as Item Response
    Theory, which now accounts for dependency relationships;
@@ -62,6 +102,7 @@
 
 \frame{ \frametitle{Bloom's Taxonomy}
 
+  \small
   \begin{itemize} 
 
     \item \textbf{Knowledge}. Recalling factual information.  \emph{What is a
@@ -87,17 +128,42 @@
     ten.}
 
   \end{itemize} 
+  \normalsize
 
 }
 
 
 
-\frame{ \frametitle{Item Response Theory}
+\frame{ \frametitle{Classical Test Theory}
 
-  The motivation for Item Response Theory is to have a method of assessment
-  which accounts for item difficulty, individual variance in student ability,
-  the probability of guessing a question correctly, and the extent to which
-  the item correlates with overall performance. 
+  \begin{itemize} 
+    \item In Classical Test Theory (CTT), we give a test on a concept or
+    group of concepts, then grade it and obtain a distribution of scores.
+
+    \item The letter grades are our rough estimates of ability. They don't
+    always map to what we anticipated (90-A, 80-B, etc.)
+
+    \item In that event, then based on the distribution, we map scores
+    to grades.  
+  \end{itemize} 
+
+}
+
+
+
+\frame{ \frametitle{Classical Test Theory}
+
+  \begin{itemize} 
+    \item One of the problems with CTT is that it does not innately account for
+    varying levels of difficulty in questions.  (The usual way to fix this is to
+    make more difficult problems worth more, but it isn't clear by how much.)
+
+    \item Also, the probability of guessing plays a role. A grade of 75\% on
+    a true/false test is not indicative.
+
+    \item Some questions may not be relevant (correlated with overall score),
+    and it may not be apparent until after testing.
+  \end{itemize} 
 
 }
 
@@ -129,7 +195,7 @@
  The Item Response Theory formula for calculating the probability that a student
  will answer a question given item parameters and student ability:
  \[
-   p_i(\theta_s) = \gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta-\beta_i)}}
+   p_i(\theta_s) = \gamma_i + \frac{1-\gamma_i}{1+e^{\alpha_i(\theta_s-\beta_i)}}
  \]
 }
 
@@ -137,23 +203,29 @@
 
 \frame{ \frametitle{Item Response Theory Curve}
   \begin{figure}[p!]
-   \includegraphics[width=.5\textwidth]{fig/irt.eps} 
+   \includegraphics[width=.4\textwidth]{fig/irt.eps} 
    \caption{A probability curve in Item Response Theory.}
   \end{figure}
 }
 
 
 
-\frame{ \frametitle{Item Response Theory MLE}
-  \begin{figure}[p!]
-   \includegraphics[width=.5\textwidth]{fig/mle.eps} 
-   \caption{A maximum likelihood estimation with Item Response Theory.}
-  \end{figure}
+\frame{ \frametitle{Grading to Obtain Thetas}
+  \begin{itemize} 
+    \item We are interested in finding $\theta_s$ values for students, but
+    not to grade (though we could). 
+
+    \item We need them primarily in order to determine questions to ask so
+    as to raise trait ability.
+
+    \item Nonetheless, knowing how $\theta_s$ might map to grades could
+    make the process more intuitive.
+  \end{itemize} 
 }
 
 
 
-\frame{ \frametitle{Grades}
+\frame{ \frametitle{Grade Mappings}
   \small
   \centering
   \begin{tabular}{||l|c|l||}
@@ -177,16 +249,118 @@
 }
 
 
+\frame{ \frametitle{Maximum Likelihood Estimate}
+
+To find trait ability given a response set, define 
+
+\[
+f_{si}(\theta_s) =\left\{
+         \begin{array}{ll}
+               p_{si}(\theta_s) & \mathrm{if}\  x_{si} = 1 \\
+               q_{si}(\theta_s) & \mathrm{otherwise}
+         \end{array}
+       \right.
+\]
+
+where 
+
+\[
+   q_{si}(\theta_s)  = 1 - p_{si}(\theta_s).
+\]
+
+}
+
+\frame{ \frametitle{Maximum Likelihood Estimate}
+
+  \begin{itemize} 
+
+    \item That is, $f_{si}$ assumes the probability $p_{si}$ if answered
+    correctly and $q_{si}$ if not answered correctly.  
+
+    \item The probablity of observing a total response set given a particular
+    $\theta_s$ value is the product of the probabilities $f_{si}$ for all $i$,
+    $1 \leq i \leq n$, or
+
+  \end{itemize} 
+
+  \[
+    \prod_{i=1}^n f_{si}(\theta_s).
+  \]
+
+}
+
+
+
+\frame{ \frametitle{Maximum Likelihood Estimate}
+
+
+  \begin{itemize} 
+
+    \item We suppose that there exists some $\theta_s$ which maximizes this
+    product.
+
+    \item The most likely value for the student's true trait ability $\theta_s$
+    is defined by:
+
+  \end{itemize}
+
+  \[
+    \theta_s = 
+    \underset{\theta}{\textrm{argmax}}
+    \Bigg[ 
+    \prod_{i=1}^n f_{si}(\theta).
+    \Bigg]
+  \]
+
+  \begin{itemize} 
+
+    \item That is, that value of $\theta_s$ which maximizes the product which
+    gives the probability of all the observations occuring together, given
+    $\theta$.  
+
+    \item To obtain this, products for a range of possible $\theta$ values are
+    calculated.
+
+  \end{itemize} 
+
+}
+
+
+
+\frame{ \frametitle{Item Response Theory MLE}
+  \begin{figure}[p!]
+   \includegraphics[width=.4\textwidth]{fig/mle.eps} 
+   \caption{A maximum likelihood estimation with Item Response Theory.}
+  \end{figure}
+}
+
+
+
+
+
 
 \frame{ \frametitle{The Database}
   \begin{itemize}
 
-    \item The database contains content items and assessments.
+    \item The database contains content items and assessments.  Content items
+    may be informative items or questions.  
+    
+    \item Both have: 
+    
+      \begin{itemize} 
+         \item Bloom level 
+         \item Difficulty 
+         \item Concept 
+         \item Dependencies
+      \end{itemize} 
 
-    \item Content items may be informative items or questions.  Both have an
-    associated Bloom level, difficulty, and concept.  Questions have item
-    discriminations, probabilities of guessing, and solutions.  All content
-    items also have dependencies.
+    \item Questions have:
+    
+      \begin{itemize} 
+        \item Item discriminations 
+        \item Probabilities of guessing 
+        \item Solutions 
+      \end{itemize} 
 
     \item Assessments are collections of item sets, which may be represented
     as trees.
@@ -209,14 +383,14 @@
 
     \item It is widely thought that Bloom level and difficulty are strictly
     equal \cite{newman1988effect,oliver2004course,lord2007moving,
-    johnson2006bloom,fuller2007developing} , but previous work
-    \cite{castleberry2016effect} has argued the contrary, producing empirical
-    evidence for the hypothesis that Bloom level and difficulty are separate
-    entities.
+    johnson2006bloom,fuller2007developing}. 
+    
+    \item Previous work \cite{castleberry2016effect} has argued the contrary,
+    producing empirical evidence for the hypothesis that Bloom level and
+    difficulty are separate entities.
 
     \item It is sufficient to find pairs of problems to serve as counterexamples:
-    one at a higher Bloom level and lower difficulty than another, which has a 
-    lower Bloom level and higher difficulty. 
+    one at a higher Bloom level and lower difficulty than another.
 
   \end{itemize}
 }
@@ -235,16 +409,22 @@
   \begin{itemize}
 
     \item A student may have differing levels of ability for different
-    concepts.  A student may be good at recursion, but not at working with
-    pointers.
+    concepts:  good at recursion, but with pointers.
 
     \item For that reason, trait ability should be separated per-concept.
-    However, a student may have different levels of ability per Bloom level.
 
-    \item For example, a student may have exceptional comprehension of
-    recursion.  The student can follow a recursive procedure.  However, the
-    same student may have low application ability; they cannot yet apply
-    the rules of recursion to complete a fill-in-the-blank code.
+    \item However, a student may have different levels of ability per Bloom level.
+
+    \item For example: 
+    
+      \begin{itemize} 
+         \item A student may have exceptional comprehension of recursion.  
+         The student can follow a recursive procedure.  
+              
+         \item However, the same student may have low application ability; 
+         they cannot yet apply the rules of recursion to complete a 
+         fill-in-the-blank code.
+      \end{itemize} 
     
   \end{itemize} 
 }
@@ -276,9 +456,11 @@
 \frame{ \frametitle{An Example Trait Ability Matrix}
   \begin{itemize}
    \item A likely matrix may look like the following, which has a
-   diagonal gradient.  If the course follows a progression across Bloom
-   levels and concepts, the student's ability per-concept and per-Bloom
-   level should rise accordingly over time.
+   diagonal gradient.  
+   
+   \item If the course follows a progression across Bloom levels and 
+   concepts, the student's ability per-concept and per-Bloom level 
+   should rise accordingly over time.
   \end{itemize}
   \[
   \Theta_1 =\left[
@@ -460,16 +642,6 @@
 
 
 
-
-\frame{ \frametitle{We Should Use Logistic Regression}
-
-  
-
-}
-
-
-
-
 \frame{ \frametitle{The Assumptions of Logistic Regression}
 
   \begin{itemize} 
@@ -497,24 +669,29 @@
 
   \begin{itemize} 
 
-   \item The user can extraneous variables by examining $\alpha$, and specifies
-   the graph from the outset, so there \emph{shouldn't} be extraneous
-   variables.
+   \item The user can eliminate extraneous variables by examining $\alpha$, 
+   and specifies the graph from the outset, so there \emph{shouldn't} be 
+   extraneous variables.
 
    \item Some multicollinearity will probably exist for most dependency sets 
    due to the nature of the dependee-depender relationships.
 
    \item An extraction technique like PCA or factor analysis could be done to
-   avoid multicollinearity, but then the graphs would not be as legible.  Plus,
-   we would need to do PCA/FA every time the question is answered, which can be
-   expensive.
+   avoid multicollinearity. 
+   
+     \begin{itemize} 
+       \item \ldots But then the graphs would not be as legible.  
+       
+       \item Plus, we would need to do PCA/FA every time the question is 
+       answered, which can be expensive.
+     \end{itemize} 
 
  \end{itemize} 
 
 }
 
 
-\frame{ \frametitle{Logistic Regression: The Math}
+\frame{ \frametitle{Logistic Regression: The Formulae}
 
   Logistic regression is a regression of what are known as log odds. The odds
   are defined as:
@@ -554,23 +731,25 @@
   \]
 
   which is called the logistic curve, which is one in the family of sigmoid
-  curves.  It is identical to the type of curve used in Item Response Theory:
-
-  \[
-    a + bx = \alpha(\beta - 1)\theta
-  \]
+  curves.  It is identical to the type of curve used in Item Response Theory.
 
 }
 
 
 \frame{ \frametitle{The Inclusion of Dependency Information}
 
-  To account for item dependencies, a modified form of logistic regression may be
-  sought.  It is desirable to keep in account the item discrimination as well as
-  the trait ability of the student.  Here, $X_i$ is the correctness of the
-  $i^{th}$ dependee response, and $Y$ is the log odds that the depender question
-  is answered correctly:
-  % FIXME
+  \begin{itemize} 
+
+    \item To account for item dependencies, a modified form of logistic
+    regression may be sought.  
+    
+    \item It is desirable to keep in account the item discrimination as well as
+    the trait ability of the student.  
+    
+    \item Here, $X_i$ is the correctness of the $i^{th}$ dependee response, and
+    $Y$ is the log odds that the depender question is answered correctly:
+
+  \end{itemize} 
 
   \[
     Y = b_1X_1 + b_2X_2 + \ldots + b_{n-1}X_{n-1} + b_n\alpha_i(\theta_s-\beta_i)
@@ -610,8 +789,10 @@
 
     \item Ebbinghaus is credited with a theory of memory and forgetting which
     has withstood empirical study for over a century \cite{ebbinghaus}, known
-    as the power law of forgetting, according to which the strength of a memory
-    after a time $t$ falls off exponentially: 
+    as the power law of forgetting. 
+    
+    \item According to it, the strength of a memory after a time $t$ falls off 
+    exponentially: 
 
   \end{itemize} 
 
@@ -659,9 +840,11 @@
 
     \item John Anderson is credited with having developed Adaptive Control of
     Thought-Rational (ACT-R), a process-based model which simulates the solving
-    of problems.  In ACT-R, there are goals, akin to problem statements; and
-    rules, or processes used to solve problems; and finally facts, or knowledge
-    utilized in the course of applying rules. 
+    of problems.  
+    
+    \item In ACT-R, there are goals, akin to problem statements; and rules, or
+    processes used to solve problems; and finally facts, or knowledge utilized
+    in the course of applying rules. 
 
     \item In addition to this, however, Anderson added models for memory and
     forgetting to support realistic recall probabilities and latencies, some
@@ -678,12 +861,14 @@
     \item According to Anderson's model, a chunk of memory $i$ is re-activated
     (or additionally activated) to the extent that other chunks of information
     (related concepts, words, ideas, etc.) which have some association to $i$
-    are attended to.  This notion is captured in the following equation
+    are attended to.  
+    
+    \item This notion is captured in the following equation 
     \cite{anderson2000implications}:
   \end{itemize} 
 
   \[
-    a_i = b_i + \displaystyle\sum_{i=j}^n w_j s_{ji}
+    a_i = b_i + \displaystyle\sum_{i=1}^n w_j s_{ji}
   \]
 
 }
@@ -719,13 +904,6 @@
 
 
 
-\frame{ \frametitle{Learning Curve}
-  \begin{figure}[p!]
-   \includegraphics[width=.4\textwidth]{fig/spacing.eps} 
-   \caption{The learning curve, which indicates the extent of memory
-   lifespan increase given a time between trials}
-  \end{figure}
-}
 
 
 
@@ -733,9 +911,11 @@
   
   \begin{itemize} 
     \item A slight modification to this theory accounts for short-term memory
-    and short-term memorization, which allows for a small time window for the
-    student to enjoy a high probability of recollection before dropping off
-    sharply, as in the original curve:
+    and short-term memorization. 
+    
+    \item These allow for a small time window for the student to enjoy a high 
+    probability of recollection before dropping off sharply, as in the original 
+    curve:
   \end{itemize} 
 
   \[
@@ -745,9 +925,10 @@
   \begin{itemize} 
     \item In this equation, $\lambda$ is the lifespan of the memory; or, the
     amount of time that passes until there remains only a .5 probability that
-    the student recalls the information.  The value $m$ is a parameter which
-    controls the rate of dropoff, much like the decay rate in Ebbinghaus'
-    model.  An example curve for this equation is given below.
+    the student recalls the information.  
+
+    \item The value $m$ is a parameter which controls the rate of dropoff, much 
+    like the decay rate in Ebbinghaus' model.  
   \end{itemize} 
 
 }
@@ -766,12 +947,16 @@
   \]
 
   \begin{itemize} 
-    \item Here, $n$ refers to exposure or trial number $n$.  In the intelligent
-    tutoring system, this is the nth time that the student has seen the
-    problem.  $\lambda_{n-1}$ is the former lifespan of the memory.  $\rho_s$
-    is a learning rate, which is a parameter particular to the student; its
-    domain is (1, $\infty$].  The intuition captured by this formula is that
-    with an increased number of trials, the lifespan of the memory increases.
+    \item Here, $n$ refers to exposure or trial number $n$.  In the 
+    ITS, this is the nth time that the student has seen the
+    problem.  
+    
+    \item $\lambda_{n-1}$ is the former lifespan of the memory.  $\rho_s$ is a
+    learning rate, which is a parameter particular to the student; its domain
+    is (1, $\infty$].  
+
+    \item The intuition captured by this formula is that with an increased
+    number of trials, the lifespan of the memory increases.
   \end{itemize} 
 
 }
@@ -800,10 +985,11 @@
 \frame{ \frametitle{The Spacing Effect}
   \begin{itemize} 
     \item The spacing effect is the effect that the amount of time in between
-    trials has on the memorization of a chunk of memory.  In the above model,
-    memorization is interpreted as an increase in the lifespan of a memory.  If
-    only a short amount of time passes between the last trial, the effect will
-    not be as great as if a longer time has passed.  
+    trials has on the memorization of a chunk of memory.  
+    
+    \item In the above model, memorization is interpreted as an increase in the
+    lifespan of a memory.  If only a short amount of time passes between the
+    last trial, the effect will not be as great as if a longer time has passed.  
     
     \item One consequence of this is that, according to the spacing effect
     hypothesis, cramming is ineffective (where cramming is namely repeating
@@ -817,6 +1003,16 @@
     \sigma_t = (1 - e^{-at})
    \]
 
+}
+
+
+
+\frame{ \frametitle{Forgetting with Re-Activation}
+  \begin{figure}[p!]
+   \includegraphics[width=.4\textwidth]{fig/memory.eps} 
+   \caption{Forgetting with re-activation; each spike in the graph is an
+   additional trial where the student is exposed to the item again}
+  \end{figure}
 }
 
 
@@ -839,6 +1035,17 @@
     the passage of time.
   \end{itemize} 
 }
+
+
+
+\frame{ \frametitle{Learning Curve}
+  \begin{figure}[p!]
+   \includegraphics[width=.4\textwidth]{fig/spacing.eps} 
+   \caption{The learning curve, which indicates the extent of memory
+   lifespan increase given a time between trials}
+  \end{figure}
+}
+
 
 
 \frame{ \frametitle{Remember or Re-Solve}
@@ -929,16 +1136,10 @@
 \frame{ \frametitle{Question Pruning}
   \begin{itemize} 
     \item With respect to $\alpha_i$, it is desirable to discard any question $i$
-    for which $\alpha_i \leq 0$.  Recall that negative values of $\alpha$
-    indicate a negative biserial correlation with the composite score, which
-    means that the question asked is an indicator of whether or not the student
-    will perform poorly on the overall measure.  
+    for which $\alpha_i \leq 0$.  It should be severed from the dependency tree.
 
     \item If $\alpha_i$ is close to -1, then the question may have predictive
-    power, in which case it should be analyzed for its properties.  It may be
-    desirable to retain such questions for the purpose of predicting success.
-    Regardless, if $\alpha_i < 0$, then it along with its subtree should be
-    severed from the dependency graph.
+    power.  
 
     \item With the response set, $\Theta_s$ can be constructed and the proximal
     zone of development can be identified.
@@ -954,8 +1155,8 @@
     roughly .5 probability of answering a question of difficulty $\beta=0$
     correctly.
 
-    \item Knowing what the trait ability matrix looks like, what
-    categories should be selected?
+    \item Knowing what the trait ability matrix looks like, what categories
+    should be selected?
 
   \end{itemize} 
 }
@@ -966,10 +1167,11 @@
   \begin{itemize} 
 
     \item The higher $\theta_{sjk}$ values should be left alone, particularly
-    those nearing 3, since this demonstrates exceptional mastery of that (Bloom
-    $\times$ concept) category.  In particular, if $\theta_{sjk} = 3$, there is
-    no reason to ask questions from that category, since trait ability is
-    capped at 3.
+    those nearing 3, since this demonstrates exceptional mastery of that 
+    category.  
+    
+    \item In particular, if $\theta_{sjk} = 3$, there is no reason to ask
+    questions from that category, since trait ability is capped at 3.
 
     \item As will be discussed later, there may be precedent to ask such a
     question if asking it will lead to an increase in the probability of
@@ -985,8 +1187,10 @@
 
     \item It would be unfair (perhaps even cruel), to ask questions for which
     $\theta_{sjk}-\beta>1$; that is, those questions for which the student has
-    a less than half chance of answering correctly.  Asking such questions
-    consistently could have psychological ramifications.
+    a less than half chance of answering correctly.  
+    
+    \item Asking such questions consistently could have psychological
+    ramifications!
 
     \item In the course of ordinary non-formative instruction, such questions
     may be asked, but in this case the schedule may be personalized and the
@@ -1011,8 +1215,7 @@
     fewer that the student must answer to raise their trait ability estimate.
 
     \item Ultimately, selecting the neighborhood of difficulties to include
-    questions from is a personal decision.  If the question bank is
-    well-populated, it shouldn't affect scoring. 
+    questions from is a personal decision.   
 
   \end{itemize} 
 }
@@ -1023,13 +1226,15 @@
   \begin{itemize} 
     \item When a student is assigned an assessment, first the probabilities that
     the student will be able to answer each question are recursively calculated.
-    They must be calculated from the bottom-up, since internal nodes require
-    probability estimates from their children.  
+
+    \item They must be calculated from the bottom-up, since internal nodes
+    require probability estimates from their children.  
 
     \item The leaves are the only nodes that do not require logistic regression
     to obtain a probability estimate, since the leaves have no dependencies.
-    Probability estimates for the children are obtained using Item Response
-    Theory.
+
+    \item Probability estimates for the children are obtained using Item
+    Response Theory.
   \end{itemize} 
 }
 
@@ -1051,7 +1256,7 @@
   \begin{itemize}
     \item Then, a recursive traversal beings at the root of each tree.  If the
     probability of answering the question at the root is within the
-    neighborhood of [$\delta$, .5+$\delta$], it is asked.  
+    neighborhood of [.5, .5+$\delta$], it is asked.  
 
     \item Recall that low probabilities correspond to higher differences in
     $\beta-\theta$; thus if a probability is very low, yet the student answers
@@ -1059,8 +1264,9 @@
     ability.
 
     \item Such items have higher impact on the MLE estimate of trait ability.
-    Yet if the probability is below .5, there is no reasonable assurance the
-    student will be able to answer it to begin with.
+
+    \item Yet if the probability is below .5, there is no reasonable assurance
+    the student will be able to answer it to begin with.
   \end{itemize} 
 }
 
@@ -1069,7 +1275,7 @@
 \frame{ \frametitle{p Too High, p Too Low}
   \begin{itemize} 
     \item If the probability to answer the question correctly is in the
-    neighborhood of [.5+$\delta$, 1],  the question is skipped.  The algorithm may
+    neighborhood of (.5+$\delta$, 1],  the question is skipped.  The algorithm may
     recursively descend into its dependencies to find lower-$p$ items.
 
     \item If the probability is less than .5, then the system will seek to raise
@@ -1083,7 +1289,6 @@
 \frame{ \frametitle{Findin the Highest-Impact Dependency}
 
   \begin{itemize} 
-
     \item The dependee which controls the highest amount of variance in the parent
     probability is that dependee which has the highest coefficient in the logistic
     regression model.  
@@ -1094,7 +1299,6 @@
 
     \item Supposing $p_i$ is the probability of answering the ith dependee
     correctly, then the amount which can be gained in the dependee is:
-
   \end{itemize}
 
     \[
@@ -1109,9 +1313,14 @@
   \begin{itemize} 
 
     \item If $\Delta_i$ assumes a value close to zero, it implies two things:
-    first, the student's trait ability for the dependee is high enough not to
-    bother testing it, and second, raising it to 1 would likely have little
-    effect on the probability estimate of the parent. 
+
+      \begin{itemize} 
+        \item First, the student's trait ability for the dependee is high enough not to
+        bother testing it, 
+
+        \item And second, raising it to 1 would likely have little
+        effect on the probability estimate of the parent. 
+      \end{itemize} 
 
     \item Thus the highest impact item is determined not only by the coefficient,
     but also by the gain in probability for the dependee.
@@ -1119,11 +1328,11 @@
   \end{itemize} 
 }
 
+
+
 \frame{ \frametitle{The Odds Ratio}
 
-  Thus the highest impact item is determined not only by the coefficient, but
-  also by the gain in probability for the dependee.  Supposing that the odds
-  estimate for the parent $j$ were given by
+  Supposing that the odds estimate for the parent $j$ were given by
 
   \[
     logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i \ldots b_n p_n}
@@ -1133,20 +1342,20 @@
   to 1 would be
 
   \[
-    logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta \ldots b_n p_n}
+    logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i (1) \ldots b_n p_n}
   \]
 
 }
 
-\frame{ \frametitle{[]}
+\frame{ \frametitle{The Odds Ratio}
 
   Then the odds ratio would be equal to 
 
   \[
     \frac{ 
-      e^{b_1 p_1 + b_2 p_2 + \ldots + b_i p_i + \ldots b_n p_n} 
+      e^{b_1 p_1 + b_2 p_2 + \ldots + b_i (1) + \ldots b_n p_n} 
     } {
-      e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta_i + \ldots b_n p_n}
+      e^{b_1 p_1 + b_2 p_2 + \ldots + b_i p_i + \ldots b_n p_n}
     }
   \]
 
@@ -1176,45 +1385,10 @@
 
 
 
-%\subsection{Auto-Grading}
-%
-%
-%
-%\frame{ \frametitle{Short Answer Distance Metrics}
-%  \begin{itemize}
-%    \item Lehvenstein distance \ldots
-%  \end{itemize} 
-%}
-%
-%
-%\frame{ \frametitle{A Simple Code Autograder}
-% \begin{align*}
-%  \langle expr \rangle_1 & \rightarrow  x_1 \\
-%  \langle expr \rangle_2 & \rightarrow  x_2 \\
-%                         & \vdots       \\
-%  \langle expr \rangle_i & \rightarrow  x_i \\
-%                         & \vdots       \\
-%  \langle expr \rangle_n & \rightarrow  x_n 
-% \end{align*}
-%}
-%
-%
-%
-%\section{Experiments and Conclusion}
-%
-%\subsection{Experiment 1}
-%
-%\frame{ \frametitle{\ldots}
-%  \ldots
-%}
-%
-%
-%\subsection{Experiment 2}
-%
-%\frame{ \frametitle{\ldots}
-%  \ldots
-%}
-%
+\bibliographystyle{plain}
+\frame{ \frametitle{Bibliography}
+  \bibliography{mainfile.bib}
+}
 
 
 \end{document}

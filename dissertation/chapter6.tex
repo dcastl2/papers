@@ -121,16 +121,16 @@ Then the odds estimate for the parent $j$ if the probability were to rise
 to 1 would be
 
 \begin{equations}
-  logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta \ldots b_n p_n}
+  logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \ldots b_n p_n}
 \end{equations}
 
 then the odds ratio would be equal to 
 
 \begin{equations}
   \frac{ 
-    e^{b_1 p_1 + b_2 p_2 + \ldots + b_i p_i + \ldots b_n p_n} 
+    e^{b_1 p_1 + b_2 p_2 + \ldots + b_i + \ldots b_n p_n} 
   } {
-    e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i \Delta_i + \ldots b_n p_n}
+    e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i  + b_i p_i \ldots b_n p_n}
   }
 \end{equations}
 

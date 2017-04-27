@@ -9,6 +9,7 @@
 \usepackage{fancyref}
 \usepackage{hyperref}
 \usepackage[final]{pdfpages}
+
 \setlength{\topmargin}{-0.5in}
 \setlength{\textheight}{9.0in}
 \addtolength{\evensidemargin}{-0.50in}
@@ -167,18 +168,29 @@ my career.
 \doublespacing
 
 This dissertation details an intelligent tutoring system which aims to raise
-student trait abilities across concepts and levels of Bloom's taxonomy within
-an educational program.  
+student trait abilities across concepts and levels of Bloom’s taxonomy within
+an educational program.
 
 The system utilizes Item Response Theory, a probabilistic theory of assessment
 which accounts for item discrimination, difficulty, and probability of guessing
-in its assessment of student trait ability.
+in its assessment of student trait ability.  A modification to Item Response
+Theory which accounts for question dependencies is used to assess the
+probability that a student will answer a given question correctly given prior
+responses on the dependency questions.
 
-The intelligent tutoring system features a graph-based model of dependency
-relationships among questions, models of memory and forgetting, and
-fine-grained characterization-based models of student ability.  In conjunction,
-these lend to efforts to schedule problems for the particular student which
-have the highest payoff.
+It also draws from theories of memory and forgetting present in the ACT-R model
+for intelligent tutoring systems.  In particular, it models probability that
+a student will be able to recall the answer to a question outright, as well
+as the re-activation of memories of questions upon re-exposure.  This model
+of memory is combined with the modified Item Response Theory to yield a more
+complete predictive model.
+
+Novel in this work is the fusion of Bloom's taxonomy and Item Response Theory
+under the same system, graph-based model of dependency relationships among
+questions, modified models of memory and forgetting, and fine-grained
+characterization-based models of student ability.  In conjunction, these lend
+to efforts to schedule problems for the particular student which have the
+highest payoff.
 
 \end{abstract}
 
