@@ -1,33 +1,65 @@
 \documentclass{beamer}
 \usepackage{tabularx}
+\usepackage{multicol}
 \usetheme{Copenhagen}
 
 \newcommand{\logit}{\mathrm{logit}}
 
+%\AtBeginSubsection[]{
+%  \begin{frame}
+%  \vfill
+%  \centering
+%  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+%    \usebeamerfont{title}\insertsectionhead: \insertsubsectionhead\par%
+%  \end{beamercolorbox}
+%  \vfill
+%  \end{frame}
+%}
 
+\AtBeginSubsection[]
+{
+    \begin{frame}{Outline}
+      \small
+      \begin{multicols}{2}
+      \tableofcontents[currentsection,currentsubsection]
+      \end{multicols}
+      \normalsize
+    \end{frame}
+}
+
+
+\title[]{An Intelligent Tutoring System Utilizing Bloom's Taxonomy and
+Item-Response Theoretic Assessment}
+\author{Dennis Castleberry}
+\date{\today}
 
 \begin{document}
+
+\frame{\titlepage}
+
+
+\frame{ \frametitle{Contents}
+      \small
+      \begin{multicols}{2}
+      \tableofcontents
+      \end{multicols}
+      \normalsize
+}
+
 
 \section{Preliminaries}
 
 \subsection{Introduction}
 
 
-\title[]{An Intelligent Tutoring System Utilizing Bloom's Taxonomy and
-Item-Response Theoretic Assessment}
-
-
-
 \frame{ \frametitle{Motivation}
   \begin{itemize} 
 
-    \item Students have variance in \emph{trait ability}, that is internalized
-    problem-solving ability, with respect to certain skills.  In a classroom
-    this trait ability is normally distributed.
+    \item Students have variance in \textbf{trait ability}, that is internalized
+    problem-solving ability, with respect to certain skills.  
     
     \item Targetting any segment of the distribution of students provides that
-    segment with better treatment at the expense of other segments.  Targetting
-    the middle neglects the wings (both high-performing and low-performing).
+    segment with attention at the expense of other segments.  
 
   \end{itemize} 
 }
@@ -40,17 +72,98 @@ Item-Response Theoretic Assessment}
 
     \item In addition, students may have different levels of ability with
     respect to different skills, and may have different interests as well.
-    Accommodating all of these with a classical approach would seem to be
-    impossible.
 
-    \item Ideally, we would like to personalize teaching; but the amount of
-    time required to do so is prohibitive. Thus we introduce ITS (intelligent
-    tutoring systems) to help us.
+    \item We would like to personalize teaching, but accommodating each student
+    individually with a classical approach is prohibitively time-consuming.
+
+    \item Thus we introduce ITS ({intelligent tutoring systems}) to help
+    us.
 
   \end{itemize} 
 
 }
 
+
+
+\frame{ \frametitle{ITSs and CATs}
+
+  \begin{itemize} 
+
+    \item A \textbf{Computer Adaptive Tester}, or CAT, is a system which
+    assesses a student adaptively, basedon the student's prior responses. 
+
+    \item An \textbf{Intelligent Tutoring System}, or ITS, is a system which
+    aims to raise a student's ability.
+
+    \item An ITS may contain a CAT, but the goal is different.
+
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{CATs}
+
+  Three main advantages of CATs:  
+
+  \begin{itemize} 
+
+    \item They easily lend themselves to \textbf{formative testing}, which is
+    beneficial for students \cite{bull2003blueprint} \cite{mead1993equivalence}
+    \cite{bangert1991instructional} \cite{lawton2012online};
+
+    \item They are amenable to the {scientific exploration of learning
+    theories}, since data is highly available and \textbf{testing algorithms}
+    are easy to implement \cite{mayer2002multimedia}
+    \cite{wainer2000computerized};
+
+    \item They allow for the implementation of algorithms to determine the
+    series of questions to be asked, allowing for \textbf{dynamic testing};
+    they can even be used for curriculum sequencing
+    \cite{chen2006personalized}.
+
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{How CATs Work}
+  Typical workflow \cite{veldkamp2013bayesian}:
+  \begin{enumerate} 
+    \item initial ability estimate, 
+    \item selection and administer item,
+    \item update ability estimate, 
+    \item finally, check stopping criterion.
+  \end{enumerate} 
+}
+
+
+
+\frame{ \frametitle{Types of ITSs}
+  Two ways of categorizing the general approach for ITS:
+  \begin{itemize} 
+    \item Deficit assessment vs. error analysis \cite{bejar1984educational}
+    \item Characterization-based vs process-based \cite{anderson1996act}
+  \end{itemize} 
+  The present ITS would be characterization-based, and utilize
+  deficit assessment.
+}
+
+
+
+\frame{ \frametitle{The State-of-the-Art}
+  \begin{itemize} 
+    \item John Anderson's ACT-R models qualify as the most comprehensive
+    and best-known basis for ITS.
+
+    \item Anderson's ITS is process-based (mimics logic programming in
+    that it has goals, facts, and rules).  Attempts to model every step
+    in the process.
+
+    \item The problem with Anderson's is that it is so fine-grained, that it is
+    prohibitively time-consuming to apply to a whole course.
+  \end{itemize} 
+}
 
 
 
@@ -129,6 +242,50 @@ Item-Response Theoretic Assessment}
 
   \end{itemize} 
   \normalsize
+
+}
+
+
+
+\frame{ \frametitle{ITS and Bloom}
+  \begin{itemize} 
+
+    \item Some systems incorporating Bloom levels exist, with the intent of
+    supporting finer-grained characterization-based models
+    \cite{sitthisak2007towards}.
+
+    \item Such systems tend to treat Bloom levels like difficulty levels
+    \cite{raykova2011adaptive}.
+
+    \item Specialized systems (e.g. for biological sciences) use Bloom's
+    taxonomy for questioning at higher levels \cite{ccepni2006effects}
+    \cite{hopson2001using}.
+
+  \end{itemize} 
+}
+
+
+
+\frame{ \frametitle{MCQs and Bloom}
+
+  \begin{itemize} 
+
+    \item The subjectivity of reasoning at high levels is at odds with the
+    closed-ended nature of MCQs.
+
+    \item Even for the Evaluation level, it is possible to design MCQs which
+    raters agree have a definite correct/incorrect response
+    \cite{lemons2013questions}.  
+
+    \item CATs developed for use in the biological sciences have demonstrated
+    that MCQs can be adapted to the higher Bloom levels
+    \cite{hernan2008testing}, \cite{lemons2013questions}.  E.g. diagnoses given
+    symptoms (Evaluation question).
+
+    \item General techniques have been outlined for adapting MCQs to the higher
+    levels \cite{duke2001using}. 
+
+  \end{itemize} 
 
 }
 
@@ -213,7 +370,7 @@ Item-Response Theoretic Assessment}
 \frame{ \frametitle{Grading to Obtain Thetas}
   \begin{itemize} 
     \item We are interested in finding $\theta_s$ values for students, but
-    not to grade (though we could). 
+    not to grade per se (though we could). 
 
     \item We need them primarily in order to determine questions to ask so
     as to raise trait ability.
@@ -249,26 +406,29 @@ Item-Response Theoretic Assessment}
 }
 
 
+
 \frame{ \frametitle{Maximum Likelihood Estimate}
 
-To find trait ability given a response set, define 
+  To find trait ability given a response set, define 
 
-\[
-f_{si}(\theta_s) =\left\{
-         \begin{array}{ll}
-               p_{si}(\theta_s) & \mathrm{if}\  x_{si} = 1 \\
-               q_{si}(\theta_s) & \mathrm{otherwise}
-         \end{array}
-       \right.
-\]
+  \[
+  f_{si}(\theta_s) =\left\{
+           \begin{array}{ll}
+                 p_{si}(\theta_s) & \mathrm{if}\  x_{si} = 1 \\
+                 q_{si}(\theta_s) & \mathrm{otherwise}
+           \end{array}
+         \right.
+  \]
 
-where 
+  where 
 
-\[
-   q_{si}(\theta_s)  = 1 - p_{si}(\theta_s).
-\]
+  \[
+     q_{si}(\theta_s)  = 1 - p_{si}(\theta_s).
+  \]
 
 }
+
+
 
 \frame{ \frametitle{Maximum Likelihood Estimate}
 
@@ -292,7 +452,6 @@ where
 
 
 \frame{ \frametitle{Maximum Likelihood Estimate}
-
 
   \begin{itemize} 
 
@@ -336,6 +495,44 @@ where
 
 
 
+\subsection{Literature}
+
+
+\frame{ \frametitle{ITSs and IRT}
+  \begin{itemize} 
+
+    \item One ITS/CAT uses the Rasch model (1PL model) to give a ``guided
+    path'' for learners \cite{chen2005personalized}.
+
+    \item Another uses IRT to estimate English language-learners' ability, then
+    direct them to language articles of an appropriate difficulty to raise it
+    \cite{yarandi2011personalised}.  Interestingly, the articles are tagged
+    with difficulty.
+
+    Another uses IRT for steps in a process-based ITS, aiming to evaluate
+    every step of the problem-solving process \cite{tatsuoka1990toward}.
+  \end{itemize} 
+
+}
+
+
+
+\frame{ \frametitle{ITSs + Bloom + IRT}
+
+  The few ITSs which use both IRT and Bloom levels:
+  
+  \begin{itemize} 
+  
+   \item map Bloom levels to difficulty levels \cite{sitthisak}, 
+   \item provide neither a clear mapping or separation of the two \cite{osborne2013grounded}, 
+   \item lack a scheduler, \cite{lilley2005generation}, 
+   \item or use the Rasch model \cite{ghulman2009modern}.  
+
+  \end{itemize} 
+
+}
+
+
 
 
 
@@ -370,12 +567,11 @@ where
 
 
 
-\subsection{Literature}
+
 
 
 
 \subsection{Previous Work}
-
 
 
 \frame{ \frametitle{Difficulty and Bloom Level}
@@ -552,7 +748,6 @@ where
 
   \end{itemize} 
 
-
 }
 
 
@@ -703,7 +898,7 @@ where
   And the log odds, or logit, is defined as:
 
   \[
-    \logit(y) = \ln(\mathrm{odds}) = \ln\Big(\frac{p}{1-p}\Big) = a + bX
+    \logit = \ln(\mathrm{odds}) = \ln\Big(\frac{p}{1-p}\Big) = a + bX
   \]
 
 }
@@ -1090,7 +1285,7 @@ where
 
 
 
-\subsection{Selecting From the Trait Ability Matrix}
+\subsection{Selecting From the Matrix}
 
 
 \frame{ \frametitle{Initialization}
@@ -1128,6 +1323,8 @@ where
     \item The test should be small enough to be feasible while having enough
     questions to support an MLE.  At least two questions are needed per (Bloom
     $\times$ concept) for an MLE. 
+
+    \item Sometimes called \textbf{shadow testing} \cite{van2000computerized}.
   \end{itemize} 
 
 }
@@ -1167,8 +1364,9 @@ where
   \begin{itemize} 
 
     \item The higher $\theta_{sjk}$ values should be left alone, particularly
-    those nearing 3, since this demonstrates exceptional mastery of that 
-    category.  
+    those nearing 3, since this demonstrates exceptional mastery of that
+    category.  (Also a confidence interval can be calculated to ensure it is
+    acceptable to stop.)
     
     \item In particular, if $\theta_{sjk} = 3$, there is no reason to ask
     questions from that category, since trait ability is capped at 3.
@@ -1186,7 +1384,7 @@ where
   \begin{itemize} 
 
     \item It would be unfair (perhaps even cruel), to ask questions for which
-    $\theta_{sjk}-\beta>1$; that is, those questions for which the student has
+    $\theta_{sjk}-\beta<0$; that is, those questions for which the student has
     a less than half chance of answering correctly.  
     
     \item Asking such questions consistently could have psychological
@@ -1222,6 +1420,10 @@ where
 
 
 
+\subsection{Calculations on the Forest}
+
+
+
 \frame{ \frametitle{Initial Calculations}
   \begin{itemize} 
     \item When a student is assigned an assessment, first the probabilities that
@@ -1249,6 +1451,10 @@ where
     answering the question can be calculated using the combined formula.
   \end{itemize} 
 }
+
+
+
+\subsection{Seeking a Question}
 
 
 
@@ -1286,7 +1492,11 @@ where
 
 
 
-\frame{ \frametitle{Findin the Highest-Impact Dependency}
+\subsection{Settling on the Dependency}
+
+
+
+\frame{ \frametitle{Finding the Highest-Impact Dependency}
 
   \begin{itemize} 
     \item The dependee which controls the highest amount of variance in the parent
@@ -1335,14 +1545,14 @@ where
   Supposing that the odds estimate for the parent $j$ were given by
 
   \[
-    logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i \ldots b_n p_n}
+    odds = e^{b_1 p_1 + b_2 p_2 + \ldots b_i p_i \ldots b_n p_n}
   \]
 
   Then the odds estimate for the parent $j$ if the probability were to rise
   to 1 would be
 
   \[
-    logit_j = e^{b_1 p_1 + b_2 p_2 + \ldots b_i (1) \ldots b_n p_n}
+    odds = e^{b_1 p_1 + b_2 p_2 + \ldots b_i (1) \ldots b_n p_n}
   \]
 
 }
@@ -1383,6 +1593,280 @@ where
 
 }
 
+
+
+\frame{ \frametitle{Conclusion}
+  In conclusion, we have developed a system which:
+  \begin{itemize}
+
+    \item Utilizes Bloom's taxonomy to develop a course-grained
+    characterization model of student trait ability,
+
+    \item Uses a modified form of IRT to account for dependency
+    information, and
+
+    \item Takes into account the rememberance and forgetting of 
+    questions.
+     
+  \end{itemize} 
+}
+
+
+
+\frame{ \frametitle{Future Direction}
+  \begin{itemize}
+   \item More empirical validation for modified memory models,
+   in particular question memorability,
+
+   \item Downward propagation of trait ability updates through the dependency
+   graph if questions are answered correctly/incorrectly,
+
+   \item Exploring the general decay of trait ability over time.
+  \end{itemize} 
+}
+
+
+
+\section{Experiments}
+
+
+\subsection{Experiment 1}
+
+
+\frame{ \frametitle{Experiment 1 Hypothesis}
+
+  \begin{itemize} 
+
+  \item The first experiment tested to see if there is a performance difference
+  between computer-based assessment and paper-based assessment when questions are
+  ordered by Bloom level.  
+
+  \item The hypothesis was that students taking the computer-based assessment
+  would fare better than those taking the paper-based assessment because of the
+  immediate feedback offered by the computer-based assessment.
+
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{Experiment 1 Design}
+
+  \begin{itemize} 
+
+  \item A test of 10 questions (2 concepts, each concept having questions over
+  5 Bloom levels). The questions were of multiple-choice and short-answer
+  format.  
+
+  \item Participants were recruited from a Java programming course. The
+  concepts were recursion and binary trees.
+
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{Experiment 1 Results}
+
+\begin{itemize} 
+
+  \item The experimental condition ($N$=27 $M$=6.21) did in fact show a higher
+  mean score than the control condition ($N$=27 $M$=5.23) in overall
+  performance.
+
+  \item Statistical significance was tested with a one-tailed two-sample
+  matched-pairs Student's t-test on the composite score. The result indicated a
+  statistically significant difference ($t$=2.024, $p$=0.048).  
+
+  \item The experimental condition ($M$=4.93) showed a higher mean score than
+  the control condition ($M$=4.38) in satisfaction as well; a similar t-test
+  was done and was marginally statistically significant ($t$=1.7753,
+  $p$=0.082).  
+
+\end{itemize}
+
+}
+
+
+
+\subsection{Experiment 2}
+
+
+
+\frame{ \frametitle{Experiment 2 Hypothesis}
+
+  \begin{itemize} 
+
+  \item The second experiment tested the effect of ordering the questions by
+  Bloom level.  
+
+  \item The hypothesis was that students would score better if questions were
+  asked in forward Bloom order as opposed to reverse order. 
+
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{Experiment 2 Design}
+
+  \begin{itemize} 
+
+    \item For this experiment we designed another test of 10 questions (2
+    concepts, each concept having questions over 5 Bloom levels).  
+
+    \item Participants were recruited from the same course. This test also
+    covered recursion and binary trees. 
+
+    \item In the control condition, questions were given in forward Bloom-level
+    order.  In the experimental condition, they were given in reverse order.
+
+  \end{itemize} 
+
+}
+
+
+\frame{ \frametitle{Experiment 2 Results}
+
+  \begin{itemize} 
+
+    \item The experimental condition ($N$=48, $M$=4.94) showed a higher mean score
+    than the control condition ($N$=48, $M$=4.31).  
+
+    \item Statistical significance was tested with a one-tailed parametric
+    Student's t-test on the composite score.  The result indicated a statistically
+    significant difference ($t$=2.13, $p$=0.036).
+
+  \end{itemize}
+
+}
+
+
+
+\subsection{Experiment 3}
+
+
+\frame{ \frametitle{Experiment 3 Hypothesis}
+
+  \begin{itemize} 
+
+    \item The third experiment tested the effect of intervening questions on the
+    performance of later questions in the assessment.  
+    
+    \item Our hypothesis was that overall performance would be improved if
+    incorrect answers triggered the addition of new {\em intervention} questions
+    from a lower Bloom level.
+
+  \end{itemize} 
+
+}
+
+
+
+\frame{ \frametitle{Experiment 3 Design}
+
+  \begin{itemize} 
+
+    \item The test was this time language-dependent (MATLAB) and tested mastery
+    of control structures, in particular for-loops.  
+
+    \item In the control condition, the control group was given an assessment
+    of 10 questions, with 2 questions per the first five Bloom levels. The
+    experimental group was given an adaptive measure.  
+
+    \item If at any point a student answered a question incorrectly, then a
+    question at the next lowest level was given.  This applied to all levels
+    except knowledge.  The experimental group thus had a a maximum of 4
+    additional questions asked for a total possible 14-question test.
+
+  \end{itemize} 
+
+}
+
+
+
+\frame{ \frametitle{Experiment 3 Results}
+
+  \begin{itemize} 
+
+    \item To tell the immediate effect of the intervention questions,
+    one-tailed parametric Student's t-test on the composite score of questions
+    starting after the first intervention question was done. 
+    
+    \item It was hypothesized that the experimental condition would perform
+    better on the remainder of the test. The experimental group ($N$=45,
+    $M$=6.98) outperformed the control group ($N$=45, $M$=6.23).  The result
+    indicated a marginally statistically significant difference ($t$=1.7082,
+    $p$=0.092).
+
+  \end{itemize}
+
+}
+
+
+\subsection{Experiment 6}
+
+
+\frame{ \frametitle{Experiment 6 Hypothesis}
+
+  For the more general form of modified IRT which takes into account
+  multiple dependencies using logistic regression on the dependencies,
+  we wished to test its effectiveness:
+
+  \[
+    p = \frac{1}{1 + e^{b_1X_1 + b_2X_2 + \ldots + b_{n-1}X_{n-1} + b_n\alpha_i(\theta_s-\beta_i)}}
+  \]
+
+  In our experiment to test the utility of this formula, we first required a
+  small problem set with one depender and multiple dependees.  The experiment was
+  intended to test whether or not the asking of highly-dependent questions
+  would lead to an increase in mean scores.
+
+}
+
+
+\frame{ \frametitle{Experiment 6 Design}
+
+  The analysis of this data required prediction on the validation set for the
+  4th question.  Our hypothesis was that exposure of dependee questions should
+  result in an increase in the probability that the student answers the
+  depender correctly.  
+
+}
+
+\frame{ \frametitle{Logistic Regression Results}
+  \begin{table}[p!]
+  \label{tab:coeffs}
+  \caption{The intercept and coefficients for the logistic regression model.}
+  \vspace{12pt}
+  \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+  \hline \hline
+                       & (Intercept)  & q1         & q2          & q3         \\ \hline
+   coefficient         & -0.120870    & 0.006087   & 0.360000    & 0.407826   \\ \hline
+  increase in log odds & 0.8861495    & 1.0061055  & 1.4333294   & 1.5035457  \\ \hline
+  \hline \hline
+  \end{tabularx}
+  \vspace{24pt}
+  \end{table}
+}
+
+
+\frame{ \frametitle{Confusion Matrix}
+  \begin{table}[p!]
+  \label{tab:confu}
+  \caption{The confusion matrix for the logistic regression model.}
+  \vspace{12pt}
+  \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+  \hline \hline
+                       & Reference &       &     \\ \hline \hline
+            Prediction & FALSE     & TRUE  &     \\ \hline
+            FALSE      & 11        & 7     & 18  \\ \hline
+            TRUE       & 1         & 13    & 14  \\ \hline
+                       & 12        & 20    & 34  \\ \hline \hline
+  \end{tabularx}
+  \vspace{24pt}
+  \end{table}
+  }
 
 
 \bibliographystyle{plain}
